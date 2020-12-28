@@ -5,6 +5,7 @@ from method_of_war.enums.gameplay_view_type import *
 from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_view import *
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.production_building_view import *
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.warehouse_view import *
+from method_of_war.ui.gameplay_ui.building_views.barracks.barracks_view import *
 
 
 class GameplayViewManager:
@@ -61,6 +62,12 @@ class GameplayViewManager:
         warehouseView = WarehouseView(self.__mainWindow, 2)
         warehouseView.drawView()
         self.__activeView = warehouseView
+
+        # TEST BARRACKS VIEW
+        self.__activeView.disableView()
+        barracksView = BarracksView(self.__mainWindow, 3)
+        barracksView.drawView()
+        self.__activeView = barracksView
 
     def switchGameplayView(self, viewType: GameplayViewType):
         if self.__activeViewType == viewType:

@@ -17,8 +17,11 @@ class AvailableBuildingElement:
     buttonText: str
 
     def __init__(self, buildingName: str, buildingTitle: str, buildingWoodReq: int, buildingGraniteReq: int,
-                 buildingIronReq: int, buildingTime: int, buttonText: str):
-        self.buildingIconColor = buildingColorDict[buildingName]
+                 buildingIronReq: int, buildingTime: int, buttonText: str, isUnit: bool = False):
+        if not isUnit:
+            self.buildingIconColor = buildingColorDict[buildingName]
+        else:
+            self.buildingIconColor = unitColorDict[buildingName]
         self.buildingTitle = buildingTitle
         self.buildingWoodReq = buildingWoodReq
         self.buildingGraniteReq = buildingGraniteReq
@@ -31,8 +34,8 @@ class CityHallAvailableBuildingsListView(BuildingListView):
     __buttonsList: List[button.Button] = []
     __columnNameList: List[str]
 
-    def __init__(self, window, columnNameList=None):
-        super().__init__(window, maxElements=10, defaultX=0, defaultY=360, elementWidth=997, elementHeight=45)
+    def __init__(self, window, columnNameList=None, defaultY=360):
+        super().__init__(window, maxElements=10, defaultX=0, defaultY=defaultY, elementWidth=997, elementHeight=45)
         if columnNameList is None:
             columnNameList = ["Buildings", "Requirements", "Build"]
         self.__columnNameList = columnNameList
