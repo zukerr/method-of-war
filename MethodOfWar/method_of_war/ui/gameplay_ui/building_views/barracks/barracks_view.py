@@ -39,12 +39,13 @@ class BarracksView(View):
         recruitmentQueueView.drawView()
         # availible recruits view
         self.__availableRecruitsView = CityHallAvailableBuildingsListView(window=self._window,
-                                                                   columnNameList=["Unit", "Requirements", "Recruit"],
-                                                                   defaultY=378)
+                                                                          columnNameList=["Unit", "Requirements",
+                                                                                          "Recruit"],
+                                                                          defaultY=378)
         self.__availableRecruitsView.addElement(AvailableBuildingElement("Warlock", "Warlock", 92, 502, 1272, 201,
-                                                                  "--> Recruit", isUnit=True))
+                                                                         "--> Recruit", isUnit=True))
         self.__availableRecruitsView.addElement(AvailableBuildingElement("Rogue", "Rogue", 92, 502, 1272, 201,
-                                                                  "--> Recruit", isUnit=True))
+                                                                         "--> Recruit", isUnit=True))
         self.__availableRecruitsView.drawView()
 
     def disableView(self):

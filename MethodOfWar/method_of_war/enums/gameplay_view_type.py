@@ -5,3 +5,4 @@ class GameplayViewType(Enum):
     MAP = 0
     REPORTS = 1
     OVERVIEW = 2
+    BUILDING = 3

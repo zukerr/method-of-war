@@ -21,7 +21,9 @@ class GameplayViewManager:
         self.__mainWindow = window
 
         # setup gameplay view ui
-        self.__overviewView = SettlementView(self.__mainWindow)
+        self.__overviewView = SettlementView(self.__mainWindow,
+                                             preClickBuildingFunction=self.preClickBuildingView,
+                                             postClickBuildingFunction=self.postClickBuildingView)
         self.__mapView = MapView(self.__mainWindow)
         self.__reportsView = ReportsView(self.__mainWindow)
 
@@ -44,30 +46,6 @@ class GameplayViewManager:
         self.__setupMapView()
         self.__setupReportsView()
         self.__setupOverviewView()
-
-        # TEST CITY HALL VIEW
-        self.__activeView.disableView()
-        cityHallView = CityHallView(self.__mainWindow)
-        cityHallView.drawView()
-        self.__activeView = cityHallView
-
-        # TEST LUMBER MILL VIEW
-        self.__activeView.disableView()
-        lumberMillView = ProductionBuildingView(self.__mainWindow, "Lumber Mill", 1)
-        lumberMillView.drawView()
-        self.__activeView = lumberMillView
-
-        # TEST WAREHOUSE VIEW
-        self.__activeView.disableView()
-        warehouseView = WarehouseView(self.__mainWindow, 2)
-        warehouseView.drawView()
-        self.__activeView = warehouseView
-
-        # TEST BARRACKS VIEW
-        self.__activeView.disableView()
-        barracksView = BarracksView(self.__mainWindow, 3)
-        barracksView.drawView()
-        self.__activeView = barracksView
 
     def switchGameplayView(self, viewType: GameplayViewType):
         if self.__activeViewType == viewType:
@@ -110,3 +88,10 @@ class GameplayViewManager:
 
     def __setupOverviewView(self):
         pass
+
+    def preClickBuildingView(self):
+        self.__activeView.disableView()
+
+    def postClickBuildingView(self, buildingView: View):
+        self.__activeView = buildingView
+        self.__activeViewType = GameplayViewType.BUILDING
