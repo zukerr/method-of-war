@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="14777ee1-5390-4377-bdf0-6f3310ea8c82" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/method_of_war/enums/gameplay_view_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/method_of_war/enums/gameplay_view_type.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/method_of_war/ui/gameplay_ui/building_views/barracks/barracks_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/method_of_war/ui/gameplay_ui/building_views/barracks/barracks_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/method_of_war/ui/gameplay_ui/settlement_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/method_of_war/ui/gameplay_ui/settlement_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/method_of_war/ui/ui_managers/gameplay_view_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/method_of_war/ui/ui_managers/gameplay_view_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +123,7 @@
       <workItem from="1609019560559" duration="13460000" />
       <workItem from="1609080940405" duration="12283000" />
       <workItem from="1609122669195" duration="620000" />
-      <workItem from="1609123845806" duration="9953000" />
+      <workItem from="1609123845806" duration="11192000" />
     </task>
     <servers />
   </component>
@@ -147,22 +143,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608769896058" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1609138644184">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1609145777442">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609138644184" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1609138644184">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609145777442" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1609145777442">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609138644184" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1609138644183">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609145777442" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1609145777442">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609138644183" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1609138644184">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609145777442" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1609145777442">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609138644184" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609145777442" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1608786036234">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
