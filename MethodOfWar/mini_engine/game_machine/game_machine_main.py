@@ -1,0 +1,27 @@
+from mini_engine.util.a_subject_observer import *
+from typing import List
+import pygame
+
+
+class GameMachine(Subject):
+    __observers: List[Observer] = []
+
+    def attachPattern(self, observer: Observer):
+        self.__observers.append(observer)
+
+    def detachPattern(self, observer: Observer):
+        self.__observers.remove(observer)
+
+    def notifyPattern(self):
+        for observer in self.__observers:
+            observer.updatePattern(self)
+
+    def notifyOnEventPattern(self, event: pygame.event):
+        for observer in self.__observers:
+            observer.updateOnEventPattern(event)
+
+    def onTick(self):
+        self.notifyPattern()
+
+    def onEvent(self, event: pygame.event):
+        self.notifyOnEventPattern(event)
