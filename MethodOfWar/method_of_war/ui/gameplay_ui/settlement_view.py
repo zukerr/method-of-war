@@ -8,6 +8,7 @@ from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_view import
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.production_building_view import *
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.warehouse_view import *
 from method_of_war.ui.gameplay_ui.building_views.barracks.barracks_view import *
+from method_of_war.enums.gameplay_view_type import GameplayViewType
 
 
 class SettlementView(View):
@@ -35,7 +36,7 @@ class SettlementView(View):
         self.__warehouseView = WarehouseView(self._window, 2)
 
     def __drawBuilding(self, transform: (int, int, int, int), buildingView: View, buildingLevel: int = 3,
-                       buildingColor: (int, int, int) = (64, 43, 0)):
+                       buildingColor: (int, int, int) = (64, 43, 0), gameplayViewType: GameplayViewType = GameplayViewType.BUILDING):
         levelIndicatorColor = (0, 0, 0)
         borderWidth = 1
         buildingBorderColor = borderDefaultColor
@@ -55,7 +56,7 @@ class SettlementView(View):
         def onClick():
             self.__preClickBuildingFunction()
             buildingView.drawView()
-            self.__postClickBuildingFunction(buildingView)
+            self.__postClickBuildingFunction(buildingView, gameplayViewType)
 
         buildingButton.addListener(onClick)
         buildingButton.draw()
@@ -67,7 +68,8 @@ class SettlementView(View):
         border_rect.draw(self._window, (44, 44, 44), (0, 57, 997, 663), 1, borderDefaultColor)
 
         # city hall
-        self.__drawBuilding((399, 57, 200, 200), self.__cityHallView, buildingColor=buildingColorDict["City Hall"])
+        self.__drawBuilding((399, 57, 200, 200), self.__cityHallView, buildingColor=buildingColorDict["City Hall"],
+                            gameplayViewType=GameplayViewType.CITY_HALL)
 
         # lumber mill
         self.__drawBuilding((0, 57, 128, 128), self.__lumberMillView, buildingColor=buildingColorDict["Lumber Mill"])
@@ -103,3 +105,6 @@ class SettlementView(View):
 
     def getMine(self) -> ProductionBuildingView:
         return self.__mineView
+
+    def getCityHall(self) -> CityHallView:
+        return self.__cityHallView

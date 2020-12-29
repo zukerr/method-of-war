@@ -92,9 +92,12 @@ class GameplayViewManager:
     def preClickBuildingView(self):
         self.__activeView.disableView()
 
-    def postClickBuildingView(self, buildingView: View):
+    def postClickBuildingView(self, buildingView: View, gameplayViewType: GameplayViewType = GameplayViewType.BUILDING):
         self.__activeView = buildingView
-        self.__activeViewType = GameplayViewType.BUILDING
+        self.__activeViewType = gameplayViewType
 
     def getOverview(self) -> SettlementView:
         return self.__overviewView
+
+    def isCityHallViewActive(self) -> bool:
+        return self.__activeViewType == GameplayViewType.CITY_HALL

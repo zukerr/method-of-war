@@ -8,10 +8,14 @@ from mini_engine.util.extensions import *
 class BuildingQueueElement:
     taskName: str
     timeToFinish: str
+    realTimeToFinish: float
+    buildingName: str
 
-    def __init__(self, taskName: str, timeToFinishInSeconds: int):
+    def __init__(self, taskName: str, timeToFinishInSeconds: int, realTimeToFinish: float = 0, buildingName: str = ""):
         self.taskName = taskName
         self.timeToFinish = getMinutesSecondsFromSeconds(timeToFinishInSeconds)
+        self.realTimeToFinish = realTimeToFinish
+        self.buildingName = buildingName
 
 
 class CityHallQueueListView(ListView):

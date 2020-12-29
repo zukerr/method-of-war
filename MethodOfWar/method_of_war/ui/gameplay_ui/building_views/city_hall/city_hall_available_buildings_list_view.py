@@ -15,9 +15,10 @@ class AvailableBuildingElement:
     buildingIronReq: int
     buildingTime: str
     buttonText: str
+    buttonFunction = lambda: None
 
     def __init__(self, buildingName: str, buildingTitle: str, buildingWoodReq: int, buildingGraniteReq: int,
-                 buildingIronReq: int, buildingTime: int, buttonText: str, isUnit: bool = False):
+                 buildingIronReq: int, buildingTime: int, buttonText: str, isUnit: bool = False, buttonFunction=lambda: None):
         if not isUnit:
             self.buildingIconColor = buildingColorDict[buildingName]
         else:
@@ -28,6 +29,7 @@ class AvailableBuildingElement:
         self.buildingIronReq = buildingIronReq
         self.buildingTime = getMinutesSecondsFromSeconds(buildingTime)
         self.buttonText = buttonText
+        self.buttonFunction = buttonFunction
 
 
 class CityHallAvailableBuildingsListView(BuildingListView):
@@ -72,7 +74,16 @@ class CityHallAvailableBuildingsListView(BuildingListView):
         buildButton = button.Button(self._window, darkGreen,
                                     (transform[0] + 745, transform[1] + 5, 247, transform[3] - 10),
                                     1, borderDefaultColor, addedDraw=addedDraw)
-        buildButton.addListener(lambda: print("clicked build button!"))
+
+        def onClick():
+            print("clicked build button!")
+            element.buttonFunction()
+            # update button text
+            btnWordList = element.buttonText.split()
+            btnUpgradeLevel = int(btnWordList[len(btnWordList) - 1])
+            element.buttonText = "--> Level " + str(btnUpgradeLevel + 1)
+
+        buildButton.addListener(onClick)
         buildButton.draw()
         self.__buttonsList.append(buildButton)
 

@@ -38,14 +38,34 @@ class ProductionBuilding(Building):
     def __init__(self, startingLevel: int, resourceType: ResourceType, warehouse: Warehouse):
         super().__init__(startingLevel)
         self.__resourceType = resourceType
+        self.setupNameModded()
         self.__currentProductionPerMinute = self.__productionPerMinuteDict[self._level]
         self.__warehouse = warehouse
         self.__updateAppropriateProductionViewSegment()
 
     def levelUp(self):
-        self._level += 1
+        super().levelUp()
         self.__currentProductionPerMinute = self.__productionPerMinuteDict[self._level]
         self.__updateAppropriateProductionViewSegment()
+
+    def setupUpgradeRequirements(self):
+        for i in range(self._maxLevel):
+            tempValue = i*i + i + 50
+            self._upgradeRequirementsList.append(ResourcesRequirementModel(tempValue, tempValue, tempValue, i + 5))
+
+    def setupMaxLvl(self):
+        self._maxLevel = 20
+
+    def setupName(self):
+        pass
+
+    def setupNameModded(self):
+        if self.__resourceType == ResourceType.WOOD:
+            self._name = "Lumber Mill"
+        elif self.__resourceType == ResourceType.GRANITE:
+            self._name = "Quarry"
+        else:
+            self._name = "Mine"
 
     def __updateAppropriateProductionViewSegment(self):
         if self.__resourceType == ResourceType.WOOD:

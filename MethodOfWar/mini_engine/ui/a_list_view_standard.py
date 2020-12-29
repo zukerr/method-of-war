@@ -48,6 +48,9 @@ class ListViewStandard(View, ABC):
         if drawImmediately:
             self.drawView()
 
+    def clearElements(self):
+        self._elementList.clear()
+
     def elementCount(self) -> int:
         return len(self._elementList)
 

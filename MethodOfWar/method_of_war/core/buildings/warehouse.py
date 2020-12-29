@@ -32,10 +32,21 @@ class Warehouse(Building):
         self.__syncWarehouseBuildingView()
 
     def levelUp(self):
-        self._level += 1
+        super().levelUp()
         self.__maxResources = self.__maxResourcesPerLevelDict[self._level]
         self.__syncTopActionBarView()
         self.__syncWarehouseBuildingView()
+
+    def setupMaxLvl(self):
+        self._maxLevel = 10
+
+    def setupName(self):
+        self._name = "Warehouse"
+
+    def setupUpgradeRequirements(self):
+        for i in range(self._maxLevel):
+            tempValue = i*i + (2*i) + 23
+            self._upgradeRequirementsList.append(ResourcesRequirementModel(tempValue, tempValue, tempValue, i + 5))
 
     def gainWood(self, value: float):
         self.__currentWood += value
