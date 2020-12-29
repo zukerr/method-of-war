@@ -20,8 +20,15 @@ class GameMachine(Subject):
         for observer in self.__observers:
             observer.updateOnEventPattern(event)
 
+    def notifyOnRealTimePattern(self, realTime: float):
+        for observer in self.__observers:
+            observer.updateOnRealTimePattern(realTime)
+
     def onTick(self):
         self.notifyPattern()
 
     def onEvent(self, event: pygame.event):
         self.notifyOnEventPattern(event)
+
+    def onRealTime(self, realTime: float):
+        self.notifyOnRealTimePattern(realTime)

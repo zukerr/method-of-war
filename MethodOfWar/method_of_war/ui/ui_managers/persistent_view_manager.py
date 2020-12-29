@@ -51,3 +51,9 @@ class PersistentViewManager:
         self.__troopMovementsView.addElement(TroopMovementElement(AttackSize.BIG, True, "Orgrimmar", "Stormwind", 35))
         self.__troopMovementsView.addElement(TroopMovementElement(AttackSize.SMALL, False, "Stormwind", "Orgrimmar", 291))
         # TEST SECTION END
+
+    def getTopActionBar(self) -> TopActionBarView:
+        return self.__topActionBarView
+
+    def getProduction(self) -> ProductionView:
+        return self.__productionView

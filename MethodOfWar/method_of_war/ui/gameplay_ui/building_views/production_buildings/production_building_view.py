@@ -14,6 +14,8 @@ class ProductionBuildingView(View):
         "Quarry": "granite",
         "Mine": "iron"
     }
+    __currentProduction: int = 5
+    __nextLevelProduction: int = 8
 
     def __init__(self, window, buildingName: str, buildingLevel: int):
         super().__init__(window)
@@ -37,4 +39,9 @@ class ProductionBuildingView(View):
         headerView.drawView()
         # draw list view
         productionListView = ProductionBuildingListView(self._window)
-        productionListView.addElement(ProductionBuildingElement(5, 8))
+        productionListView.addElement(ProductionBuildingElement(self.__currentProduction, self.__nextLevelProduction))
+
+    def updateValues(self, level: int, currentProduction: int, nextLevelProduction: int):
+        self.__buildingLevel = level
+        self.__currentProduction = currentProduction
+        self.__nextLevelProduction = nextLevelProduction

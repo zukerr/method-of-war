@@ -5,6 +5,8 @@ from method_of_war.ui.gameplay_ui.building_views.production_buildings.production
 
 class WarehouseView(View):
     __buildingLevel: int
+    __currentMaxStorage: int = 1000
+    __nextLevelMaxStorage: int = 1229
 
     def __init__(self, window, buildingLevel: int):
         super().__init__(window)
@@ -23,4 +25,9 @@ class WarehouseView(View):
         # draw list view
         productionListView = ProductionBuildingListView(self._window, "Current maximum storage:",
                                                         "Maximum storage on next level:")
-        productionListView.addElement(ProductionBuildingElement(1000, 1229))
+        productionListView.addElement(ProductionBuildingElement(self.__currentMaxStorage, self.__nextLevelMaxStorage))
+
+    def updateValues(self, level: int, currentMaxCapacity: int, nextLevelMaxCapacity: int):
+        self.__buildingLevel = level
+        self.__currentMaxStorage = currentMaxCapacity
+        self.__nextLevelMaxStorage = nextLevelMaxCapacity

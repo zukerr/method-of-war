@@ -27,6 +27,9 @@ class MonoBehaviour(Observer, ABC):
     def updateOnEvent(self, event: pygame.event):
         pass
 
+    def updateOnRealTime(self, realTime: float):
+        pass
+
     def updateOnEventPattern(self, event: pygame.event):
         if self.__active:
             self.updateOnEvent(event)
@@ -34,3 +37,7 @@ class MonoBehaviour(Observer, ABC):
     def updatePattern(self, subject: Subject):
         if self.__active:
             self.update()
+
+    def updateOnRealTimePattern(self, realTime: float):
+        if self.__active:
+            self.updateOnRealTime(realTime)

@@ -27,6 +27,13 @@ class SettlementView(View):
         self.__preClickBuildingFunction = preClickBuildingFunction
         self.__postClickBuildingFunction = postClickBuildingFunction
 
+        self.__cityHallView = CityHallView(self._window)
+        self.__lumberMillView = ProductionBuildingView(self._window, "Lumber Mill", 1)
+        self.__quarryView = ProductionBuildingView(self._window, "Quarry", 1)
+        self.__mineView = ProductionBuildingView(self._window, "Mine", 1)
+        self.__barracksView = BarracksView(self._window, 3)
+        self.__warehouseView = WarehouseView(self._window, 2)
+
     def __drawBuilding(self, transform: (int, int, int, int), buildingView: View, buildingLevel: int = 3,
                        buildingColor: (int, int, int) = (64, 43, 0)):
         levelIndicatorColor = (0, 0, 0)
@@ -60,27 +67,21 @@ class SettlementView(View):
         border_rect.draw(self._window, (44, 44, 44), (0, 57, 997, 663), 1, borderDefaultColor)
 
         # city hall
-        self.__cityHallView = CityHallView(self._window)
         self.__drawBuilding((399, 57, 200, 200), self.__cityHallView, buildingColor=buildingColorDict["City Hall"])
 
         # lumber mill
-        self.__lumberMillView = ProductionBuildingView(self._window, "Lumber Mill", 1)
         self.__drawBuilding((0, 57, 128, 128), self.__lumberMillView, buildingColor=buildingColorDict["Lumber Mill"])
 
         # quarry
-        self.__quarryView = ProductionBuildingView(self._window, "Quarry", 1)
         self.__drawBuilding((0, 592, 128, 128), self.__quarryView, buildingColor=buildingColorDict["Quarry"])
 
         # mine
-        self.__mineView = ProductionBuildingView(self._window, "Mine", 1)
         self.__drawBuilding((869, 592, 128, 128), self.__mineView, buildingColor=buildingColorDict["Mine"])
 
         # barracks
-        self.__barracksView = BarracksView(self._window, 3)
         self.__drawBuilding((669, 280, 180, 180), self.__barracksView, buildingColor=buildingColorDict["Barracks"])
 
         # warehouse
-        self.__warehouseView = WarehouseView(self._window, 2)
         self.__drawBuilding((223, 403, 150, 150), self.__warehouseView, buildingColor=buildingColorDict["Warehouse"])
 
     def disableView(self):
@@ -90,3 +91,15 @@ class SettlementView(View):
             btn.setInteractive(False)
             btn.setReadyForDelete()
             del btn
+
+    def getWarehouse(self) -> WarehouseView:
+        return self.__warehouseView
+
+    def getLumberMill(self) -> ProductionBuildingView:
+        return self.__lumberMillView
+
+    def getQuarry(self) -> ProductionBuildingView:
+        return self.__quarryView
+
+    def getMine(self) -> ProductionBuildingView:
+        return self.__mineView

@@ -95,3 +95,6 @@ class GameplayViewManager:
     def postClickBuildingView(self, buildingView: View):
         self.__activeView = buildingView
         self.__activeViewType = GameplayViewType.BUILDING
+
+    def getOverview(self) -> SettlementView:
+        return self.__overviewView

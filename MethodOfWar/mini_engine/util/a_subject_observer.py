@@ -24,6 +24,10 @@ class Subject(ABC):
     def notifyOnEventPattern(self, event: pygame.event):
         pass
 
+    @abstractmethod
+    def notifyOnRealTimePattern(self, realTime: float):
+        pass
+
 
 class Observer(ABC):
 
@@ -34,4 +38,8 @@ class Observer(ABC):
 
     @abstractmethod
     def updateOnEventPattern(self, event: pygame.event):
+        pass
+
+    @abstractmethod
+    def updateOnRealTimePattern(self, realTime: float):
         pass
