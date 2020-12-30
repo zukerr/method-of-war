@@ -146,9 +146,6 @@ class CityHall(Building):
         availBuildingElem.buildingIronReq = upgradeReq.ironValue
 
     def __setupAvailableBuilding(self, building: Building):
-        def onClick():
-            self.addUpgradeToQueue(building)
-
         # handle case where there are buildings in queue, update info from existing buildings accordingly
         btnText = building.getButtonText()
         upgradeReq = building.getCurrentUpgradeRequirement()
@@ -166,6 +163,12 @@ class CityHall(Building):
                 if (building.getName() == self.__buildingQueue[0].buildingName) or (building.getName() == self.__buildingQueue[1].buildingName):
                     btnText = building.getButtonTextWhileUpgrading()
                     upgradeReq = building.getUpgradeRequirementWithAddedLevel(1)
+
+        def onClick():
+            if building.availableForLevelUp():
+                if self.__settlement.getWarehouse().requirementCanBeSatisfied(upgradeReq):
+                    self.__settlement.getWarehouse().spendRequirement(upgradeReq)
+                    self.addUpgradeToQueue(building)
 
         self.__availableBuildingsList.append(AvailableBuildingElement(building.getName(),
                                                                       building.getTitle(),

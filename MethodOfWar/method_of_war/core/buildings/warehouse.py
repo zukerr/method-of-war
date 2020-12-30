@@ -66,6 +66,36 @@ class Warehouse(Building):
             self.__currentIron = self.__maxResources
         self.__syncTopActionBarView()
 
+    def spendWood(self, value: float):
+        if self.__currentWood < value:
+            return
+        self.__currentWood -= value
+        self.__syncTopActionBarView()
+
+    def spendGranite(self, value: float):
+        if self.__currentGranite < value:
+            return
+        self.__currentGranite -= value
+        self.__syncTopActionBarView()
+
+    def spendIron(self, value: float):
+        if self.__currentIron < value:
+            return
+        self.__currentIron -= value
+        self.__syncTopActionBarView()
+
+    def requirementCanBeSatisfied(self, requirement: ResourcesRequirementModel) -> bool:
+        if self.__currentWood >= requirement.woodValue:
+            if self.__currentGranite >= requirement.graniteValue:
+                if self.__currentIron >= requirement.ironValue:
+                    return True
+        return False
+
+    def spendRequirement(self, requirement: ResourcesRequirementModel):
+        self.spendWood(requirement.woodValue)
+        self.spendGranite(requirement.graniteValue)
+        self.spendIron(requirement.ironValue)
+
     def __syncTopActionBarView(self):
         global_persistent_view_manager.globalPersistentViewManager.getTopActionBar().updateWoodText(
             str(int(self.__currentWood)))

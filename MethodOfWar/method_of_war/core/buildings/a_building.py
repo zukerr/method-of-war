@@ -75,3 +75,6 @@ class Building(MonoBehaviour, ABC):
 
     def getTitleWithAddedLevel(self, addedLevel: int = 0) -> str:
         return self._name + " (Level " + str(self._level + addedLevel) + ")"
+
+    def availableForLevelUp(self) -> bool:
+        return self._level < self._maxLevel

@@ -9,4 +9,4 @@ class ResourcesRequirementModel:
         self.woodValue = woodValue
         self.graniteValue = graniteValue
         self.ironValue = ironValue
-        self. timeInSeconds = timeInSeconds
+        self.timeInSeconds = timeInSeconds
