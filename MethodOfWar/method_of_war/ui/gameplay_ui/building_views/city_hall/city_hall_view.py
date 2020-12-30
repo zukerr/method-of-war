@@ -15,11 +15,14 @@ class CityHallView(View):
     __notAvailableList: List[NotAvailableBuildingElement] = []
 
     __queueListView: CityHallQueueListView
-    __availableBuildingsListView: CityHallAvailableBuildingsListView
+    __availableBuildingsListView: CityHallAvailableBuildingsListView = None
     __notAvailableBuildingsListView: CityHallNotAvailableBuildingsListView
 
     # it needs to take real city hall as init argument to set up
     def drawView(self):
+        if self.__availableBuildingsListView is not None:
+            self.disableView()
+        print("drawing city hall view")
         # draw bg
         border_rect.draw(self._window, grey44, (0, 57, 997, 663))
 
@@ -35,11 +38,7 @@ class CityHallView(View):
         self.drawQueue()
 
         # draw available buildings list view
-        self.__availableBuildingsListView = CityHallAvailableBuildingsListView(self._window)
-        self.__availableBuildingsListView.clearElements()
-        for elem in self.__availableList:
-            self.__availableBuildingsListView.addElement(elem, False)
-        self.__availableBuildingsListView.drawView()
+        self.drawAvailBuildings()
 
         # draw not available buildings list view
         self.__notAvailableBuildingsListView = \
@@ -60,6 +59,13 @@ class CityHallView(View):
             self.__queueListView.addElement(elem, False)
         # self.__queueListView.addElement(BuildingQueueElement("City Hall (Level 2)", 7))
         self.__queueListView.drawView()
+
+    def drawAvailBuildings(self):
+        self.__availableBuildingsListView = CityHallAvailableBuildingsListView(self._window)
+        self.__availableBuildingsListView.clearElements()
+        for elem in self.__availableList:
+            self.__availableBuildingsListView.addElement(elem, False)
+        self.__availableBuildingsListView.drawView()
 
     def disableView(self):
         self.__availableBuildingsListView.disableView()

@@ -66,3 +66,12 @@ class Building(MonoBehaviour, ABC):
 
     def getButtonTextWhileUpgrading(self) -> str:
         return self.__getBtnTextFromLevel(self._level + 1)
+
+    def getButtonTextWithAddedLevel(self, addedLevel: int = 0) -> str:
+        return self.__getBtnTextFromLevel(self._level + addedLevel)
+
+    def getUpgradeRequirementWithAddedLevel(self, addedLevel: int = 0) -> ResourcesRequirementModel:
+        return self._upgradeRequirementsList[self._level - 1 + addedLevel]
+
+    def getTitleWithAddedLevel(self, addedLevel: int = 0) -> str:
+        return self._name + " (Level " + str(self._level + addedLevel) + ")"

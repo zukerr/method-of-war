@@ -4,6 +4,7 @@ from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_available_b
 from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_not_available_buildings_list_view import NotAvailableBuildingElement
 from method_of_war.ui import global_gameplay_view_manager
 from mini_engine.util.extensions import *
+from mini_engine.game_machine.invoke import invoke
 
 
 class CityHall(Building):
@@ -73,6 +74,18 @@ class CityHall(Building):
                                          tempReq.timeInSeconds,
                                          building.getName()))
         building.isUpgrading = True
+        # update available buildings
+        self.setupAvailableBuildings()
+        invoke(self.__redrawAvailableBuildingsLive, 0.1)
+        # self.__redrawAvailableBuildingsLive()
+        # if global_gameplay_view_manager.globalGameplayViewManager.isCityHallViewActive():
+        #   global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().disableView()
+        #   global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawView()
+        # availBuilding = self.__findAvailableBuildingByName(building.getName())
+        # self.addLevelToAvailableBuildingElement(availBuilding)
+        # global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().updateAvailableList(self.__availableBuildingsList)
+        # global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().disableView()
+        # global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawAvailBuildings()
         # update ui
         global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().updateQueue(self.__buildingQueue)
 
@@ -93,9 +106,8 @@ class CityHall(Building):
                 # actually upgrade proper building
                 self.__settlement.getBuildingByName(elem.buildingName).levelUp()
                 # redraw all early
-                if global_gameplay_view_manager.globalGameplayViewManager.isCityHallViewActive():
-                    self.setupAvailableBuildings()
-                    global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawView()
+                self.setupAvailableBuildings()
+                self.__redrawAvailableBuildingsLive()
                 self.__settlement.getBuildingByName(elem.buildingName).isUpgrading = False
             # update available buildings view
             self.setupAvailableBuildings()
@@ -105,6 +117,17 @@ class CityHall(Building):
                 global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawQueue()
         self.__oldTime = realTime
 
+    def __redrawAvailableBuildingsLive(self):
+        if global_gameplay_view_manager.globalGameplayViewManager.isCityHallViewActive():
+            global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().disableView()
+            global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawView()
+
+    def __findAvailableBuildingByName(self, buildingName: str):
+        for availBuilding in self.__availableBuildingsList:
+            if availBuilding.buildingName == buildingName:
+                return availBuilding
+        return None
+
     # available buildings
     def setupAvailableBuildings(self):
         buildingsList = self.__settlement.getBuildingsList()
@@ -113,20 +136,43 @@ class CityHall(Building):
             self.__setupAvailableBuilding(building)
         self.__syncView()
 
+    def addLevelToAvailableBuildingElement(self, availBuildingElem: AvailableBuildingElement):
+        correspondingBuilding = self.__settlement.getBuildingByName(availBuildingElem.buildingName)
+        btnText = correspondingBuilding.getButtonTextWhileUpgrading()
+        upgradeReq: ResourcesRequirementModel = correspondingBuilding.getUpgradeRequirementWithAddedLevel(1)
+        availBuildingElem.buttonText = btnText
+        availBuildingElem.buildingWoodReq = upgradeReq.woodValue
+        availBuildingElem.buildingGraniteReq = upgradeReq.graniteValue
+        availBuildingElem.buildingIronReq = upgradeReq.ironValue
+
     def __setupAvailableBuilding(self, building: Building):
         def onClick():
             self.addUpgradeToQueue(building)
 
+        # handle case where there are buildings in queue, update info from existing buildings accordingly
         btnText = building.getButtonText()
-        if building.isUpgrading:
-            btnText = building.getButtonTextWhileUpgrading()
+        upgradeReq = building.getCurrentUpgradeRequirement()
+        # one of the same in the queue
+        if len(self.__buildingQueue) == 1:
+            if building.getName() == self.__buildingQueue[0].buildingName:
+                btnText = building.getButtonTextWhileUpgrading()
+                upgradeReq = building.getUpgradeRequirementWithAddedLevel(1)
+        # two of the same in the queue
+        elif len(self.__buildingQueue) == 2:
+            if building.getName() == self.__buildingQueue[0].buildingName == self.__buildingQueue[1].buildingName:
+                btnText = building.getButtonTextWithAddedLevel(2)
+                upgradeReq = building.getUpgradeRequirementWithAddedLevel(2)
+            else:
+                if (building.getName() == self.__buildingQueue[0].buildingName) or (building.getName() == self.__buildingQueue[1].buildingName):
+                    btnText = building.getButtonTextWhileUpgrading()
+                    upgradeReq = building.getUpgradeRequirementWithAddedLevel(1)
 
         self.__availableBuildingsList.append(AvailableBuildingElement(building.getName(),
                                                                       building.getTitle(),
-                                                                      building.getCurrentUpgradeRequirement().woodValue,
-                                                                      building.getCurrentUpgradeRequirement().graniteValue,
-                                                                      building.getCurrentUpgradeRequirement().ironValue,
-                                                                      building.getCurrentUpgradeRequirement().timeInSeconds,
+                                                                      upgradeReq.woodValue,
+                                                                      upgradeReq.graniteValue,
+                                                                      upgradeReq.ironValue,
+                                                                      upgradeReq.timeInSeconds,
                                                                       btnText,
                                                                       buttonFunction=onClick))
 

@@ -8,6 +8,7 @@ from method_of_war.ui.gameplay_ui.building_views.city_hall.a_building_list_view 
 
 
 class AvailableBuildingElement:
+    buildingName: str
     buildingIconColor: (int, int, int)
     buildingTitle: str
     buildingWoodReq: int
@@ -19,6 +20,7 @@ class AvailableBuildingElement:
 
     def __init__(self, buildingName: str, buildingTitle: str, buildingWoodReq: int, buildingGraniteReq: int,
                  buildingIronReq: int, buildingTime: int, buttonText: str, isUnit: bool = False, buttonFunction=lambda: None):
+        self.buildingName = buildingName
         if not isUnit:
             self.buildingIconColor = buildingColorDict[buildingName]
         else:
@@ -79,9 +81,9 @@ class CityHallAvailableBuildingsListView(BuildingListView):
             print("clicked build button!")
             element.buttonFunction()
             # update button text
-            btnWordList = element.buttonText.split()
-            btnUpgradeLevel = int(btnWordList[len(btnWordList) - 1])
-            element.buttonText = "--> Level " + str(btnUpgradeLevel + 1)
+            # btnWordList = element.buttonText.split()
+            # btnUpgradeLevel = int(btnWordList[len(btnWordList) - 1])
+            # element.buttonText = "--> Level " + str(btnUpgradeLevel + 1)
 
         buildButton.addListener(onClick)
         buildButton.draw()
