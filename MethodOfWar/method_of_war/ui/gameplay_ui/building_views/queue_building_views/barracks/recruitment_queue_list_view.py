@@ -10,6 +10,7 @@ class RecruitmentQueueElement:
     progressBarProgress: float
     darkText: bool
     realTimeToFinish: float
+    __originalRealTimeToFinish: float
 
     def __init__(self, timeToFinishInSeconds: int, bgColor: (int, int, int), progressBarProgress: float,
                  makeTextDark: bool = False, realTimeToFinish: float = 0):
@@ -18,9 +19,11 @@ class RecruitmentQueueElement:
         self.progressBarProgress = progressBarProgress
         self.darkText = makeTextDark
         self.realTimeToFinish = realTimeToFinish
+        self.__originalRealTimeToFinish = self.realTimeToFinish
 
     def updateTimeToFinish(self):
         self.timeToFinish = getMinutesSecondsFromSeconds(int(self.realTimeToFinish))
+        self.progressBarProgress = 1 - (self.realTimeToFinish / self.__originalRealTimeToFinish)
 
 
 class RecruitmentQueueListView(HorizontalListView):

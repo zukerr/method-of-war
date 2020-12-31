@@ -2,10 +2,7 @@ from method_of_war.ui.gameplay_ui.settlement_view import *
 from method_of_war.ui.gameplay_ui.map_view import *
 from method_of_war.ui.gameplay_ui.reports_view import *
 from method_of_war.enums.gameplay_view_type import *
-from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_view import *
-from method_of_war.ui.gameplay_ui.building_views.production_buildings.production_building_view import *
-from method_of_war.ui.gameplay_ui.building_views.production_buildings.warehouse_view import *
-from method_of_war.ui.gameplay_ui.building_views.barracks.barracks_view import *
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.barracks_view import *
 
 
 class GameplayViewManager:
@@ -101,3 +98,6 @@ class GameplayViewManager:
 
     def isCityHallViewActive(self) -> bool:
         return self.__activeViewType == GameplayViewType.CITY_HALL
+
+    def isBarracksViewActive(self) -> bool:
+        return self.__activeViewType == GameplayViewType.BARRACKS

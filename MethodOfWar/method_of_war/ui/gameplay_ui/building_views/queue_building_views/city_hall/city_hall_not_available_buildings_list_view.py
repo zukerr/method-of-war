@@ -1,10 +1,4 @@
-from mini_engine.ui.a_view import *
-from mini_engine.ui.a_list_view import *
-from method_of_war.ui.ui_global import *
-from mini_engine.ui import button
-from mini_engine.util.extensions import *
-from typing import List
-from method_of_war.ui.gameplay_ui.building_views.city_hall.a_building_list_view import *
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.a_building_list_view import *
 
 
 class NotAvailableBuildingElement:

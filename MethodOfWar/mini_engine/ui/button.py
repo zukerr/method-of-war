@@ -1,6 +1,8 @@
 import pygame
 from mini_engine.game_machine.a_mono_behaviour import MonoBehaviour
 from mini_engine.ui import border_rect
+from mini_engine.ui import ui_lock
+from mini_engine.game_machine.invoke import *
 
 
 class Button(MonoBehaviour):
@@ -79,4 +81,10 @@ class Button(MonoBehaviour):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.__interactive:
                     if self.__isMouseOver(mousePosition):
-                        self.__buttonListener()
+                        if not ui_lock.buttonClickLock:
+                            ui_lock.buttonClickLock = True
+                            self.__buttonListener()
+
+                            def delayedFunction():
+                                ui_lock.buttonClickLock = False
+                            invoke(delayedFunction, 0.05)

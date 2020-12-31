@@ -1,7 +1,7 @@
 from method_of_war.core.buildings.a_building import *
-from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_queue_list_view import BuildingQueueElement
-from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_available_buildings_list_view import AvailableBuildingElement
-from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_not_available_buildings_list_view import NotAvailableBuildingElement
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_queue_list_view import BuildingQueueElement
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_available_buildings_list_view import AvailableBuildingElement
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_not_available_buildings_list_view import NotAvailableBuildingElement
 from method_of_war.ui import global_gameplay_view_manager
 from mini_engine.util.extensions import *
 from mini_engine.game_machine.invoke import invoke
@@ -30,6 +30,7 @@ class CityHall(Building):
         19: 0.46,
         20: 0.44
     }
+    __maxQueueSize: int = 2
     __currentBuildTimeReduction: float
     __settlement = None
 
@@ -62,7 +63,7 @@ class CityHall(Building):
 
     # queue
     def addUpgradeToQueue(self, building: Building):
-        if len(self.__buildingQueue) >= 2:
+        if len(self.__buildingQueue) >= self.__maxQueueSize:
             return
         tempLevel = building.getLevel()
         tempReq = building.getCurrentUpgradeRequirement()
@@ -165,6 +166,8 @@ class CityHall(Building):
                     upgradeReq = building.getUpgradeRequirementWithAddedLevel(1)
 
         def onClick():
+            if len(self.__buildingQueue) >= self.__maxQueueSize:
+                return
             if building.availableForLevelUp():
                 if self.__settlement.getWarehouse().requirementCanBeSatisfied(upgradeReq):
                     self.__settlement.getWarehouse().spendRequirement(upgradeReq)

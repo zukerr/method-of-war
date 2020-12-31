@@ -1,13 +1,7 @@
-import pygame
-from mini_engine.ui import border_rect
-from mini_engine.ui.a_view import *
-from method_of_war.ui.ui_global import *
-from mini_engine.ui import button
-from typing import List
-from method_of_war.ui.gameplay_ui.building_views.city_hall.city_hall_view import *
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_view import *
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.production_building_view import *
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.warehouse_view import *
-from method_of_war.ui.gameplay_ui.building_views.barracks.barracks_view import *
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.barracks_view import *
 from method_of_war.enums.gameplay_view_type import GameplayViewType
 
 
@@ -81,7 +75,8 @@ class SettlementView(View):
         self.__drawBuilding((869, 592, 128, 128), self.__mineView, buildingColor=buildingColorDict["Mine"])
 
         # barracks
-        self.__drawBuilding((669, 280, 180, 180), self.__barracksView, buildingColor=buildingColorDict["Barracks"])
+        self.__drawBuilding((669, 280, 180, 180), self.__barracksView, buildingColor=buildingColorDict["Barracks"],
+                            gameplayViewType=GameplayViewType.BARRACKS)
 
         # warehouse
         self.__drawBuilding((223, 403, 150, 150), self.__warehouseView, buildingColor=buildingColorDict["Warehouse"])
@@ -108,3 +103,6 @@ class SettlementView(View):
 
     def getCityHall(self) -> CityHallView:
         return self.__cityHallView
+
+    def getBarracks(self) -> BarracksView:
+        return self.__barracksView

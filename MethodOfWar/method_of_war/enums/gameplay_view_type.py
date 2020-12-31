@@ -7,3 +7,4 @@ class GameplayViewType(Enum):
     OVERVIEW = 2
     BUILDING = 3
     CITY_HALL = 4
+    BARRACKS = 5

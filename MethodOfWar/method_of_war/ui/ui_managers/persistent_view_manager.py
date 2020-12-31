@@ -57,3 +57,6 @@ class PersistentViewManager:
 
     def getProduction(self) -> ProductionView:
         return self.__productionView
+
+    def getUnits(self) -> UnitsView:
+        return self.__unitsView

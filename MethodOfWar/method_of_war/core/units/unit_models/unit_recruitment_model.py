@@ -1,5 +1,5 @@
 from method_of_war.core.units.unit_models.a_unit import Unit
-from method_of_war.ui.gameplay_ui.building_views.barracks.recruitment_queue_list_view import RecruitmentQueueElement
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.recruitment_queue_list_view import RecruitmentQueueElement
 from method_of_war.ui.ui_global import *
 
 
@@ -20,3 +20,6 @@ class UnitRecruitmentModel:
 
     def getRecruitmentQueueElement(self) -> RecruitmentQueueElement:
         return self.__recruitmentQueueElement
+
+    def getUnit(self) -> Unit:
+        return self.__unit
