@@ -1,13 +1,10 @@
-from method_of_war.core.settlement import *
+from method_of_war.core.player_core.player_settlement import *
 from method_of_war.ui.ui_managers.gameplay_view_manager import *
 from method_of_war.ui.ui_managers.persistent_view_manager import *
 from method_of_war.ui import global_gameplay_view_manager
 from method_of_war.ui import global_persistent_view_manager
 from method_of_war.core.game_timer import GameTimer
 import time
-from method_of_war.core.buildings.warehouse import Warehouse
-from method_of_war.core.buildings.production_building import ProductionBuilding
-from method_of_war.enums.resource_type import ResourceType
 
 pygame.init()
 
@@ -28,7 +25,7 @@ gameTimer = GameTimer()
 gameRealTime: float = 0
 realTimeStartingSeconds: float = time.time()
 
-playersSettlement = Settlement()
+playersSettlement = PlayerSettlement()
 
 run = True
 while run:

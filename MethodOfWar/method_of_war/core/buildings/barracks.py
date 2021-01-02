@@ -43,7 +43,7 @@ class Barracks(Building):
     __firstUpdate: bool = False
     __oldTime: float
 
-    __availableRecruitsList: List[AvailableBuildingElement] = []
+    _availableRecruitsList: List[AvailableBuildingElement] = []
 
     def __init__(self, startingLevel: int, settlement):
         super().__init__(startingLevel)
@@ -53,7 +53,6 @@ class Barracks(Building):
     def levelUp(self):
         super().levelUp()
         self.__currentRecruitTimeReduction = self.__recruitTimeReductionFactorDict[self._level]
-        global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().updateLevel(self._level)
 
     def setupMaxLvl(self):
         self._maxLevel = 20
@@ -68,7 +67,7 @@ class Barracks(Building):
             tempIron = tempValue + 17
             self._upgradeRequirementsList.append(ResourcesRequirementModel(tempWood, tempValue, tempIron, i + 8))
 
-    def __getUiReadableQueue(self) -> List[RecruitmentQueueElement]:
+    def _getUiReadableQueue(self) -> List[RecruitmentQueueElement]:
         uiQueue = []
         for elem in self.__recruitmentQueue:
             uiQueue.append(elem.getRecruitmentQueueElement())
@@ -79,42 +78,34 @@ class Barracks(Building):
         if len(self.__recruitmentQueue) >= self.__queueMaxLength:
             return
         self.__recruitmentQueue.append(UnitRecruitmentModel(unit))
-        # update ui
-        global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().updateQueue(self.__getUiReadableQueue())
 
     def updateQueue(self, realTime: float):
         if not self.__firstUpdate:
             self.__firstUpdate = True
         else:
             timePassed: float = realTime - self.__oldTime
-            elemsToRemove = []
-            if len(self.__recruitmentQueue) > 0:
-                elem = self.__recruitmentQueue[0]
-                elem.getRecruitmentQueueElement().realTimeToFinish -= timePassed
-                # elem.getRecruitmentQueueElement().timeToFinish = getMinutesSecondsFromSeconds(int(elem.getRecruitmentQueueElement().realTimeToFinish))
-                elem.getRecruitmentQueueElement().updateTimeToFinish()
-                if elem.getRecruitmentQueueElement().realTimeToFinish <= 0:
-                    elemsToRemove.append(elem)
-            for elem in elemsToRemove:
-                self.__recruitmentQueue.remove(elem)
-                # actually add new unit to the settlement
-                self.__settlement.addStationingUnit(elem.getUnit())
-                # redraw all early
-                # self.setupAvailableUnits()
-                # self.__redrawBarracksView()
-            # update available units view
-            # self.setupAvailableUnits()
-            global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().updateQueue(self.__getUiReadableQueue())
-            if global_gameplay_view_manager.globalGameplayViewManager.isBarracksViewActive():
-                global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().drawQueue()
+            self._updateQueueContent(timePassed)
         self.__oldTime = realTime
+
+    def _updateQueueContent(self, timePassed: float):
+        elemsToRemove = []
+        if len(self.__recruitmentQueue) > 0:
+            elem = self.__recruitmentQueue[0]
+            elem.getRecruitmentQueueElement().realTimeToFinish -= timePassed
+            # elem.getRecruitmentQueueElement().timeToFinish = getMinutesSecondsFromSeconds(int(elem.getRecruitmentQueueElement().realTimeToFinish))
+            elem.getRecruitmentQueueElement().updateTimeToFinish()
+            if elem.getRecruitmentQueueElement().realTimeToFinish <= 0:
+                elemsToRemove.append(elem)
+        for elem in elemsToRemove:
+            self.__recruitmentQueue.remove(elem)
+            # actually add new unit to the settlement
+            self.__settlement.addStationingUnit(elem.getUnit())
 
     # available units
     def setupAvailableUnits(self):
         availableUnits: List[Unit] = [Hunter(), Warrior(), Paladin(), Rogue()]
         for elem in availableUnits:
             self.__setupAvailableUnit(elem)
-        self.__syncView()
 
     def __setupAvailableUnit(self, unit: Unit):
         resourceRequirement = unit.getResourceRequirement()
@@ -126,24 +117,15 @@ class Barracks(Building):
                 self.__settlement.getWarehouse().spendRequirement(resourceRequirement)
                 self.addUnitToQueue(unit)
 
-        self.__availableRecruitsList.append(AvailableBuildingElement(unit.getName(),
-                                                                     unit.getName(),
-                                                                     resourceRequirement.woodValue,
-                                                                     resourceRequirement.graniteValue,
-                                                                     resourceRequirement.ironValue,
-                                                                     resourceRequirement.timeInSeconds,
+        self._availableRecruitsList.append(AvailableBuildingElement(unit.getName(),
+                                                                    unit.getName(),
+                                                                    resourceRequirement.woodValue,
+                                                                    resourceRequirement.graniteValue,
+                                                                    resourceRequirement.ironValue,
+                                                                    resourceRequirement.timeInSeconds,
                                                                      "--> Recruit",
-                                                                     isUnit=True,
-                                                                     buttonFunction=onClick))
-
-    def __redrawBarracksView(self):
-        if global_gameplay_view_manager.globalGameplayViewManager.isBarracksViewActive():
-            global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().disableView()
-            global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().drawView()
-
-    def __syncView(self):
-        global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().updateLevel(self._level)
-        global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().updateAvailableList(self.__availableRecruitsList)
+                                                                    isUnit=True,
+                                                                    buttonFunction=onClick))
 
     def start(self):
         pass

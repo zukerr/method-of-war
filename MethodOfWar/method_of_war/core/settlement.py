@@ -10,71 +10,78 @@ from method_of_war.ui import global_persistent_view_manager
 
 
 class Settlement(MonoBehaviour):
-    __cityHall: CityHall
-    __warehouse: Warehouse
-    __lumberMill: ProductionBuilding
-    __quarry: ProductionBuilding
-    __mine: ProductionBuilding
-    __barracks: Barracks
+    _cityHall: CityHall
+    _warehouse: Warehouse
+    _lumberMill: ProductionBuilding
+    _quarry: ProductionBuilding
+    _mine: ProductionBuilding
+    _barracks: Barracks
 
-    __buildingsList: List[Building] = []
-    __stationingUnitsDict = {
+    _buildingsList: List[Building] = []
+    _stationingUnitsDict = {
         "Warrior": 0,
         "Paladin": 0,
         "Rogue": 0,
-        "Hunter": 0
+        "Hunter": 0,
+        "Mage": 0,
+        "Priest": 0,
+        "Warlock": 0,
+        "Shaman": 0,
+        "Death Knight": 0,
+        "Druid": 0,
+        "Monk": 0
     }
     __stationingUnitsList: List[Unit] = []
 
+    __ownerName: str = ""
+    __location: (int, int) = (-1, -1)
+
     def start(self):
-        global_persistent_view_manager.globalPersistentViewManager.getUnits().updateUnits(self.__stationingUnitsDict)
+        self._cityHall = CityHall(1, self)
+        self._buildingsList.append(self._cityHall)
 
-        self.__cityHall = CityHall(1, self)
-        self.__buildingsList.append(self.__cityHall)
+        self._warehouse = Warehouse(1, 0, 0, 0)
+        self._buildingsList.append(self._warehouse)
 
-        self.__warehouse = Warehouse(1, 0, 0, 0)
-        self.__buildingsList.append(self.__warehouse)
+        self._lumberMill = ProductionBuilding(1, ResourceType.WOOD, self._warehouse)
+        self._buildingsList.append(self._lumberMill)
 
-        self.__lumberMill = ProductionBuilding(1, ResourceType.WOOD, self.__warehouse)
-        self.__buildingsList.append(self.__lumberMill)
+        self._quarry = ProductionBuilding(1, ResourceType.GRANITE, self._warehouse)
+        self._buildingsList.append(self._quarry)
 
-        self.__quarry = ProductionBuilding(1, ResourceType.GRANITE, self.__warehouse)
-        self.__buildingsList.append(self.__quarry)
+        self._mine = ProductionBuilding(1, ResourceType.IRON, self._warehouse)
+        self._buildingsList.append(self._mine)
 
-        self.__mine = ProductionBuilding(1, ResourceType.IRON, self.__warehouse)
-        self.__buildingsList.append(self.__mine)
+        self._barracks = Barracks(1, self)
+        self._buildingsList.append(self._barracks)
 
-        self.__barracks = Barracks(1, self)
-        self.__buildingsList.append(self.__barracks)
-
-        self.__cityHall.setupAvailableBuildings()
+        self._cityHall.setupAvailableBuildings()
 
     def update(self):
         # print("updating the village...")
         pass
 
     def getWarehouse(self) -> Warehouse:
-        return self.__warehouse
+        return self._warehouse
 
     def getLumberMill(self) -> ProductionBuilding:
-        return self.__lumberMill
+        return self._lumberMill
 
     def getQuarry(self) -> ProductionBuilding:
-        return self.__quarry
+        return self._quarry
 
     def getMine(self) -> ProductionBuilding:
-        return self.__mine
+        return self._mine
 
     def getBuildingsList(self) -> List[Building]:
-        return self.__buildingsList
+        return self._buildingsList
 
     def getBuildingByName(self, name: str):
-        for building in self.__buildingsList:
+        for building in self._buildingsList:
             if building.getName() == name:
                 return building
         return None
 
     def addStationingUnit(self, unit: Unit, quantity: int = 1):
         self.__stationingUnitsList.append(unit)
-        self.__stationingUnitsDict[unit.getName()] += quantity
-        global_persistent_view_manager.globalPersistentViewManager.getUnits().updateUnits(self.__stationingUnitsDict)
+        self._stationingUnitsDict[unit.getName()] += quantity

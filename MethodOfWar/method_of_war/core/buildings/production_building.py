@@ -6,7 +6,7 @@ from method_of_war.core.buildings.warehouse import Warehouse
 
 
 class ProductionBuilding(Building):
-    __productionPerMinuteDict: dict = {
+    _productionPerMinuteDict: dict = {
         1: 100,
         2: 121,
         3: 144,
@@ -28,8 +28,8 @@ class ProductionBuilding(Building):
         19: 784,
         20: 841
     }
-    __currentProductionPerMinute: int
-    __resourceType: ResourceType
+    _currentProductionPerMinute: int
+    _resourceType: ResourceType
     __warehouse: Warehouse
 
     __firstUpdate: bool = False
@@ -37,16 +37,14 @@ class ProductionBuilding(Building):
 
     def __init__(self, startingLevel: int, resourceType: ResourceType, warehouse: Warehouse):
         super().__init__(startingLevel)
-        self.__resourceType = resourceType
+        self._resourceType = resourceType
         self.setupNameModded()
-        self.__currentProductionPerMinute = self.__productionPerMinuteDict[self._level]
+        self._currentProductionPerMinute = self._productionPerMinuteDict[self._level]
         self.__warehouse = warehouse
-        self.__updateAppropriateProductionViewSegment()
 
     def levelUp(self):
         super().levelUp()
-        self.__currentProductionPerMinute = self.__productionPerMinuteDict[self._level]
-        self.__updateAppropriateProductionViewSegment()
+        self._currentProductionPerMinute = self._productionPerMinuteDict[self._level]
 
     def setupUpgradeRequirements(self):
         for i in range(self._maxLevel):
@@ -60,46 +58,17 @@ class ProductionBuilding(Building):
         pass
 
     def setupNameModded(self):
-        if self.__resourceType == ResourceType.WOOD:
+        if self._resourceType == ResourceType.WOOD:
             self._name = "Lumber Mill"
-        elif self.__resourceType == ResourceType.GRANITE:
+        elif self._resourceType == ResourceType.GRANITE:
             self._name = "Quarry"
         else:
             self._name = "Mine"
 
-    def __updateAppropriateProductionViewSegment(self):
-        if self.__resourceType == ResourceType.WOOD:
-            global_persistent_view_manager.globalPersistentViewManager.getProduction().updateProductionValues(woodValue=self.__currentProductionPerMinute)
-            global_gameplay_view_manager\
-                .globalGameplayViewManager\
-                .getOverview()\
-                .getLumberMill()\
-                .updateValues(self._level,
-                              self.__currentProductionPerMinute,
-                              self.__productionPerMinuteDict[self._level + 1])
-        elif self.__resourceType == ResourceType.GRANITE:
-            global_persistent_view_manager.globalPersistentViewManager.getProduction().updateProductionValues(graniteValue=self.__currentProductionPerMinute)
-            global_gameplay_view_manager \
-                .globalGameplayViewManager \
-                .getOverview() \
-                .getQuarry() \
-                .updateValues(self._level,
-                              self.__currentProductionPerMinute,
-                              self.__productionPerMinuteDict[self._level + 1])
-        else:
-            global_persistent_view_manager.globalPersistentViewManager.getProduction().updateProductionValues(ironValue=self.__currentProductionPerMinute)
-            global_gameplay_view_manager \
-                .globalGameplayViewManager \
-                .getOverview() \
-                .getMine() \
-                .updateValues(self._level,
-                              self.__currentProductionPerMinute,
-                              self.__productionPerMinuteDict[self._level + 1])
-
     def addAppropriateResourceToWarehouse(self, value: float):
-        if self.__resourceType == ResourceType.WOOD:
+        if self._resourceType == ResourceType.WOOD:
             self.__warehouse.gainWood(value)
-        elif self.__resourceType == ResourceType.GRANITE:
+        elif self._resourceType == ResourceType.GRANITE:
             self.__warehouse.gainGranite(value)
         else:
             self.__warehouse.gainIron(value)
@@ -114,6 +83,6 @@ class ProductionBuilding(Building):
         if not self.__firstUpdate:
             self.__firstUpdate = True
         else:
-            producedValue: float = self.__currentProductionPerMinute * ((realTime - self.__oldTime) / 60)
+            producedValue: float = self._currentProductionPerMinute * ((realTime - self.__oldTime) / 60)
             self.addAppropriateResourceToWarehouse(producedValue)
         self.__oldTime = realTime

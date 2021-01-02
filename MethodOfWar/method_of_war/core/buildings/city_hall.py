@@ -34,11 +34,11 @@ class CityHall(Building):
     __currentBuildTimeReduction: float
     __settlement = None
 
-    __buildingQueue: List[BuildingQueueElement] = []
+    _buildingQueue: List[BuildingQueueElement] = []
     __firstUpdate: bool = False
     __oldTime: float
 
-    __availableBuildingsList: List[AvailableBuildingElement] = []
+    _availableBuildingsList: List[AvailableBuildingElement] = []
     __notAvailableBuildingsList: List[NotAvailableBuildingElement] = []
 
     def __init__(self, startingLevel: int, settlement):
@@ -63,68 +63,54 @@ class CityHall(Building):
 
     # queue
     def addUpgradeToQueue(self, building: Building):
-        if len(self.__buildingQueue) >= self.__maxQueueSize:
+        if len(self._buildingQueue) >= self.__maxQueueSize:
             return
         tempLevel = building.getLevel()
         tempReq = building.getCurrentUpgradeRequirement()
-        if building.isUpgrading or (len(self.__buildingQueue) > 0 and self.__buildingQueue[0].buildingName == building.getName()):
+        if building.isUpgrading or (len(self._buildingQueue) > 0 and self._buildingQueue[0].buildingName == building.getName()):
             tempLevel += 1
             tempReq = building.getNextUpgradeRequirement()
-        self.__buildingQueue\
+        self._buildingQueue\
             .append(BuildingQueueElement(building.getName() + " (Level " + str(tempLevel + 1) + ")", tempReq.timeInSeconds,
                                          tempReq.timeInSeconds,
                                          building.getName()))
         building.isUpgrading = True
         # update available buildings
         self.setupAvailableBuildings()
-        invoke(self.__redrawAvailableBuildingsLive, 0.1)
-        # self.__redrawAvailableBuildingsLive()
-        # if global_gameplay_view_manager.globalGameplayViewManager.isCityHallViewActive():
-        #   global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().disableView()
-        #   global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawView()
-        # availBuilding = self.__findAvailableBuildingByName(building.getName())
-        # self.addLevelToAvailableBuildingElement(availBuilding)
-        # global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().updateAvailableList(self.__availableBuildingsList)
-        # global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().disableView()
-        # global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawAvailBuildings()
-        # update ui
-        global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().updateQueue(self.__buildingQueue)
+        invoke(self._redrawAvailableBuildingsLive, 0.1)
 
     def updateQueue(self, realTime: float):
         if not self.__firstUpdate:
             self.__firstUpdate = True
         else:
             timePassed: float = realTime - self.__oldTime
-            elemsToRemove = []
-            if len(self.__buildingQueue) > 0:
-                elem = self.__buildingQueue[0]
-                elem.realTimeToFinish -= timePassed
-                elem.timeToFinish = getMinutesSecondsFromSeconds(int(elem.realTimeToFinish))
-                if elem.realTimeToFinish <= 0:
-                    elemsToRemove.append(elem)
-            for elem in elemsToRemove:
-                self.__buildingQueue.remove(elem)
-                # actually upgrade proper building
-                self.__settlement.getBuildingByName(elem.buildingName).levelUp()
-                # redraw all early
-                self.setupAvailableBuildings()
-                self.__redrawAvailableBuildingsLive()
-                self.__settlement.getBuildingByName(elem.buildingName).isUpgrading = False
-            # update available buildings view
-            self.setupAvailableBuildings()
-            global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().updateQueue(
-                    self.__buildingQueue)
-            if global_gameplay_view_manager.globalGameplayViewManager.isCityHallViewActive():
-                global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawQueue()
+            self._updateQueueContent(timePassed)
         self.__oldTime = realTime
 
-    def __redrawAvailableBuildingsLive(self):
-        if global_gameplay_view_manager.globalGameplayViewManager.isCityHallViewActive():
-            global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().disableView()
-            global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().drawView()
+    def _updateQueueContent(self, timePassed: float):
+        elemsToRemove = []
+        if len(self._buildingQueue) > 0:
+            elem = self._buildingQueue[0]
+            elem.realTimeToFinish -= timePassed
+            elem.timeToFinish = getMinutesSecondsFromSeconds(int(elem.realTimeToFinish))
+            if elem.realTimeToFinish <= 0:
+                elemsToRemove.append(elem)
+        for elem in elemsToRemove:
+            self._buildingQueue.remove(elem)
+            # actually upgrade proper building
+            self.__settlement.getBuildingByName(elem.buildingName).levelUp()
+            # redraw all early
+            self.setupAvailableBuildings()
+            self._redrawAvailableBuildingsLive()
+            self.__settlement.getBuildingByName(elem.buildingName).isUpgrading = False
+        # update available buildings view
+        self.setupAvailableBuildings()
+
+    def _redrawAvailableBuildingsLive(self):
+        pass
 
     def __findAvailableBuildingByName(self, buildingName: str):
-        for availBuilding in self.__availableBuildingsList:
+        for availBuilding in self._availableBuildingsList:
             if availBuilding.buildingName == buildingName:
                 return availBuilding
         return None
@@ -132,10 +118,9 @@ class CityHall(Building):
     # available buildings
     def setupAvailableBuildings(self):
         buildingsList = self.__settlement.getBuildingsList()
-        self.__availableBuildingsList.clear()
+        self._availableBuildingsList.clear()
         for building in buildingsList:
             self.__setupAvailableBuilding(building)
-        self.__syncView()
 
     def addLevelToAvailableBuildingElement(self, availBuildingElem: AvailableBuildingElement):
         correspondingBuilding = self.__settlement.getBuildingByName(availBuildingElem.buildingName)
@@ -151,40 +136,36 @@ class CityHall(Building):
         btnText = building.getButtonText()
         upgradeReq = building.getCurrentUpgradeRequirement()
         # one of the same in the queue
-        if len(self.__buildingQueue) == 1:
-            if building.getName() == self.__buildingQueue[0].buildingName:
+        if len(self._buildingQueue) == 1:
+            if building.getName() == self._buildingQueue[0].buildingName:
                 btnText = building.getButtonTextWhileUpgrading()
                 upgradeReq = building.getUpgradeRequirementWithAddedLevel(1)
         # two of the same in the queue
-        elif len(self.__buildingQueue) == 2:
-            if building.getName() == self.__buildingQueue[0].buildingName == self.__buildingQueue[1].buildingName:
+        elif len(self._buildingQueue) == 2:
+            if building.getName() == self._buildingQueue[0].buildingName == self._buildingQueue[1].buildingName:
                 btnText = building.getButtonTextWithAddedLevel(2)
                 upgradeReq = building.getUpgradeRequirementWithAddedLevel(2)
             else:
-                if (building.getName() == self.__buildingQueue[0].buildingName) or (building.getName() == self.__buildingQueue[1].buildingName):
+                if (building.getName() == self._buildingQueue[0].buildingName) or (building.getName() == self._buildingQueue[1].buildingName):
                     btnText = building.getButtonTextWhileUpgrading()
                     upgradeReq = building.getUpgradeRequirementWithAddedLevel(1)
 
         def onClick():
-            if len(self.__buildingQueue) >= self.__maxQueueSize:
+            if len(self._buildingQueue) >= self.__maxQueueSize:
                 return
             if building.availableForLevelUp():
                 if self.__settlement.getWarehouse().requirementCanBeSatisfied(upgradeReq):
                     self.__settlement.getWarehouse().spendRequirement(upgradeReq)
                     self.addUpgradeToQueue(building)
 
-        self.__availableBuildingsList.append(AvailableBuildingElement(building.getName(),
-                                                                      building.getTitle(),
-                                                                      upgradeReq.woodValue,
-                                                                      upgradeReq.graniteValue,
-                                                                      upgradeReq.ironValue,
-                                                                      upgradeReq.timeInSeconds,
-                                                                      btnText,
-                                                                      buttonFunction=onClick))
-
-    def __syncView(self):
-        global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().updateLevel(self._level)
-        global_gameplay_view_manager.globalGameplayViewManager.getOverview().getCityHall().updateAvailableList(self.__availableBuildingsList)
+        self._availableBuildingsList.append(AvailableBuildingElement(building.getName(),
+                                                                     building.getTitle(),
+                                                                     upgradeReq.woodValue,
+                                                                     upgradeReq.graniteValue,
+                                                                     upgradeReq.ironValue,
+                                                                     upgradeReq.timeInSeconds,
+                                                                     btnText,
+                                                                     buttonFunction=onClick))
 
     def start(self):
         pass

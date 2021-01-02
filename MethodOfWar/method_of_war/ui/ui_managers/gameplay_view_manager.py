@@ -118,3 +118,6 @@ class GameplayViewManager:
 
     def isBarracksViewActive(self) -> bool:
         return self.__activeViewType == GameplayViewType.BARRACKS
+
+    def getMapView(self) -> MapView:
+        return self.__mapView
