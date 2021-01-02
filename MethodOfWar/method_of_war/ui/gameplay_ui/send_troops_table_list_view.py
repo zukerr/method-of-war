@@ -32,7 +32,8 @@ class SendTroopsTableListView(ListView):
     __buttonList: List[button.Button] = []
 
     def __init__(self, window):
-        super().__init__(window, maxElements=11, defaultX=46, defaultY=196, elementWidth=628, elementHeight=32)
+        super().__init__(window, maxElements=11, defaultX=46, defaultY=196, elementWidth=628, elementHeight=32,
+                         elementPadding=10)
 
     def __drawElementGreenButton(self, x: int, y: int, width: int, text: str, onClick):
         tempButton = GreenButton(self._window, (x, y, width, 32), text, getDefaultFont())
