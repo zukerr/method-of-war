@@ -6,7 +6,7 @@ from mini_engine.game_machine.invoke import *
 
 
 class Button(MonoBehaviour):
-    __window: pygame.display
+    _window: pygame.display
     __color: (int, int, int)
     __transform: (int, int, int, int)
     __borderWidth: int
@@ -21,7 +21,7 @@ class Button(MonoBehaviour):
                  borderWidth: int, borderColor: (int, int, int), highlightColor: (int, int, int) = (80, 80, 80),
                  addedDraw=lambda: None, interactive=True):
         super().__init__()
-        self.__window = window
+        self._window = window
         self.__color = color
         self.__transform = transform
         self.__borderWidth = borderWidth
@@ -31,7 +31,7 @@ class Button(MonoBehaviour):
         self.__interactive = interactive
 
     def draw(self):
-        border_rect.draw(self.__window, self.__color, self.__transform, self.__borderWidth, self.__borderColor)
+        border_rect.draw(self._window, self.__color, self.__transform, self.__borderWidth, self.__borderColor)
         self.__drawText()
         self.__addedDraw()
 
@@ -45,7 +45,7 @@ class Button(MonoBehaviour):
         pass
 
     def __onMouseEnter(self):
-        border_rect.draw(self.__window, self.__highlightColor, self.__transform, self.__borderWidth, self.__borderColor)
+        border_rect.draw(self._window, self.__highlightColor, self.__transform, self.__borderWidth, self.__borderColor)
         self.__drawText()
         self.__addedDraw()
 

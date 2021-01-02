@@ -8,3 +8,4 @@ class GameplayViewType(Enum):
     BUILDING = 3
     CITY_HALL = 4
     BARRACKS = 5
+    SEND_TROOPS = 6
