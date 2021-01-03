@@ -46,6 +46,7 @@ class Barracks(Building, PassingTimeAwareMonoBehaviour):
 
     def __init__(self, startingLevel: int, settlement):
         super().__init__(startingLevel)
+        self.__recruitmentQueue = []
         self._availableRecruitsList = []
         self.__settlement = settlement
         self.setupAvailableUnits()

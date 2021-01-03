@@ -7,9 +7,9 @@ from method_of_war.core.player_core.player_warehouse import *
 
 class PlayerSettlement(Settlement):
 
-    def start(self):
+    def __init__(self, ownerName: str, location: (int, int)):
+        super().__init__(ownerName, location)
         global_persistent_view_manager.globalPersistentViewManager.getUnits().updateUnits(self._stationingUnitsDict)
-        self._buildingsList = []
 
         self._cityHall = PlayerCityHall(1, self)
         self._buildingsList.append(self._cityHall)

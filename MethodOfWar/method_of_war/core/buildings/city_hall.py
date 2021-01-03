@@ -42,6 +42,9 @@ class CityHall(Building, PassingTimeAwareMonoBehaviour):
 
     def __init__(self, startingLevel: int, settlement):
         super().__init__(startingLevel)
+        self._buildingQueue = []
+        self._availableBuildingsList = []
+        self.__notAvailableBuildingsList = []
         self.__settlement = settlement
         self.setupAvailableBuildings()
 

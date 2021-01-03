@@ -12,6 +12,7 @@ class SendTroops:
     _ownerName: str
 
     def __init__(self, fromSettlement, toSettlement):
+        self._elementList = []
         self.__settlement = fromSettlement
         self.__setupCurrentUnits()
         self._ownerName = toSettlement.getOwnerName()
@@ -29,21 +30,25 @@ class SendTroops:
         self._elementList = []
         keysList = list(self.__currentUnitsToBeSentDict.keys())
         for key in keysList:
-            self._elementList.append(SendTroopsElement(unitColorDict[key],
-                                                       self.__maxUnitsDict[key],
-                                                       self.__currentUnitsToBeSentDict[key],
-                                                       lambda: self.__addCurrentUnit(key, 1),
-                                                       lambda: self.__addCurrentUnit(key, 5),
-                                                       lambda: self.__removeCurrentUnit(key, 1),
-                                                       lambda: self.__removeCurrentUnit(key, 5),
-                                                       lambda: self.__addAllToCurrentUnit(key),
-                                                       lambda: self.__resetCurrentUnit(key)))
+            self._setupElement(key)
+
+    def _setupElement(self, key: str):
+        self._elementList.append(SendTroopsElement(unitColorDict[key],
+                                                   self.__maxUnitsDict[key],
+                                                   self.__currentUnitsToBeSentDict[key],
+                                                   lambda: self.__addCurrentUnit(key, 1),
+                                                   lambda: self.__addCurrentUnit(key, 5),
+                                                   lambda: self.__removeCurrentUnit(key, 1),
+                                                   lambda: self.__removeCurrentUnit(key, 5),
+                                                   lambda: self.__addAllToCurrentUnit(key),
+                                                   lambda: self.__resetCurrentUnit(key)))
 
     def __addCurrentUnit(self, name: str, quantity: int):
         self.__currentUnitsToBeSentDict[name] += quantity
         if self.__currentUnitsToBeSentDict[name] > self.__maxUnitsDict[name]:
             self.__currentUnitsToBeSentDict[name] = self.__maxUnitsDict[name]
         self._setupElementList()
+        print(self.__currentUnitsToBeSentDict)
 
     def __removeCurrentUnit(self, name: str, quantity: int):
         self.__currentUnitsToBeSentDict[name] -= quantity

@@ -40,29 +40,11 @@ class Settlement(MonoBehaviour):
         super().__init__()
         self.__ownerName = ownerName
         self.__location = location
-
-    def start(self):
+        self.__stationingUnitsList = []
         self._buildingsList = []
 
-        self._cityHall = CityHall(1, self)
-        self._buildingsList.append(self._cityHall)
-
-        self._warehouse = Warehouse(1, 0, 0, 0)
-        self._buildingsList.append(self._warehouse)
-
-        self._lumberMill = ProductionBuilding(1, ResourceType.WOOD, self._warehouse)
-        self._buildingsList.append(self._lumberMill)
-
-        self._quarry = ProductionBuilding(1, ResourceType.GRANITE, self._warehouse)
-        self._buildingsList.append(self._quarry)
-
-        self._mine = ProductionBuilding(1, ResourceType.IRON, self._warehouse)
-        self._buildingsList.append(self._mine)
-
-        self._barracks = Barracks(1, self)
-        self._buildingsList.append(self._barracks)
-
-        self._cityHall.setupAvailableBuildings()
+    def start(self):
+        pass
 
     def update(self):
         # print("updating the village...")
