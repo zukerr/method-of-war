@@ -1,8 +1,11 @@
 from typing import List
+
+from method_of_war.core.units.unit_models.a_unit import Unit
 from method_of_war.ui.gameplay_ui.map.send_troops_table_list_view import SendTroopsElement
 from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementElement
 from method_of_war.ui.ui_global import *
 from method_of_war.enums.attack_size import AttackSize
+from mini_engine.util.vector2 import Vector2
 
 
 class SendTroops:
@@ -13,6 +16,8 @@ class SendTroops:
     _elementList: List[SendTroopsElement] = []
     _targetString: str
     _targetOwnerName: str
+    __bigAttackThreshold: int = 10
+    __smallAttackThreshold: int = 5
 
     def __init__(self, fromSettlement, toSettlement):
         self._elementList = []
@@ -77,35 +82,49 @@ class SendTroops:
     # TO-DO
     def _sendAttack(self):
         # add new element to troop movements
+
         # determine attack size
         unitsCount: int = 0
         keysList = list(self.__currentUnitsToBeSentDict.keys())
         for key in keysList:
             unitsCount += self.__currentUnitsToBeSentDict[key]
         attackSize: AttackSize
-        if unitsCount > 10:
+        if unitsCount > self.__bigAttackThreshold:
             attackSize = AttackSize.BIG
-        elif unitsCount < 5:
+        elif unitsCount < self.__smallAttackThreshold:
             attackSize = AttackSize.SMALL
         else:
             attackSize = AttackSize.MIDSIZED
+
         # determine if attacks come from an enemy
         fromEnemy = self._targetOwnerName == "Player"
+
+        # determine movement speed of attacking army
+        minMovementSpeed: float = 999
+        for key in keysList:
+            if self.__currentUnitsToBeSentDict[key] > 0:
+                tempUnit: Unit = self.__fromSettlement.findStationingUnitInListByName(key)
+                if tempUnit.getMovementSpeed() < minMovementSpeed:
+                    minMovementSpeed = tempUnit.getMovementSpeed()
+
+        # calculate time to battle
+        fromVector: Vector2 = Vector2(self.__fromSettlement.getLocation()[0], self.__fromSettlement.getLocation()[1])
+        toVector: Vector2 = Vector2(self.__toSettlement.getLocation()[0], self.__toSettlement.getLocation()[1])
+        distanceBetweenSettlements = fromVector.distanceFrom(toVector)
+        timeToBattle: float = distanceBetweenSettlements / minMovementSpeed
 
         self.__fromSettlement.getTroopMovements().addElementToQueue(TroopMovementElement(
             attackSize=attackSize,
             fromEnemy=fromEnemy,
             attackingSettlement=self.__fromSettlement.getOwnerName() + " " + self.__fromSettlement.getLocationStr(),
             defendingSettlement=self.__toSettlement.getOwnerName() + " " + self.__toSettlement.getLocationStr(),
-            # temporary
-            secondsToBattle=15,
-            realTimeToFinish=15,
+            secondsToBattle=int(timeToBattle),
+            realTimeToFinish=timeToBattle,
             attackingArmy=self.__currentUnitsToBeSentDict,
             defendingArmy=self.__toSettlement.getStationingUnitsDict()
         ))
-        keysList = list(self.__currentUnitsToBeSentDict.keys())
         for key in keysList:
-            self.__fromSettlement.getStationingUnitsDict()[key] -= self.__currentUnitsToBeSentDict[key]
+            self.__fromSettlement.removeStationingUnit(key, self.__currentUnitsToBeSentDict[key])
         self.__setupCurrentUnits()
         self._setupElementList()
         print("Just sent an attack.")

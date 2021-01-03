@@ -3,16 +3,19 @@
 from mini_engine.game_machine.a_passing_time_aware_mono_behaviour import PassingTimeAwareMonoBehaviour
 from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementElement
 from typing import List
+from method_of_war.core.attacks.battle import *
 
 
 class TroopMovements(PassingTimeAwareMonoBehaviour):
     _elementsList: List[TroopMovementElement] = []
     __maxListLength: int
+    __rootSettlement = None
 
-    def __init__(self):
+    def __init__(self, rootSettlement):
         super().__init__()
         self._elementsList = []
         self.__maxListLength = 7
+        self.__rootSettlement = rootSettlement
 
     def start(self):
         pass
@@ -33,5 +36,20 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                     elemsToRemove.append(elem)
         for elem in elemsToRemove:
             self._elementsList.remove(elem)
-            # calculate the battle and add a come back element
-            # self.__settlement....
+            if not elem.isRetreating:
+                # calculate the battle and add a come back element, if it was attacking movement:
+                Battle(elem)
+                # army comes back home - add retreating element
+                self.addElementToQueue(TroopMovementElement(
+                    elem.attackSize,
+                    elem.fromEnemy,
+                    elem.attackingSettlement,
+                    elem.defendingSettlement,
+                    int(elem.originalRealTimeToFinish),
+                    elem.originalRealTimeToFinish,
+                    attackingArmy=elem.attackingArmy,
+                    defendingArmy=elem.defendingArmy,
+                    isRetreating=True
+                ))
+            else:
+                self.__rootSettlement.addStationingUnitsFromDict(elem.attackingArmy)

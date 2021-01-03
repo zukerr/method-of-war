@@ -17,10 +17,12 @@ class TroopMovementElement:
     realTimeToFinish: float
     attackingArmy: dict
     defendingArmy: dict
+    isRetreating: bool
+    originalRealTimeToFinish: float
 
     def __init__(self, attackSize: AttackSize, fromEnemy: bool, attackingSettlement: str, defendingSettlement: str,
                  secondsToBattle: int, realTimeToFinish: float = 0, attackingArmy: dict = None,
-                 defendingArmy: dict = None):
+                 defendingArmy: dict = None, isRetreating: bool = False):
         if defendingArmy is None:
             defendingArmy = {}
         if attackingArmy is None:
@@ -33,6 +35,8 @@ class TroopMovementElement:
         self.defendingSettlement = defendingSettlement
         self.secondsToBattle = secondsToBattle
         self.realTimeToFinish = realTimeToFinish
+        self.isRetreating = isRetreating
+        self.originalRealTimeToFinish = realTimeToFinish
 
     def modifyRealTimeToFinish(self, newValue: float):
         self.realTimeToFinish = newValue
@@ -60,6 +64,8 @@ class TroopMovementsView(ListView):
         actualIndicatorColor = colorGreen
         if element.fromEnemy:
             actualIndicatorColor = colorRed
+        if element.isRetreating:
+            actualIndicatorColor = (0, 0, 0)
         border_rect.draw(self._window, actualIndicatorColor, (1199, transform[1] + 3, 39, 18), 1, borderDefaultColor)
 
         # draw seconds to battle

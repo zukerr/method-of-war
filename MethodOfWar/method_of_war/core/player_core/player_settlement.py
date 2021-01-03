@@ -32,8 +32,12 @@ class PlayerSettlement(Settlement):
 
         self._cityHall.setupAvailableBuildings()
 
-        self._troopMovements = PlayerTroopMovements()
+        self._troopMovements = PlayerTroopMovements(self)
 
     def addStationingUnit(self, unit: Unit, quantity: int = 1):
         super().addStationingUnit(unit, quantity)
+        global_persistent_view_manager.globalPersistentViewManager.getUnits().updateUnits(self._stationingUnitsDict)
+
+    def removeStationingUnit(self, unitName: str, quantity: int = 1):
+        super().removeStationingUnit(unitName, quantity)
         global_persistent_view_manager.globalPersistentViewManager.getUnits().updateUnits(self._stationingUnitsDict)

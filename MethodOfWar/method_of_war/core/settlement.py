@@ -8,6 +8,7 @@ from method_of_war.enums.resource_type import ResourceType
 from method_of_war.core.buildings.city_hall import *
 from method_of_war.core.buildings.a_building import Building
 from method_of_war.ui import global_persistent_view_manager
+from method_of_war.core.units.unit_models.unit_factory import MakeUnit
 
 
 class Settlement(MonoBehaviour):
@@ -75,11 +76,30 @@ class Settlement(MonoBehaviour):
         return None
 
     def addStationingUnit(self, unit: Unit, quantity: int = 1):
-        self.__stationingUnitsList.append(unit)
-        self._stationingUnitsDict[unit.getName()] += quantity
+        if unit is not None:
+            self.__stationingUnitsList.append(unit)
+            self._stationingUnitsDict[unit.getName()] += quantity
+
+    def addStationingUnitsFromDict(self, inputUnitDict: dict):
+        keyList = list(self._stationingUnitsDict.keys())
+        for key in keyList:
+            self.addStationingUnit(MakeUnit(key), inputUnitDict[key])
 
     def getStationingUnitsDict(self) -> dict:
         return self._stationingUnitsDict
+
+    def removeStationingUnit(self, unitName: str, quantity: int = 1):
+        if quantity > self._stationingUnitsDict[unitName]:
+            return
+        self._stationingUnitsDict[unitName] -= quantity
+        for i in range(quantity):
+            self.__stationingUnitsList.remove(self.findStationingUnitInListByName(unitName))
+
+    def findStationingUnitInListByName(self, unitName: str):
+        for unit in self.__stationingUnitsList:
+            if unit.getName() == unitName:
+                return unit
+        return None
 
     def getOwnerName(self) -> str:
         return self.__ownerName
