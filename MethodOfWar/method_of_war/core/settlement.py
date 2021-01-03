@@ -36,7 +36,14 @@ class Settlement(MonoBehaviour):
     __ownerName: str = ""
     __location: (int, int) = (-1, -1)
 
+    def __init__(self, ownerName: str, location: (int, int)):
+        super().__init__()
+        self.__ownerName = ownerName
+        self.__location = location
+
     def start(self):
+        self._buildingsList = []
+
         self._cityHall = CityHall(1, self)
         self._buildingsList.append(self._cityHall)
 
@@ -85,3 +92,12 @@ class Settlement(MonoBehaviour):
     def addStationingUnit(self, unit: Unit, quantity: int = 1):
         self.__stationingUnitsList.append(unit)
         self._stationingUnitsDict[unit.getName()] += quantity
+
+    def getStationingUnitsDict(self) -> dict:
+        return self._stationingUnitsDict
+
+    def getOwnerName(self) -> str:
+        return self.__ownerName
+
+    def getLocation(self) -> (int, int):
+        return self.__location

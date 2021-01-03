@@ -1,22 +1,16 @@
-import pygame
-from mini_engine.ui import border_rect
-from mini_engine.ui.a_view import *
-from method_of_war.ui.ui_global import *
-from mini_engine.ui import button
-from typing import List
-from mini_engine.util.extensions import *
-from method_of_war.ui.green_button import GreenButton
-from method_of_war.ui.gameplay_ui.send_troops_table_list_view import *
+from method_of_war.ui.gameplay_ui.map.send_troops_table_list_view import *
 
 
 class SendTroopsView(View):
     __targetLocation: str = ""
     __ownerName: str = ""
     __elementList: List[SendTroopsElement] = []
+    __resetAllListener = lambda: None
+    __sendAttackListener = lambda: None
 
     __buttonList: List[button.Button] = []
 
-    __sendTroopsListView: SendTroopsTableListView
+    __sendTroopsListView: SendTroopsTableListView = None
 
     def drawView(self):
         # draw bg
@@ -41,7 +35,7 @@ class SendTroopsView(View):
         resetAllButton = GreenButton(self._window, (741, 526, 211, 46), "Reset All", getBigFont())
 
         def resetOnClick():
-            print("Clicked Reset All Button!")
+            self.__resetAllListener()
 
         resetAllButton.addListener(resetOnClick)
         resetAllButton.draw()
@@ -51,7 +45,7 @@ class SendTroopsView(View):
         sendAttackButton = GreenButton(self._window, (741, 602, 211, 46), "Send Attack", getBigFont())
 
         def sendAttackOnClick():
-            print("Clicked Send Attack Button!")
+            self.__sendAttackListener()
 
         sendAttackButton.addListener(sendAttackOnClick)
         sendAttackButton.draw()
@@ -72,9 +66,16 @@ class SendTroopsView(View):
     def updateOwnerName(self, ownerName: str):
         self.__ownerName = ownerName
 
+    def updateResetAllListener(self, newListener):
+        self.__resetAllListener = newListener
+
+    def updateSendAttackListener(self, newListener):
+        self.__sendAttackListener = newListener
+
     def disableView(self):
         for btn in self.__buttonList:
             btn.setActive(False)
             btn.setReadyForDelete()
         # disable list view
-        self.__sendTroopsListView.disableView()
+        if self.__sendTroopsListView is not None:
+            self.__sendTroopsListView.disableView()

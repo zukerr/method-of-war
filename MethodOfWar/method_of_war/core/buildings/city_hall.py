@@ -5,9 +5,10 @@ from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.
 from method_of_war.ui import global_gameplay_view_manager
 from mini_engine.util.extensions import *
 from mini_engine.game_machine.invoke import invoke
+from mini_engine.game_machine.a_passing_time_aware_mono_behaviour import PassingTimeAwareMonoBehaviour
 
 
-class CityHall(Building):
+class CityHall(Building, PassingTimeAwareMonoBehaviour):
     __buildTimeReductionFactorDict = {
         1: 1,
         2: 0.95,
@@ -35,8 +36,6 @@ class CityHall(Building):
     __settlement = None
 
     _buildingQueue: List[BuildingQueueElement] = []
-    __firstUpdate: bool = False
-    __oldTime: float
 
     _availableBuildingsList: List[AvailableBuildingElement] = []
     __notAvailableBuildingsList: List[NotAvailableBuildingElement] = []
@@ -79,14 +78,7 @@ class CityHall(Building):
         self.setupAvailableBuildings()
         invoke(self._redrawAvailableBuildingsLive, 0.1)
 
-    def updateQueue(self, realTime: float):
-        if not self.__firstUpdate:
-            self.__firstUpdate = True
-        else:
-            timePassed: float = realTime - self.__oldTime
-            self._updateQueueContent(timePassed)
-        self.__oldTime = realTime
-
+    # overriden from PassingTimeAwareMonoBehaviour
     def _updateQueueContent(self, timePassed: float):
         elemsToRemove = []
         if len(self._buildingQueue) > 0:
@@ -117,6 +109,7 @@ class CityHall(Building):
 
     # available buildings
     def setupAvailableBuildings(self):
+        # print("CITY_HALL: state of available buildings: ")
         buildingsList = self.__settlement.getBuildingsList()
         self._availableBuildingsList.clear()
         for building in buildingsList:
@@ -166,12 +159,10 @@ class CityHall(Building):
                                                                      upgradeReq.timeInSeconds,
                                                                      btnText,
                                                                      buttonFunction=onClick))
+        # print("CITY_HALL: added new building for: " + self.__settlement.getOwnerName())
 
     def start(self):
         pass
 
     def update(self):
         pass
-
-    def updateOnRealTime(self, realTime: float):
-        self.updateQueue(realTime)

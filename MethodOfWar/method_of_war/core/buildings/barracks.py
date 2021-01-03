@@ -10,9 +10,10 @@ from method_of_war.core.units.hunter import *
 from method_of_war.core.units.rogue import *
 from method_of_war.core.units.warrior import *
 from method_of_war.core.units.paladin import *
+from mini_engine.game_machine.a_passing_time_aware_mono_behaviour import PassingTimeAwareMonoBehaviour
 
 
-class Barracks(Building):
+class Barracks(Building, PassingTimeAwareMonoBehaviour):
     __recruitTimeReductionFactorDict = {
         1: 1,
         2: 0.95,
@@ -40,13 +41,12 @@ class Barracks(Building):
     __settlement = None
 
     __recruitmentQueue: List[UnitRecruitmentModel] = []
-    __firstUpdate: bool = False
-    __oldTime: float
 
     _availableRecruitsList: List[AvailableBuildingElement] = []
 
     def __init__(self, startingLevel: int, settlement):
         super().__init__(startingLevel)
+        self._availableRecruitsList = []
         self.__settlement = settlement
         self.setupAvailableUnits()
 
@@ -79,14 +79,7 @@ class Barracks(Building):
             return
         self.__recruitmentQueue.append(UnitRecruitmentModel(unit))
 
-    def updateQueue(self, realTime: float):
-        if not self.__firstUpdate:
-            self.__firstUpdate = True
-        else:
-            timePassed: float = realTime - self.__oldTime
-            self._updateQueueContent(timePassed)
-        self.__oldTime = realTime
-
+    # overriden from PassingTimeMonoBehaviour
     def _updateQueueContent(self, timePassed: float):
         elemsToRemove = []
         if len(self.__recruitmentQueue) > 0:
@@ -132,6 +125,3 @@ class Barracks(Building):
 
     def update(self):
         pass
-
-    def updateOnRealTime(self, realTime: float):
-        self.updateQueue(realTime)

@@ -9,6 +9,7 @@ class PlayerSettlement(Settlement):
 
     def start(self):
         global_persistent_view_manager.globalPersistentViewManager.getUnits().updateUnits(self._stationingUnitsDict)
+        self._buildingsList = []
 
         self._cityHall = PlayerCityHall(1, self)
         self._buildingsList.append(self._cityHall)

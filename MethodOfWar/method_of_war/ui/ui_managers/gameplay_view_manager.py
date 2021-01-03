@@ -1,9 +1,8 @@
 from method_of_war.ui.gameplay_ui.settlement_view import *
-from method_of_war.ui.gameplay_ui.map_view import *
+from method_of_war.ui.gameplay_ui.map.map_view import *
 from method_of_war.ui.gameplay_ui.reports_view import *
 from method_of_war.enums.gameplay_view_type import *
-from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.barracks_view import *
-from method_of_war.ui.gameplay_ui.send_troops_view import *
+from method_of_war.ui.gameplay_ui.map.send_troops_view import *
 
 
 class GameplayViewManager:
@@ -25,6 +24,7 @@ class GameplayViewManager:
                                              postClickBuildingFunction=self.postClickBuildingView)
         self.__mapView = MapView(self.__mainWindow)
         self.__reportsView = ReportsView(self.__mainWindow)
+        self.__sendTroopsView = SendTroopsView(self.__mainWindow)
 
         # draw views
         self.__overviewView.drawView()
@@ -42,24 +42,9 @@ class GameplayViewManager:
         # self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
         #                                     "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 272))
         # TEST SECTION END
-        self.__setupMapView()
+        # self.__setupMapView()
         self.__setupReportsView()
         self.__setupOverviewView()
-
-        # test send troops view
-        self.__activeView.disableView()
-        self.__sendTroopsView = SendTroopsView(self.__mainWindow)
-        self.__sendTroopsView.drawView()
-        self.__activeView = self.__sendTroopsView
-        self.__activeViewType = GameplayViewType.SEND_TROOPS
-        self.__sendTroopsView.updateAvailableUnits([
-            SendTroopsElement(unitColorDict["Warrior"], 10, 5, lambda: None, lambda: None, lambda: None, lambda: None, lambda: None, lambda: None),
-            SendTroopsElement(unitColorDict["Paladin"], 15, 3, lambda: None, lambda: None, lambda: None, lambda: None,
-                              lambda: None, lambda: None)
-        ])
-        self.__sendTroopsView.updateOwnerName("Thrall")
-        self.__sendTroopsView.updateTargetLocation("(2, 3)")
-        self.__sendTroopsView.drawView()
 
     def switchGameplayView(self, viewType: GameplayViewType):
         if self.__activeViewType == viewType:
@@ -121,3 +106,6 @@ class GameplayViewManager:
 
     def getMapView(self) -> MapView:
         return self.__mapView
+
+    def getSendTroopsView(self) -> SendTroopsView:
+        return self.__sendTroopsView

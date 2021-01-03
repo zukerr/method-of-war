@@ -5,6 +5,7 @@ from method_of_war.ui import global_gameplay_view_manager
 from method_of_war.ui import global_persistent_view_manager
 from method_of_war.core.game_timer import GameTimer
 import time
+from method_of_war.core.levels.game_level_1 import *
 
 pygame.init()
 
@@ -25,7 +26,9 @@ gameTimer = GameTimer()
 gameRealTime: float = 0
 realTimeStartingSeconds: float = time.time()
 
-playersSettlement = PlayerSettlement()
+# playersSettlement = PlayerSettlement()
+level_1 = GameLevel1()
+level_1.setupGameLevel()
 
 run = True
 while run:

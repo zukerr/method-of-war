@@ -31,7 +31,7 @@ class UnitsView(View):
         # element bg
         border_rect.draw(self._window, (0, 0, 0), (997, self.__currentY, 283, 24), 1, borderDefaultColor)
         # element icon
-        border_rect.draw(self._window, iconTempColor, (1000, self.__currentY + 3, 18, 18), 1, borderDefaultColor)
+        border_rect.draw(self._window, unitColorDict[unitName], (1000, self.__currentY + 3, 18, 18), 1, borderDefaultColor)
         # setup font
         elementFont = pygame.font.SysFont('Arial', 14)
         # unit quantity

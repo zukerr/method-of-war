@@ -24,13 +24,15 @@ class MapNode:
         NodeType.ENEMY: (81, 17, 0)
     }
     __button: button.Button = None
+    buttonListener = lambda: None
 
-    def __init__(self, x: int, y: int, nodeType: NodeType):
+    def __init__(self, x: int, y: int, nodeType: NodeType, buttonListener=lambda: None):
         self.__x = x
         self.__y = y
         self.__nodeType = nodeType
         self.__color = self.__colorsDict[self.__nodeType]
         self.__highlightColor = self.__highlightColorsDict[self.__nodeType]
+        self.buttonListener = buttonListener
 
     def getColor(self) -> (int, int, int):
         return self.__color
@@ -84,7 +86,8 @@ class MapView(View):
 
         nodeButton = button.Button(self._window, mapNode.getColor(), nodeTransform, 1, borderDefaultColor,
                                    highlightColor=mapNode.getHighlightColor())
-        nodeButton.addListener(lambda: print("just clicked (" + str(mapNode.getX()) + ", " + str(mapNode.getY()) + ")"))
+        # nodeButton.addListener(lambda: print("just clicked (" + str(mapNode.getX()) + ", " + str(mapNode.getY()) + ")"))
+        nodeButton.addListener(mapNode.buttonListener)
         nodeButton.draw()
         mapNode.setButton(nodeButton)
 
@@ -93,13 +96,14 @@ class MapView(View):
             for j in range(4):
                 self.__drawNode(self.__grid[i][j])
 
-    def setNode(self, x: int, y: int, nodeType: NodeType, drawImmediately: bool = True):
+    def setNode(self, x: int, y: int, nodeType: NodeType,
+                drawImmediately: bool = True, nodeButtonListener=lambda: None):
         previousNode = self.__grid[x][y]
         if previousNode is not None:
             if previousNode.getButton() is not None:
                 previousNode.getButton().setInteractive(False)
                 previousNode.getButton().setReadyForDelete()
-        self.__grid[x][y] = MapNode(x, y, nodeType)
+        self.__grid[x][y] = MapNode(x, y, nodeType, nodeButtonListener)
         if drawImmediately:
             self.drawView()
 
