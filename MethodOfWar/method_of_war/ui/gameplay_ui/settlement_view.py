@@ -40,9 +40,11 @@ class SettlementView(View):
         levelIndicatorTransform = (transform[0], levelIndicatorY, levelIndicatorWidth, levelIndicatorWidth)
 
         def addedDraw():
-            border_rect.draw(self._window, levelIndicatorColor, levelIndicatorTransform, 1, levelIndicatorBorderColor)
-            textSurface = getDefaultFont().render(str(buildingLevel), True, (255, 255, 255))
-            self._window.blit(textSurface, (transform[0] + 11, levelIndicatorY + 5))
+            # TEMPORARILY TURN OFF LEVEL INDICATORS
+            # border_rect.draw(self._window, levelIndicatorColor, levelIndicatorTransform, 1, levelIndicatorBorderColor)
+            # textSurface = getDefaultFont().render(str(buildingLevel), True, (255, 255, 255))
+            # self._window.blit(textSurface, (transform[0] + 11, levelIndicatorY + 5))
+            pass
 
         buildingButton = button.Button(self._window, buildingColor, transform, borderWidth, buildingBorderColor,
                                        addedDraw=addedDraw)
