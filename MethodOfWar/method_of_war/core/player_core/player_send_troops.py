@@ -7,7 +7,7 @@ class PlayerSendTroops(SendTroops):
     def __init__(self, fromSettlement, toSettlement):
         super().__init__(fromSettlement, toSettlement)
         global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateTargetLocation(self._targetString)
-        global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateOwnerName(self._ownerName)
+        global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateOwnerName(self._targetOwnerName)
         global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateResetAllListener(self._resetAll)
         global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateSendAttackListener(self._sendAttack)
         self.__drawView()

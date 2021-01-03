@@ -1,3 +1,4 @@
+from method_of_war.core.attacks.troop_movements import TroopMovements
 from method_of_war.core.buildings.barracks import Barracks
 from method_of_war.core.units.unit_models.a_unit import Unit
 from mini_engine.game_machine.a_mono_behaviour import *
@@ -16,6 +17,8 @@ class Settlement(MonoBehaviour):
     _quarry: ProductionBuilding
     _mine: ProductionBuilding
     _barracks: Barracks
+
+    _troopMovements: TroopMovements
 
     _buildingsList: List[Building] = []
     _stationingUnitsDict = {
@@ -83,3 +86,9 @@ class Settlement(MonoBehaviour):
 
     def getLocation(self) -> (int, int):
         return self.__location
+
+    def getLocationStr(self) -> str:
+        return "(" + str(self.__location[0]) + ", " + str(self.__location[1]) + ")"
+
+    def getTroopMovements(self) -> TroopMovements:
+        return self._troopMovements

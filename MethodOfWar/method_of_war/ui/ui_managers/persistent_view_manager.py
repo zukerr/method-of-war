@@ -44,3 +44,6 @@ class PersistentViewManager:
 
     def getUnits(self) -> UnitsView:
         return self.__unitsView
+
+    def getTroopMovements(self) -> TroopMovementsView:
+        return self.__troopMovementsView

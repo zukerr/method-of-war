@@ -48,7 +48,7 @@ class ProductionBuilding(Building):
 
     def setupUpgradeRequirements(self):
         for i in range(self._maxLevel):
-            tempValue = i*i + i + 50
+            tempValue = i*i + i + 20
             self._upgradeRequirementsList.append(ResourcesRequirementModel(tempValue, tempValue, tempValue, i + 5))
 
     def setupMaxLvl(self):

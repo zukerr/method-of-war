@@ -1,3 +1,4 @@
+from method_of_war.core.player_core.player_troop_movements import PlayerTroopMovements
 from method_of_war.core.settlement import *
 from method_of_war.core.player_core.player_city_hall import *
 from method_of_war.core.player_core.player_barracks import *
@@ -30,6 +31,8 @@ class PlayerSettlement(Settlement):
         self._buildingsList.append(self._barracks)
 
         self._cityHall.setupAvailableBuildings()
+
+        self._troopMovements = PlayerTroopMovements()
 
     def addStationingUnit(self, unit: Unit, quantity: int = 1):
         super().addStationingUnit(unit, quantity)

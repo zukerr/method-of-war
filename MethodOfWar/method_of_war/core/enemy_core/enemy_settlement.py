@@ -33,3 +33,5 @@ class EnemySettlement(Settlement):
         self._buildingsList.append(self._barracks)
 
         self._cityHall.setupAvailableBuildings()
+
+        self._troopMovements = TroopMovements()

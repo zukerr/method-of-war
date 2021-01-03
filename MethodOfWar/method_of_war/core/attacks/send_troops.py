@@ -1,26 +1,30 @@
 from typing import List
 from method_of_war.ui.gameplay_ui.map.send_troops_table_list_view import SendTroopsElement
+from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementElement
 from method_of_war.ui.ui_global import *
+from method_of_war.enums.attack_size import AttackSize
 
 
 class SendTroops:
-    __settlement = None
+    __fromSettlement = None
+    __toSettlement = None
     __currentUnitsToBeSentDict: dict
     __maxUnitsDict: dict
     _elementList: List[SendTroopsElement] = []
     _targetString: str
-    _ownerName: str
+    _targetOwnerName: str
 
     def __init__(self, fromSettlement, toSettlement):
         self._elementList = []
-        self.__settlement = fromSettlement
+        self.__fromSettlement = fromSettlement
+        self.__toSettlement = toSettlement
         self.__setupCurrentUnits()
-        self._ownerName = toSettlement.getOwnerName()
+        self._targetOwnerName = toSettlement.getOwnerName()
         self._targetString = "(" + str(toSettlement.getLocation()[0]) + ", " + str(toSettlement.getLocation()[1]) + ")"
         self._setupElementList()
 
     def __setupCurrentUnits(self):
-        self.__currentUnitsToBeSentDict = dict(self.__settlement.getStationingUnitsDict())
+        self.__currentUnitsToBeSentDict = dict(self.__fromSettlement.getStationingUnitsDict())
         self.__maxUnitsDict = dict(self.__currentUnitsToBeSentDict)
         keysList = list(self.__currentUnitsToBeSentDict.keys())
         for key in keysList:
@@ -67,12 +71,41 @@ class SendTroops:
     def _resetAll(self):
         keysList = list(self.__currentUnitsToBeSentDict.keys())
         for key in keysList:
-            self.__resetCurrentUnit(key)
+            self.__currentUnitsToBeSentDict[key] = 0
         self._setupElementList()
 
     # TO-DO
     def _sendAttack(self):
         # add new element to troop movements
-        # self.__settlement....
+        # determine attack size
+        unitsCount: int = 0
+        keysList = list(self.__currentUnitsToBeSentDict.keys())
+        for key in keysList:
+            unitsCount += self.__currentUnitsToBeSentDict[key]
+        attackSize: AttackSize
+        if unitsCount > 10:
+            attackSize = AttackSize.BIG
+        elif unitsCount < 5:
+            attackSize = AttackSize.SMALL
+        else:
+            attackSize = AttackSize.MIDSIZED
+        # determine if attacks come from an enemy
+        fromEnemy = self._targetOwnerName == "Player"
+
+        self.__fromSettlement.getTroopMovements().addElementToQueue(TroopMovementElement(
+            attackSize=attackSize,
+            fromEnemy=fromEnemy,
+            attackingSettlement=self.__fromSettlement.getOwnerName() + " " + self.__fromSettlement.getLocationStr(),
+            defendingSettlement=self.__toSettlement.getOwnerName() + " " + self.__toSettlement.getLocationStr(),
+            # temporary
+            secondsToBattle=15,
+            realTimeToFinish=15,
+            attackingArmy=self.__currentUnitsToBeSentDict,
+            defendingArmy=self.__toSettlement.getStationingUnitsDict()
+        ))
+        keysList = list(self.__currentUnitsToBeSentDict.keys())
+        for key in keysList:
+            self.__fromSettlement.getStationingUnitsDict()[key] -= self.__currentUnitsToBeSentDict[key]
+        self.__setupCurrentUnits()
+        self._setupElementList()
         print("Just sent an attack.")
-        pass
