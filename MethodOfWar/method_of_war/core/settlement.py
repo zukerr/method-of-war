@@ -1,5 +1,6 @@
 from method_of_war.core.attacks.troop_movements import TroopMovements
 from method_of_war.core.buildings.barracks import Barracks
+from method_of_war.core.reports.reports import Reports
 from method_of_war.core.units.unit_models.a_unit import Unit
 from mini_engine.game_machine.a_mono_behaviour import *
 from method_of_war.core.buildings.warehouse import *
@@ -20,6 +21,7 @@ class Settlement(MonoBehaviour):
     _barracks: Barracks
 
     _troopMovements: TroopMovements
+    _reports: Reports
 
     _buildingsList: List[Building] = []
     _stationingUnitsDict = {
@@ -46,6 +48,19 @@ class Settlement(MonoBehaviour):
         self.__location = location
         self.__stationingUnitsList = []
         self._buildingsList = []
+        self._stationingUnitsDict = {
+            "Warrior": 0,
+            "Paladin": 0,
+            "Rogue": 0,
+            "Hunter": 0,
+            "Mage": 0,
+            "Priest": 0,
+            "Warlock": 0,
+            "Shaman": 0,
+            "Death Knight": 0,
+            "Druid": 0,
+            "Monk": 0
+        }
 
     def start(self):
         pass
@@ -112,3 +127,6 @@ class Settlement(MonoBehaviour):
 
     def getTroopMovements(self) -> TroopMovements:
         return self._troopMovements
+
+    def getReports(self) -> Reports:
+        return self._reports

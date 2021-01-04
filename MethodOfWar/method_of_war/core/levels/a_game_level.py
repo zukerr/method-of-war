@@ -11,6 +11,7 @@ class GameLevel(ABC):
     _enemySettlements: List[Settlement] = []
 
     def setupGameLevel(self):
+        self._enemySettlements = []
         self._setupSettlements()
         self._setupMap()
 

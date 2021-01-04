@@ -1,6 +1,6 @@
 from method_of_war.ui.gameplay_ui.settlement_view import *
 from method_of_war.ui.gameplay_ui.map.map_view import *
-from method_of_war.ui.gameplay_ui.reports_view import *
+from method_of_war.ui.gameplay_ui.reports.reports_view import *
 from method_of_war.enums.gameplay_view_type import *
 from method_of_war.ui.gameplay_ui.map.send_troops_view import *
 
@@ -43,8 +43,8 @@ class GameplayViewManager:
         #                                     "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 272))
         # TEST SECTION END
         # self.__setupMapView()
-        self.__setupReportsView()
-        self.__setupOverviewView()
+        # self.__setupReportsView()
+        # self.__setupOverviewView()
 
     def switchGameplayView(self, viewType: GameplayViewType):
         if self.__activeViewType == viewType:
@@ -76,14 +76,15 @@ class GameplayViewManager:
 
     def __setupReportsView(self):
         # test values
-        self.__reportsView.addElement(ReportElement(BattleResult.POSITIVE, AttackSize.MIDSIZED,
-                                                    "Player", "Stormwind", "Orgrimmar", (1, 2), (3, 1), 412), False)
-        self.__reportsView.addElement(ReportElement(BattleResult.NEUTRAL, AttackSize.SMALL,
-                                                    "Player", "Stormwind", "Orgrimmar", (1, 2), (3, 1), 351), False)
-        self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
-                                                    "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 289), False)
-        self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
-                                                    "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 272), False)
+        # self.__reportsView.addElement(ReportElement(BattleResult.POSITIVE, AttackSize.MIDSIZED,
+        #                                             "Player", "Stormwind", "Orgrimmar", (1, 2), (3, 1), 412), False)
+        # self.__reportsView.addElement(ReportElement(BattleResult.NEUTRAL, AttackSize.SMALL,
+        #                                             "Player", "Stormwind", "Orgrimmar", (1, 2), (3, 1), 351), False)
+        # self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
+        #                                             "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 289), False)
+        # self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
+        #                                             "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 272), False)
+        pass
 
     def __setupOverviewView(self):
         pass
@@ -104,8 +105,14 @@ class GameplayViewManager:
     def isBarracksViewActive(self) -> bool:
         return self.__activeViewType == GameplayViewType.BARRACKS
 
+    def isReportsViewActive(self) -> bool:
+        return self.__activeViewType == GameplayViewType.REPORTS
+
     def getMapView(self) -> MapView:
         return self.__mapView
 
     def getSendTroopsView(self) -> SendTroopsView:
         return self.__sendTroopsView
+
+    def getReportsView(self) -> ReportsView:
+        return self.__reportsView

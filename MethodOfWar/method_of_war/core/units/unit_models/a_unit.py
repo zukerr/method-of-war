@@ -36,8 +36,7 @@ class Unit(ABC):
             self.__isDead = True
 
     def dealDamageToOther(self, target):
-        if target is not None:
-            target.getDamage(self.__attackDamage)
+        target.getDamage(self.__attackDamage)
 
     def getResourceRequirement(self) -> ResourcesRequirementModel:
         return self.__resourceRequirement

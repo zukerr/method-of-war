@@ -121,7 +121,11 @@ class SendTroops:
             secondsToBattle=int(timeToBattle),
             realTimeToFinish=timeToBattle,
             attackingArmy=self.__currentUnitsToBeSentDict,
-            defendingArmy=self.__toSettlement.getStationingUnitsDict()
+            defendingArmy=self.__toSettlement.getStationingUnitsDict(),
+            attackingPlayer=self.__fromSettlement.getOwnerName(),
+            defendingPlayer=self.__toSettlement.getOwnerName(),
+            attackingSettlementLocation=self.__fromSettlement.getLocation(),
+            defendingSettlementLocation=self.__toSettlement.getLocation()
         ))
         for key in keysList:
             self.__fromSettlement.removeStationingUnit(key, self.__currentUnitsToBeSentDict[key])

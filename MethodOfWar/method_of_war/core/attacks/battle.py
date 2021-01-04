@@ -1,3 +1,4 @@
+from method_of_war.enums.battle_result import BattleResult
 from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementElement
 from method_of_war.core.units.unit_models.unit_factory import MakeUnit
 from method_of_war.core.units.unit_models.a_unit import *
@@ -9,11 +10,18 @@ class Battle:
     __troopMovementElement: TroopMovementElement
     __initialRangedExchangeIterations: int = 3
 
+    __initialAttackingArmy: dict
+    __initialDefendingArmy: dict
+    __attackingLosses: dict
+    __defendingLosses: dict
+
     def __init__(self, troopMovementElement: TroopMovementElement):
         self.__troopMovementElement = troopMovementElement
         self.__calculateBattle(self.__troopMovementElement.attackingArmy, self.__troopMovementElement.defendingArmy)
 
     def __calculateBattle(self, attackingArmy: dict, defendingArmy: dict):
+        self.__initialAttackingArmy = dict(attackingArmy)
+        self.__initialDefendingArmy = dict(defendingArmy)
         attackingArmyUnitList = self.__getListOfUnitsFromDict(attackingArmy)
         defendingArmyUnitList = self.__getListOfUnitsFromDict(defendingArmy)
 
@@ -34,6 +42,10 @@ class Battle:
 
         # full blown combat
         while (len(attackingArmyUnitList) > 0) and (len(defendingArmyUnitList) > 0):
+            # print("Attacking units:")
+            # print(len(attackingArmyUnitList))
+            # print("Defending units:")
+            # print(len(defendingArmyUnitList))
             rangedAttackers = self.__getAllRangedFromUnitList(attackingArmyUnitList)
             rangedDefenders = self.__getAllRangedFromUnitList(defendingArmyUnitList)
             meleeAttackers = self.__getAllMeleeFromUnitList(attackingArmyUnitList)
@@ -72,6 +84,10 @@ class Battle:
             attackingArmy[key] = len(self.__getAllUnitsWithNameFromList(attackingArmyUnitList, key))
             defendingArmy[key] = len(self.__getAllUnitsWithNameFromList(defendingArmyUnitList, key))
 
+        # count losses
+        self.__attackingLosses = self.__getArmyLosses(self.__initialAttackingArmy, attackingArmy)
+        self.__defendingLosses = self.__getArmyLosses(self.__initialDefendingArmy, defendingArmy)
+
     def __getListOfUnitsFromDict(self, army: dict) -> List[Unit]:
         resultList = []
         keyList = list(army.keys())
@@ -105,4 +121,47 @@ class Battle:
         return filteredList
 
     def __getRandomListElement(self, targetList: List):
-        return random.randrange(len(targetList))
+        return targetList[random.randrange(len(targetList))]
+
+    def attackingArmyWon(self) -> bool:
+        keyList = list(self.__troopMovementElement.attackingArmy.keys())
+        attackingUnitsCount: int = 0
+        for key in keyList:
+            attackingUnitsCount += self.__troopMovementElement.attackingArmy[key]
+        if attackingUnitsCount > 0:
+            return True
+        else:
+            return False
+
+    def getBattleResult(self) -> BattleResult:
+        keyList = list(self.__troopMovementElement.attackingArmy.keys())
+        attackingUnitsCount: int = 0
+        defendingUnitsCount: int = 0
+        for key in keyList:
+            attackingUnitsCount += self.__troopMovementElement.attackingArmy[key]
+            defendingUnitsCount += self.__troopMovementElement.defendingArmy[key]
+        if attackingUnitsCount > 0 >= defendingUnitsCount:
+            return BattleResult.POSITIVE
+        elif attackingUnitsCount <= 0 < defendingUnitsCount:
+            return BattleResult.NEGATIVE
+        else:
+            return BattleResult.NEUTRAL
+
+    def __getArmyLosses(self, armyBefore: dict, armyAfter: dict):
+        resultDict = dict(armyBefore)
+        keyList = list(resultDict.keys())
+        for key in keyList:
+            resultDict[key] = armyBefore[key] - armyAfter[key]
+        return resultDict
+
+    def getInitialAttackingArmy(self) -> dict:
+        return self.__initialAttackingArmy
+
+    def getInitialDefendingArmy(self) -> dict:
+        return self.__initialDefendingArmy
+
+    def getAttackingLosses(self) -> dict:
+        return self.__attackingLosses
+
+    def getDefendingLosses(self) -> dict:
+        return self.__defendingLosses
