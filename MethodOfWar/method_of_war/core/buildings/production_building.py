@@ -37,8 +37,8 @@ class ProductionBuilding(Building):
     __oldTime: float
 
     def __init__(self, startingLevel: int, resourceType: ResourceType, warehouse: Warehouse):
-        super().__init__(startingLevel)
         self._resourceType = resourceType
+        super().__init__(startingLevel)
         self.setupNameModded()
         self._currentProductionPerMinute = self._productionPerMinuteDict[self._level]
         self.__warehouse = warehouse
@@ -50,7 +50,19 @@ class ProductionBuilding(Building):
     def setupUpgradeRequirements(self):
         for i in range(self._maxLevel):
             tempValue = i*i + i + 20
-            self._upgradeRequirementsList.append(ResourcesRequirementModel(tempValue, tempValue, tempValue, i + 5))
+            if self._resourceType == ResourceType.WOOD:
+                woodValue = tempValue - 5
+                graniteValue = tempValue - 2
+                ironValue = tempValue + 6
+            elif self._resourceType == ResourceType.GRANITE:
+                woodValue = tempValue + 7
+                graniteValue = tempValue - 4
+                ironValue = tempValue + 1
+            else:
+                woodValue = tempValue + 12
+                graniteValue = tempValue - 8
+                ironValue = tempValue - 2
+            self._upgradeRequirementsList.append(ResourcesRequirementModel(woodValue, graniteValue, ironValue, i + 5))
 
     def setupMaxLvl(self):
         self._maxLevel = 20

@@ -2,7 +2,6 @@ import pygame
 from method_of_war.enums.attack_size import *
 from method_of_war.enums.battle_result import *
 
-
 # default elements
 borderDefaultColor = (112, 112, 112)
 iconTempColor = (0, 80, 80)

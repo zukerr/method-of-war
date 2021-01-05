@@ -5,6 +5,7 @@ from method_of_war.core.units.unit_models.a_unit import *
 from typing import List
 from typing import Optional
 import random
+from method_of_war.core.attacks import global_battles
 
 
 class Battle:
@@ -18,7 +19,17 @@ class Battle:
 
     def __init__(self, troopMovementElement: TroopMovementElement):
         self.__troopMovementElement = troopMovementElement
-        self.__calculateBattle(self.__troopMovementElement.attackingArmy, self.__troopMovementElement.defendingArmy)
+        if global_battles.globalBattleId != self.__troopMovementElement.elemId:
+            self.__calculateBattle(self.__troopMovementElement.attackingArmy, self.__troopMovementElement.defendingArmy)
+            global_battles.globalBattleId = self.__troopMovementElement.elemId
+            global_battles.globalBattleList.append(self)
+        else:
+            correspondingBattle = global_battles.globalBattleList[len(global_battles.globalBattleList) - 1]
+            self.__troopMovementElement = correspondingBattle.__troopMovementElement
+            self.__initialAttackingArmy = correspondingBattle.__initialAttackingArmy
+            self.__initialDefendingArmy = correspondingBattle.__initialDefendingArmy
+            self.__attackingLosses = correspondingBattle.__attackingLosses
+            self.__defendingLosses = correspondingBattle.__defendingLosses
 
     def __calculateBattle(self, attackingArmy: dict, defendingArmy: dict):
         self.__initialAttackingArmy = dict(attackingArmy)
@@ -168,6 +179,12 @@ class Battle:
             return True
         else:
             return False
+
+    def playerAttackedAndLost(self) -> bool:
+        if not self.attackingArmyWon():
+            if self.__troopMovementElement.attackingPlayer == "Player":
+                return True
+        return False
 
     def getBattleResult(self) -> BattleResult:
         keyList = list(self.__troopMovementElement.attackingArmy.keys())

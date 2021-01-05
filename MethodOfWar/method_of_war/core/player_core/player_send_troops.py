@@ -9,7 +9,7 @@ class PlayerSendTroops(SendTroops):
         global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateTargetLocation(self._targetString)
         global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateOwnerName(self._targetOwnerName)
         global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateResetAllListener(self._resetAll)
-        global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateSendAttackListener(self._sendAttack)
+        global_gameplay_view_manager.globalGameplayViewManager.getSendTroopsView().updateSendAttackListener(self.sendAttack)
         self.__drawView()
 
     def _setupElementList(self):

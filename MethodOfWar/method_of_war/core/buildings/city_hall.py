@@ -61,7 +61,7 @@ class CityHall(Building, PassingTimeAwareMonoBehaviour):
     def setupUpgradeRequirements(self):
         for i in range(self._maxLevel):
             tempValue = (((i * i * i) + i + 11) * 2) - 5
-            self._upgradeRequirementsList.append(ResourcesRequirementModel(tempValue, tempValue, tempValue, i + 6))
+            self._upgradeRequirementsList.append(ResourcesRequirementModel(tempValue + 3, tempValue + 10, tempValue - 2, i + 6))
 
     # queue
     def addUpgradeToQueue(self, building: Building):

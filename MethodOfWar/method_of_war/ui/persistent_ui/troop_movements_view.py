@@ -6,6 +6,7 @@ from mini_engine.ui.a_list_view import *
 from typing import List
 from method_of_war.enums.attack_size import *
 from mini_engine.util.extensions import *
+from method_of_war.ui import ui_global
 
 
 class TroopMovementElement:
@@ -23,12 +24,13 @@ class TroopMovementElement:
     defendingPlayer: str
     attackingSettlementLocation: (int, int)
     defendingSettlementLocation: (int, int)
+    elemId: int
 
     def __init__(self, attackSize: AttackSize, fromEnemy: bool, attackingSettlement: str, defendingSettlement: str,
                  secondsToBattle: int, realTimeToFinish: float = 0, attackingArmy: dict = None,
                  defendingArmy: dict = None, isRetreating: bool = False, attackingPlayer: str = "",
                  defendingPlayer: str = "", attackingSettlementLocation: (int, int) = (-1, -1),
-                 defendingSettlementLocation: (int, int) = (-1, -1)):
+                 defendingSettlementLocation: (int, int) = (-1, -1), elemId: int = 0):
         if defendingArmy is None:
             defendingArmy = {}
         if attackingArmy is None:
@@ -47,10 +49,31 @@ class TroopMovementElement:
         self.defendingPlayer = defendingPlayer
         self.attackingSettlementLocation = attackingSettlementLocation
         self.defendingSettlementLocation = defendingSettlementLocation
+        self.elemId = elemId
 
     def modifyRealTimeToFinish(self, newValue: float):
         self.realTimeToFinish = newValue
         self.secondsToBattle = int(self.realTimeToFinish)
+
+    def getCopy(self):
+        copy = TroopMovementElement(
+            self.attackSize,
+            self.fromEnemy,
+            self.attackingSettlement,
+            self.defendingSettlement,
+            self.secondsToBattle,
+            self.realTimeToFinish,
+            self.attackingArmy,
+            self.defendingArmy,
+            self.isRetreating,
+            self.attackingPlayer,
+            self.defendingPlayer,
+            self.attackingSettlementLocation,
+            self.defendingSettlementLocation,
+            self.elemId
+        )
+        copy.originalRealTimeToFinish = self.originalRealTimeToFinish
+        return copy
 
 
 class TroopMovementsView(ListView):

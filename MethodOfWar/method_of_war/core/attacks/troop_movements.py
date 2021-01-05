@@ -6,6 +6,7 @@ from method_of_war.ui.gameplay_ui.reports.reports_list_view import ReportElement
 from typing import List
 from method_of_war.core.attacks.battle import *
 from method_of_war.enums.battle_result import BattleResult
+from method_of_war.core.levels import global_level
 
 
 class TroopMovements(PassingTimeAwareMonoBehaviour):
@@ -58,7 +59,7 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                     attackingArmyLossesDict=battle.getAttackingLosses(),
                     defendingArmyLossesDict=battle.getDefendingLosses(),
                     buttonListener=self.reportButtonListener,
-                    isFailedAttack=not battle.attackingArmyWon()
+                    isFailedAttack=battle.playerAttackedAndLost()
                 ))
                 # army comes back home - add retreating element
                 if battle.attackingArmyWon():
@@ -71,10 +72,12 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                         elem.originalRealTimeToFinish,
                         attackingArmy=elem.attackingArmy,
                         defendingArmy=elem.defendingArmy,
-                        isRetreating=True
+                        isRetreating=True,
+                        attackingSettlementLocation=elem.attackingSettlementLocation,
+                        defendingSettlementLocation=elem.defendingSettlementLocation
                     ))
             else:
-                self.__rootSettlement.addStationingUnitsFromDict(elem.attackingArmy)
+                global_level.getSettlementByPosition(elem.attackingSettlementLocation).addStationingUnitsFromDict(elem.attackingArmy)
 
     # overridden from MonoBehaviour
     def updateOnRealTime(self, realTime: float):

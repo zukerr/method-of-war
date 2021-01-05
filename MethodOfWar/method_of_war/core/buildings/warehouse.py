@@ -42,7 +42,7 @@ class Warehouse(Building):
     def setupUpgradeRequirements(self):
         for i in range(self._maxLevel):
             tempValue = i*i + (2*i) + 23
-            self._upgradeRequirementsList.append(ResourcesRequirementModel(tempValue, tempValue, tempValue, i + 5))
+            self._upgradeRequirementsList.append(ResourcesRequirementModel(tempValue + 5, tempValue + 5, tempValue, i + 5))
 
     def gainWood(self, value: float):
         self._currentWood += value

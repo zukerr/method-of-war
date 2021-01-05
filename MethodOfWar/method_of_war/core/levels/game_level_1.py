@@ -5,15 +5,25 @@ from method_of_war.enums.map_node_type import NodeType
 from method_of_war.ui import global_gameplay_view_manager
 from method_of_war.core.settlement import Settlement
 from method_of_war.core.enemy_core.enemy_settlement import *
+from method_of_war.core.attacks.send_troops import SendTroops
+from mini_engine.util.extensions import *
+from method_of_war.core.levels import global_level
 
 
 class GameLevel1(GameLevel):
     def _setupSettlements(self):
         self._playerSettlement = PlayerSettlement("Player", (1, 2))
+        global_level.globalSettlementsList.append(self._playerSettlement)
         self._enemySettlements.append(EnemySettlement("Thrall", (3, 1)))
+        global_level.globalSettlementsList.append(self._enemySettlements[0])
+
+        # ai elements
         # add units to enemy settlement to test combat
         self._enemySettlements[0].addStationingUnit(Warrior(), 20)
         print("Players units:")
         print(self._playerSettlement.getStationingUnitsDict())
         print("Enemy units:")
         print(self._enemySettlements[0].getStationingUnitsDict())
+        enemyAttack1 = SendTroops(self._enemySettlements[0], self._playerSettlement)
+        enemyAttack1.addCurrentUnit("Warrior", 10)
+        invoke(enemyAttack1.sendAttack, 10)

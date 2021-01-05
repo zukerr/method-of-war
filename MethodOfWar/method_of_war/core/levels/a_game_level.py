@@ -4,6 +4,7 @@ from method_of_war.enums.gameplay_view_type import GameplayViewType
 from method_of_war.enums.map_node_type import NodeType
 from method_of_war.ui import global_gameplay_view_manager
 from method_of_war.core.settlement import *
+from method_of_war.core.attacks import global_battles
 
 
 class GameLevel(ABC):
@@ -11,6 +12,7 @@ class GameLevel(ABC):
     _enemySettlements: List[Settlement] = []
 
     def setupGameLevel(self):
+        global_battles.globalBattleList = []
         self._enemySettlements = []
         self._setupSettlements()
         self._setupMap()

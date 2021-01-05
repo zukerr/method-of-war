@@ -92,7 +92,8 @@ class Settlement(MonoBehaviour):
 
     def addStationingUnit(self, unit: Unit, quantity: int = 1):
         if unit is not None:
-            self.__stationingUnitsList.append(unit)
+            for i in range(quantity):
+                self.__stationingUnitsList.append(unit)
             self._stationingUnitsDict[unit.getName()] += quantity
 
     def addStationingUnitsFromDict(self, inputUnitDict: dict):
@@ -107,6 +108,9 @@ class Settlement(MonoBehaviour):
         if quantity > self._stationingUnitsDict[unitName]:
             return
         self._stationingUnitsDict[unitName] -= quantity
+        print("stationing units in " + self.__ownerName + ": ")
+        print(self._stationingUnitsDict)
+        print(self.__stationingUnitsList)
         for i in range(quantity):
             self.__stationingUnitsList.remove(self.findStationingUnitInListByName(unitName))
 

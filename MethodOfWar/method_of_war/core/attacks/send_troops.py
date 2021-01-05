@@ -6,6 +6,8 @@ from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementEle
 from method_of_war.ui.ui_global import *
 from method_of_war.enums.attack_size import AttackSize
 from mini_engine.util.vector2 import Vector2
+from method_of_war.ui import ui_global
+from method_of_war.core.attacks import global_battles
 
 
 class SendTroops:
@@ -45,14 +47,14 @@ class SendTroops:
         self._elementList.append(SendTroopsElement(unitColorDict[key],
                                                    self.__maxUnitsDict[key],
                                                    self.__currentUnitsToBeSentDict[key],
-                                                   lambda: self.__addCurrentUnit(key, 1),
-                                                   lambda: self.__addCurrentUnit(key, 5),
+                                                   lambda: self.addCurrentUnit(key, 1),
+                                                   lambda: self.addCurrentUnit(key, 5),
                                                    lambda: self.__removeCurrentUnit(key, 1),
                                                    lambda: self.__removeCurrentUnit(key, 5),
                                                    lambda: self.__addAllToCurrentUnit(key),
                                                    lambda: self.__resetCurrentUnit(key)))
 
-    def __addCurrentUnit(self, name: str, quantity: int):
+    def addCurrentUnit(self, name: str, quantity: int):
         self.__currentUnitsToBeSentDict[name] += quantity
         if self.__currentUnitsToBeSentDict[name] > self.__maxUnitsDict[name]:
             self.__currentUnitsToBeSentDict[name] = self.__maxUnitsDict[name]
@@ -80,7 +82,7 @@ class SendTroops:
         self._setupElementList()
 
     # TO-DO
-    def _sendAttack(self):
+    def sendAttack(self):
         # add new element to troop movements
 
         # determine attack size
@@ -113,7 +115,7 @@ class SendTroops:
         distanceBetweenSettlements = fromVector.distanceFrom(toVector)
         timeToBattle: float = distanceBetweenSettlements / minMovementSpeed
 
-        self.__fromSettlement.getTroopMovements().addElementToQueue(TroopMovementElement(
+        troopMovementElement = TroopMovementElement(
             attackSize=attackSize,
             fromEnemy=fromEnemy,
             attackingSettlement=self.__fromSettlement.getOwnerName() + " " + self.__fromSettlement.getLocationStr(),
@@ -125,8 +127,13 @@ class SendTroops:
             attackingPlayer=self.__fromSettlement.getOwnerName(),
             defendingPlayer=self.__toSettlement.getOwnerName(),
             attackingSettlementLocation=self.__fromSettlement.getLocation(),
-            defendingSettlementLocation=self.__toSettlement.getLocation()
-        ))
+            defendingSettlementLocation=self.__toSettlement.getLocation(),
+            elemId=global_battles.troopMovementIdIter
+        )
+        self.__fromSettlement.getTroopMovements().addElementToQueue(troopMovementElement)
+        self.__toSettlement.getTroopMovements().addElementToQueue(troopMovementElement.getCopy())
+        global_battles.troopMovementIdIter += 1
+
         for key in keysList:
             self.__fromSettlement.removeStationingUnit(key, self.__currentUnitsToBeSentDict[key])
         self.__setupCurrentUnits()
