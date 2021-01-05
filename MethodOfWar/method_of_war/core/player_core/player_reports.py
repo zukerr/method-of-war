@@ -1,6 +1,6 @@
 from method_of_war.core.reports.reports import Reports
 from method_of_war.ui import global_gameplay_view_manager
-from method_of_war.ui.gameplay_ui.reports.reports_view import ReportElement
+from method_of_war.ui.gameplay_ui.reports.reports_list_view import ReportElement
 
 
 class PlayerReports(Reports):

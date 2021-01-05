@@ -26,7 +26,8 @@ class ProductionBuilding(Building):
         17: 676,
         18: 729,
         19: 784,
-        20: 841
+        20: 841,
+        21: 0
     }
     _currentProductionPerMinute: int
     _resourceType: ResourceType

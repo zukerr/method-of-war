@@ -34,6 +34,7 @@ class ReportElement:
     lootedIron: int
     lootSummary: int
     lootingCapacity: int
+    isFailedAttack: bool
 
     def __init__(self,
                  battleResult: BattleResult,
@@ -53,7 +54,8 @@ class ReportElement:
                  lootedGranite: int = 0,
                  lootedIron: int = 0,
                  lootSummary: int = 0,
-                 lootingCapacity: int = 0):
+                 lootingCapacity: int = 0,
+                 isFailedAttack: bool = False):
         self.battleResult = battleResult
         self.attackSize = attackSize
         self.attackingPlayerName = attackingPlayerName
@@ -92,9 +94,10 @@ class ReportElement:
         self.lootedIron = lootedIron
         self.lootSummary = lootSummary
         self.lootingCapacity = lootingCapacity
+        self.isFailedAttack = isFailedAttack
 
 
-class ReportsView(ListView):
+class ReportsListView(ListView):
     __reportButtons: List[button.Button]
 
     def __init__(self, window):
@@ -124,7 +127,7 @@ class ReportsView(ListView):
 
         def onClick():
             print("Clicked a report!")
-            element.buttonListener(self)
+            element.buttonListener(element)
 
         reportButton = button.Button(self._window, grey44, transform, 1, borderDefaultColor, addedDraw=addedDraw)
         reportButton.addListener(onClick)

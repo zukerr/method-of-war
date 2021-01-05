@@ -12,7 +12,7 @@ class GameLevel1(GameLevel):
         self._playerSettlement = PlayerSettlement("Player", (1, 2))
         self._enemySettlements.append(EnemySettlement("Thrall", (3, 1)))
         # add units to enemy settlement to test combat
-        self._enemySettlements[0].addStationingUnit(Warrior(), 50)
+        self._enemySettlements[0].addStationingUnit(Warrior(), 20)
         print("Players units:")
         print(self._playerSettlement.getStationingUnitsDict())
         print("Enemy units:")

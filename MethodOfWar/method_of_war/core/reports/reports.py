@@ -1,4 +1,4 @@
-from method_of_war.ui.gameplay_ui.reports.reports_view import ReportElement
+from method_of_war.ui.gameplay_ui.reports.reports_list_view import ReportElement
 from typing import List
 
 

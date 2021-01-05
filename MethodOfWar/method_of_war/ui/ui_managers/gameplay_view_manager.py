@@ -1,8 +1,9 @@
 from method_of_war.ui.gameplay_ui.settlement_view import *
 from method_of_war.ui.gameplay_ui.map.map_view import *
-from method_of_war.ui.gameplay_ui.reports.reports_view import *
+from method_of_war.ui.gameplay_ui.reports.reports_list_view import *
 from method_of_war.enums.gameplay_view_type import *
 from method_of_war.ui.gameplay_ui.map.send_troops_view import *
+from method_of_war.ui.gameplay_ui.reports.report_details_view import *
 
 
 class GameplayViewManager:
@@ -11,9 +12,10 @@ class GameplayViewManager:
     __activeViewType: GameplayViewType
 
     __mapView: MapView
-    __reportsView: ReportsView
+    __reportsView: ReportsListView
     __overviewView: SettlementView
     __sendTroopsView: SendTroopsView
+    __reportDetailsView: ReportDetailsView
 
     def __init__(self, window):
         self.__mainWindow = window
@@ -23,8 +25,9 @@ class GameplayViewManager:
                                              preClickBuildingFunction=self.preClickBuildingView,
                                              postClickBuildingFunction=self.postClickBuildingView)
         self.__mapView = MapView(self.__mainWindow)
-        self.__reportsView = ReportsView(self.__mainWindow)
+        self.__reportsView = ReportsListView(self.__mainWindow)
         self.__sendTroopsView = SendTroopsView(self.__mainWindow)
+        self.__reportDetailsView = ReportDetailsView(self.__mainWindow)
 
         # draw views
         self.__overviewView.drawView()
@@ -114,5 +117,8 @@ class GameplayViewManager:
     def getSendTroopsView(self) -> SendTroopsView:
         return self.__sendTroopsView
 
-    def getReportsView(self) -> ReportsView:
+    def getReportsView(self) -> ReportsListView:
         return self.__reportsView
+
+    def getReportDetailsView(self) -> ReportDetailsView:
+        return self.__reportDetailsView

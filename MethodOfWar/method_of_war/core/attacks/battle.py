@@ -3,6 +3,7 @@ from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementEle
 from method_of_war.core.units.unit_models.unit_factory import MakeUnit
 from method_of_war.core.units.unit_models.a_unit import *
 from typing import List
+from typing import Optional
 import random
 
 
@@ -46,37 +47,41 @@ class Battle:
             # print(len(attackingArmyUnitList))
             # print("Defending units:")
             # print(len(defendingArmyUnitList))
+
             rangedAttackers = self.__getAllRangedFromUnitList(attackingArmyUnitList)
             rangedDefenders = self.__getAllRangedFromUnitList(defendingArmyUnitList)
             meleeAttackers = self.__getAllMeleeFromUnitList(attackingArmyUnitList)
             meleeDefenders = self.__getAllMeleeFromUnitList(defendingArmyUnitList)
 
-            meleeToRemove = []
-            for melee in meleeAttackers:
-                if not melee.getIsDead():
-                    target: Unit = self.__getRandomListElement(meleeDefenders)
-                    melee.dealDamageToOther(target)
+            self.__meleeDamageExchange(meleeAttackers,
+                                       meleeDefenders,
+                                       rangedDefenders,
+                                       attackingArmyUnitList,
+                                       defendingArmyUnitList)
+
+            rangedAttackers = self.__getAllRangedFromUnitList(attackingArmyUnitList)
+            rangedDefenders = self.__getAllRangedFromUnitList(defendingArmyUnitList)
+            meleeAttackers = self.__getAllMeleeFromUnitList(attackingArmyUnitList)
+            meleeDefenders = self.__getAllMeleeFromUnitList(defendingArmyUnitList)
+
+            self.__meleeDamageExchange(meleeDefenders,
+                                       meleeAttackers,
+                                       rangedAttackers,
+                                       defendingArmyUnitList,
+                                       attackingArmyUnitList)
+
+            for ranged in rangedAttackers:
+                if len(defendingArmyUnitList) > 0:
+                    target: Unit = self.__getRandomListElement(defendingArmyUnitList)
+                    ranged.dealDamageToOther(target)
                     if target.getIsDead():
                         defendingArmyUnitList.remove(target)
-                        meleeDefenders = self.__getAllMeleeFromUnitList(defendingArmyUnitList)
-                    else:
-                        # counter attack
-                        target.dealDamageToOther(melee)
-                        if melee.getIsDead():
-                            meleeToRemove.append(melee)
-            for elem in meleeToRemove:
-                attackingArmyUnitList.remove(elem)
-                meleeAttackers = self.__getAllMeleeFromUnitList(attackingArmyUnitList)
-            for ranged in rangedAttackers:
-                target: Unit = self.__getRandomListElement(defendingArmyUnitList)
-                ranged.dealDamageToOther(target)
-                if target.getIsDead():
-                    defendingArmyUnitList.remove(target)
             for ranged in rangedDefenders:
-                target = self.__getRandomListElement(attackingArmyUnitList)
-                ranged.dealDamageToOther(target)
-                if target.getIsDead():
-                    attackingArmyUnitList.remove(target)
+                if len(attackingArmyUnitList) > 0:
+                    target = self.__getRandomListElement(attackingArmyUnitList)
+                    ranged.dealDamageToOther(target)
+                    if target.getIsDead():
+                        attackingArmyUnitList.remove(target)
 
         # cleanup input dictionaries
         keyList = list(attackingArmy.keys())
@@ -87,6 +92,37 @@ class Battle:
         # count losses
         self.__attackingLosses = self.__getArmyLosses(self.__initialAttackingArmy, attackingArmy)
         self.__defendingLosses = self.__getArmyLosses(self.__initialDefendingArmy, defendingArmy)
+
+    def __meleeDamageExchange(self,
+                              meleeAttackers: List[Unit],
+                              meleeDefenders: List[Unit],
+                              rangedDefenders: List[Unit],
+                              attackingArmyUnitList: List[Unit],
+                              defendingArmyUnitList: List[Unit]):
+        meleeToRemove = []
+        for melee in meleeAttackers:
+            if not melee.getIsDead():
+                target: Optional[Unit]
+                if len(meleeDefenders) > 0:
+                    target = self.__getRandomListElement(meleeDefenders)
+                elif len(rangedDefenders) > 0:
+                    target = self.__getRandomListElement(rangedDefenders)
+                else:
+                    target = None
+                if target is not None:
+                    melee.dealDamageToOther(target)
+                    if target.getIsDead():
+                        if target in defendingArmyUnitList:
+                            defendingArmyUnitList.remove(target)
+                        meleeDefenders = self.__getAllMeleeFromUnitList(defendingArmyUnitList)
+                    else:
+                        # counter attack
+                        target.dealDamageToOther(melee)
+                        if melee.getIsDead():
+                            meleeToRemove.append(melee)
+        for elem in meleeToRemove:
+            attackingArmyUnitList.remove(elem)
+            meleeAttackers = self.__getAllMeleeFromUnitList(attackingArmyUnitList)
 
     def __getListOfUnitsFromDict(self, army: dict) -> List[Unit]:
         resultList = []
@@ -140,12 +176,20 @@ class Battle:
         for key in keyList:
             attackingUnitsCount += self.__troopMovementElement.attackingArmy[key]
             defendingUnitsCount += self.__troopMovementElement.defendingArmy[key]
-        if attackingUnitsCount > 0 >= defendingUnitsCount:
-            return BattleResult.POSITIVE
-        elif attackingUnitsCount <= 0 < defendingUnitsCount:
-            return BattleResult.NEGATIVE
+        if self.__troopMovementElement.attackingPlayer == "Player":
+            if attackingUnitsCount > 0 >= defendingUnitsCount:
+                return BattleResult.POSITIVE
+            elif attackingUnitsCount <= 0 < defendingUnitsCount:
+                return BattleResult.NEGATIVE
+            else:
+                return BattleResult.NEUTRAL
         else:
-            return BattleResult.NEUTRAL
+            if attackingUnitsCount > 0 >= defendingUnitsCount:
+                return BattleResult.NEGATIVE
+            elif attackingUnitsCount <= 0 < defendingUnitsCount:
+                return BattleResult.POSITIVE
+            else:
+                return BattleResult.NEUTRAL
 
     def __getArmyLosses(self, armyBefore: dict, armyAfter: dict):
         resultDict = dict(armyBefore)

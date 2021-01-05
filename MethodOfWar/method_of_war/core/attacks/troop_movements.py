@@ -2,7 +2,7 @@
 # example speed: 0.1 units per second
 from mini_engine.game_machine.a_passing_time_aware_mono_behaviour import PassingTimeAwareMonoBehaviour
 from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementElement
-from method_of_war.ui.gameplay_ui.reports.reports_view import ReportElement
+from method_of_war.ui.gameplay_ui.reports.reports_list_view import ReportElement
 from typing import List
 from method_of_war.core.attacks.battle import *
 from method_of_war.enums.battle_result import BattleResult
@@ -57,10 +57,11 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                     initialDefendingArmyDict=battle.getInitialDefendingArmy(),
                     attackingArmyLossesDict=battle.getAttackingLosses(),
                     defendingArmyLossesDict=battle.getDefendingLosses(),
-                    buttonListener=self.reportButtonListener
+                    buttonListener=self.reportButtonListener,
+                    isFailedAttack=not battle.attackingArmyWon()
                 ))
                 # army comes back home - add retreating element
-                if battle.getBattleResult() == BattleResult.POSITIVE:
+                if battle.attackingArmyWon():
                     self.addElementToQueue(TroopMovementElement(
                         elem.attackSize,
                         elem.fromEnemy,
