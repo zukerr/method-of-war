@@ -43,3 +43,6 @@ class PlayerSettlement(Settlement):
     def removeStationingUnit(self, unitName: str, quantity: int = 1):
         super().removeStationingUnit(unitName, quantity)
         global_persistent_view_manager.globalPersistentViewManager.getUnits().updateUnits(self._stationingUnitsDict)
+
+    def updateStationingUnits(self):
+        global_persistent_view_manager.globalPersistentViewManager.getUnits().updateUnits(self._stationingUnitsDict)

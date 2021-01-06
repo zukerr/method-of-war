@@ -5,7 +5,8 @@ class PlayerBarracks(Barracks):
 
     def levelUp(self):
         super().levelUp()
-        global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().updateLevel(self._level)
+        # global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().updateLevel(self._level)
+        self.__syncView()
 
     # queue
     def addUnitToQueue(self, unit: Unit):

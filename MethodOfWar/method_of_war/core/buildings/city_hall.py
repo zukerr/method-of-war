@@ -42,6 +42,7 @@ class CityHall(Building, PassingTimeAwareMonoBehaviour):
 
     def __init__(self, startingLevel: int, settlement):
         super().__init__(startingLevel)
+        self.__currentBuildTimeReduction = self.__buildTimeReductionFactorDict[self._level]
         self._buildingQueue = []
         self._availableBuildingsList = []
         self.__notAvailableBuildingsList = []
@@ -104,7 +105,7 @@ class CityHall(Building, PassingTimeAwareMonoBehaviour):
     def _redrawAvailableBuildingsLive(self):
         pass
 
-    def __findAvailableBuildingByName(self, buildingName: str):
+    def _findAvailableBuildingByName(self, buildingName: str):
         for availBuilding in self._availableBuildingsList:
             if availBuilding.buildingName == buildingName:
                 return availBuilding
@@ -147,22 +148,25 @@ class CityHall(Building, PassingTimeAwareMonoBehaviour):
                     upgradeReq = building.getUpgradeRequirementWithAddedLevel(1)
 
         def onClick():
-            if len(self._buildingQueue) >= self.__maxQueueSize:
-                return
-            if building.availableForLevelUp():
-                if self.__settlement.getWarehouse().requirementCanBeSatisfied(upgradeReq):
-                    self.__settlement.getWarehouse().spendRequirement(upgradeReq)
-                    self.addUpgradeToQueue(building)
+            self.__onClickUpgradeBuilding(building, upgradeReq)
 
         self._availableBuildingsList.append(AvailableBuildingElement(building.getName(),
                                                                      building.getTitle(),
                                                                      upgradeReq.woodValue,
                                                                      upgradeReq.graniteValue,
                                                                      upgradeReq.ironValue,
-                                                                     upgradeReq.timeInSeconds,
+                                                                     int(float(upgradeReq.timeInSeconds) * self.__currentBuildTimeReduction),
                                                                      btnText,
                                                                      buttonFunction=onClick))
         # print("CITY_HALL: added new building for: " + self.__settlement.getOwnerName())
+
+    def __onClickUpgradeBuilding(self, building: Building, upgradeReq: ResourcesRequirementModel):
+        if len(self._buildingQueue) >= self.__maxQueueSize:
+            return
+        if building.availableForLevelUp():
+            if self.__settlement.getWarehouse().requirementCanBeSatisfied(upgradeReq):
+                self.__settlement.getWarehouse().spendRequirement(upgradeReq)
+                self.addUpgradeToQueue(building)
 
     def start(self):
         pass

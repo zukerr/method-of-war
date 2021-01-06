@@ -1,14 +1,11 @@
 from method_of_war.core.levels.a_game_level import GameLevel
 from method_of_war.core.player_core.player_settlement import PlayerSettlement
-from method_of_war.core.units.warrior import Warrior
-from method_of_war.enums.map_node_type import NodeType
-from method_of_war.ui import global_gameplay_view_manager
-from method_of_war.core.settlement import Settlement
 from method_of_war.core.enemy_core.enemy_settlement import *
-from method_of_war.core.attacks.send_troops import SendTroops
-from mini_engine.util.extensions import *
 from method_of_war.core.levels import global_level
-
+from method_of_war.core.enemy_core.ai.base_ai_context import BaseAiContext
+from method_of_war.core.enemy_core.ai.concrete_strategies.economy_opener_strategy import EconomyOpenerStrategy
+from method_of_war.core.enemy_core.ai.concrete_strategies.ranged_defense_midgame_strategy import RangedDefenseMidgameStrategy
+from method_of_war.core.enemy_core.ai.concrete_strategies.rogue_aggro_midgame_strategy import RogueAggroMidgameStrategy
 
 class GameLevel1(GameLevel):
     def _setupSettlements(self):
@@ -19,11 +16,14 @@ class GameLevel1(GameLevel):
 
         # ai elements
         # add units to enemy settlement to test combat
-        self._enemySettlements[0].addStationingUnit(Warrior(), 20)
-        print("Players units:")
-        print(self._playerSettlement.getStationingUnitsDict())
-        print("Enemy units:")
-        print(self._enemySettlements[0].getStationingUnitsDict())
-        enemyAttack1 = SendTroops(self._enemySettlements[0], self._playerSettlement)
-        enemyAttack1.addCurrentUnit("Warrior", 10)
-        invoke(enemyAttack1.sendAttack, 10)
+        # self._enemySettlements[0].addStationingUnit(Warrior(), 20)
+        # print("Players units:")
+        # print(self._playerSettlement.getStationingUnitsDict())
+        # print("Enemy units:")
+        # print(self._enemySettlements[0].getStationingUnitsDict())
+        # enemyAttack1 = SendTroops(self._enemySettlements[0], self._playerSettlement)
+        # enemyAttack1.addCurrentUnit("Warrior", 10)
+        # invoke(enemyAttack1.sendAttack, 10)
+
+        aiEnemy0 = BaseAiContext(self._playerSettlement, self._enemySettlements[0],
+                                 EconomyOpenerStrategy(), RogueAggroMidgameStrategy())

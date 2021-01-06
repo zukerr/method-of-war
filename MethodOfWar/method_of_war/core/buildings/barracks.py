@@ -43,6 +43,7 @@ class Barracks(Building, PassingTimeAwareMonoBehaviour):
     __recruitmentQueue: List[UnitRecruitmentModel] = []
 
     _availableRecruitsList: List[AvailableBuildingElement] = []
+    _availableUnitsList: List[Unit] = []
 
     def __init__(self, startingLevel: int, settlement):
         super().__init__(startingLevel)
@@ -54,6 +55,13 @@ class Barracks(Building, PassingTimeAwareMonoBehaviour):
     def levelUp(self):
         super().levelUp()
         self.__currentRecruitTimeReduction = self.__recruitTimeReductionFactorDict[self._level]
+        self.__updateRecruitTimes()
+
+    def __updateRecruitTimes(self):
+        for elem in self._availableRecruitsList:
+            for unit in self._availableUnitsList:
+                if unit.getName() == elem.buildingName:
+                    elem.modifyBuildingTime(int(float(unit.getResourceRequirement().timeInSeconds) * self.__currentRecruitTimeReduction))
 
     def setupMaxLvl(self):
         self._maxLevel = 20
@@ -97,8 +105,8 @@ class Barracks(Building, PassingTimeAwareMonoBehaviour):
 
     # available units
     def setupAvailableUnits(self):
-        availableUnits: List[Unit] = [Hunter(), Warrior(), Paladin(), Rogue()]
-        for elem in availableUnits:
+        self._availableUnitsList = [Hunter(), Warrior(), Paladin(), Rogue()]
+        for elem in self._availableUnitsList:
             self.__setupAvailableUnit(elem)
 
     def __setupAvailableUnit(self, unit: Unit):

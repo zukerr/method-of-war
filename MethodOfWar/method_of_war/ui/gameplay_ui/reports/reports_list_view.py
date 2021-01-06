@@ -35,6 +35,7 @@ class ReportElement:
     lootSummary: int
     lootingCapacity: int
     isFailedAttack: bool
+    attackingArmyWon: bool
 
     def __init__(self,
                  battleResult: BattleResult,
@@ -55,7 +56,8 @@ class ReportElement:
                  lootedIron: int = 0,
                  lootSummary: int = 0,
                  lootingCapacity: int = 0,
-                 isFailedAttack: bool = False):
+                 isFailedAttack: bool = False,
+                 attackingArmyWon: bool = True):
         self.battleResult = battleResult
         self.attackSize = attackSize
         self.attackingPlayerName = attackingPlayerName
@@ -79,12 +81,6 @@ class ReportElement:
                               + " attacks " + defendingPlayerName \
                               + " " + self.defendingSettlementLocationStr
         self.timestampStr = getMinutesSecondsFromSeconds(timestampInSeconds)
-        if self.battleResult == BattleResult.POSITIVE:
-            self.resultString = self.attackingPlayerName + " won"
-        elif self.battleResult == BattleResult.NEGATIVE:
-            self.resultString = self.defendingPlayerName + " won"
-        else:
-            self.resultString = "Tie"
         self.initialAttackingArmyDict = initialAttackingArmyDict
         self.attackingArmyLossesDict = attackingArmyLossesDict
         self.initialDefendingArmyDict = initialDefendingArmyDict
@@ -95,6 +91,11 @@ class ReportElement:
         self.lootSummary = lootSummary
         self.lootingCapacity = lootingCapacity
         self.isFailedAttack = isFailedAttack
+        self.attackingArmyWon = attackingArmyWon
+        if self.attackingArmyWon:
+            self.resultString = attackingPlayerName + " won"
+        else:
+            self.resultString = defendingPlayerName + " won"
 
 
 class ReportsListView(ListView):

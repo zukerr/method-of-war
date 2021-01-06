@@ -2,6 +2,11 @@ from method_of_war.core.buildings.city_hall import *
 
 
 class PlayerCityHall(CityHall):
+
+    def levelUp(self):
+        super().levelUp()
+        self.__syncView()
+
     # queue
     def addUpgradeToQueue(self, building: Building):
         super().addUpgradeToQueue(building)

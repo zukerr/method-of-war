@@ -59,7 +59,8 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                     attackingArmyLossesDict=battle.getAttackingLosses(),
                     defendingArmyLossesDict=battle.getDefendingLosses(),
                     buttonListener=self.reportButtonListener,
-                    isFailedAttack=battle.playerAttackedAndLost()
+                    isFailedAttack=battle.playerAttackedAndLost(),
+                    attackingArmyWon=battle.attackingArmyWon()
                 ))
                 # army comes back home - add retreating element
                 if battle.attackingArmyWon():
@@ -74,10 +75,13 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                         defendingArmy=elem.defendingArmy,
                         isRetreating=True,
                         attackingSettlementLocation=elem.attackingSettlementLocation,
-                        defendingSettlementLocation=elem.defendingSettlementLocation
+                        defendingSettlementLocation=elem.defendingSettlementLocation,
+                        elemId=elem.elemId
                     ))
             else:
-                global_level.getSettlementByPosition(elem.attackingSettlementLocation).addStationingUnitsFromDict(elem.attackingArmy)
+                if global_battles.globalRetreatId != elem.elemId:
+                    global_level.getSettlementByPosition(elem.attackingSettlementLocation).addStationingUnitsFromDict(elem.attackingArmy)
+                    global_battles.globalRetreatId = elem.elemId
 
     # overridden from MonoBehaviour
     def updateOnRealTime(self, realTime: float):

@@ -13,6 +13,7 @@ class AvailableBuildingElement:
     buildingTime: str
     buttonText: str
     buttonFunction = lambda: None
+    buildingTimeSeconds: int
 
     def __init__(self, buildingName: str, buildingTitle: str, buildingWoodReq: int, buildingGraniteReq: int,
                  buildingIronReq: int, buildingTime: int, buttonText: str, isUnit: bool = False, buttonFunction=lambda: None):
@@ -28,6 +29,11 @@ class AvailableBuildingElement:
         self.buildingTime = getMinutesSecondsFromSeconds(buildingTime)
         self.buttonText = buttonText
         self.buttonFunction = buttonFunction
+        self.buildingTimeSeconds = buildingTime
+
+    def modifyBuildingTime(self, newBuildingTime: int):
+        self.buildingTime = getMinutesSecondsFromSeconds(newBuildingTime)
+        self.buildingTimeSeconds = newBuildingTime
 
 
 class CityHallAvailableBuildingsListView(BuildingListView):

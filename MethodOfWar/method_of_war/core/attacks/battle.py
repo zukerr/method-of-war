@@ -6,6 +6,7 @@ from typing import List
 from typing import Optional
 import random
 from method_of_war.core.attacks import global_battles
+from method_of_war.core.levels import global_level
 
 
 class Battle:
@@ -16,11 +17,13 @@ class Battle:
     __initialDefendingArmy: dict
     __attackingLosses: dict
     __defendingLosses: dict
+    __battleResult: BattleResult
 
     def __init__(self, troopMovementElement: TroopMovementElement):
         self.__troopMovementElement = troopMovementElement
         if global_battles.globalBattleId != self.__troopMovementElement.elemId:
             self.__calculateBattle(self.__troopMovementElement.attackingArmy, self.__troopMovementElement.defendingArmy)
+            self.__calculateBattleResult()
             global_battles.globalBattleId = self.__troopMovementElement.elemId
             global_battles.globalBattleList.append(self)
         else:
@@ -30,6 +33,7 @@ class Battle:
             self.__initialDefendingArmy = correspondingBattle.__initialDefendingArmy
             self.__attackingLosses = correspondingBattle.__attackingLosses
             self.__defendingLosses = correspondingBattle.__defendingLosses
+            self.__battleResult = correspondingBattle.__battleResult
 
     def __calculateBattle(self, attackingArmy: dict, defendingArmy: dict):
         self.__initialAttackingArmy = dict(attackingArmy)
@@ -103,6 +107,10 @@ class Battle:
         # count losses
         self.__attackingLosses = self.__getArmyLosses(self.__initialAttackingArmy, attackingArmy)
         self.__defendingLosses = self.__getArmyLosses(self.__initialDefendingArmy, defendingArmy)
+
+        # if the player is the defendant, update his ui
+        if self.__troopMovementElement.defendingPlayer == "Player":
+            global_level.getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation).updateStationingUnits()
 
     def __meleeDamageExchange(self,
                               meleeAttackers: List[Unit],
@@ -186,7 +194,11 @@ class Battle:
                 return True
         return False
 
-    def getBattleResult(self) -> BattleResult:
+    def __calculateBattleResult(self):
+        self.__battleResult = self.__getCalculatedBattleResult()
+        print("BATTLE RESULT HAS BEEN SET")
+
+    def __getCalculatedBattleResult(self) -> BattleResult:
         keyList = list(self.__troopMovementElement.attackingArmy.keys())
         attackingUnitsCount: int = 0
         defendingUnitsCount: int = 0
@@ -207,6 +219,11 @@ class Battle:
                 return BattleResult.POSITIVE
             else:
                 return BattleResult.NEUTRAL
+
+    def getBattleResult(self) -> BattleResult:
+        print("getBattleResult: ")
+        print(self.__battleResult)
+        return self.__battleResult
 
     def __getArmyLosses(self, armyBefore: dict, armyAfter: dict):
         resultDict = dict(armyBefore)
