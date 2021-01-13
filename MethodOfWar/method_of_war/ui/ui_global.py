@@ -1,6 +1,8 @@
 import pygame
 from method_of_war.enums.attack_size import *
 from method_of_war.enums.battle_result import *
+from pathlib import *
+import os
 
 # default elements
 borderDefaultColor = (112, 112, 112)
@@ -66,3 +68,63 @@ def getBigFont():
 
 def getVeryBigFont():
     return pygame.font.SysFont('Arial', 32)
+
+
+# setup game files
+__gameFilesPath = Path(__file__).resolve().parent.parent.joinpath("game_files")
+
+
+def __getGameFile(pathStr: str):
+    return os.path.abspath(__gameFilesPath.joinpath(pathStr))
+
+
+# building view images
+__buildingViewBarracks = pygame.image.load(__getGameFile("building_view_buildings/barracks_150x150.png"))
+__buildingViewCityHall = pygame.image.load(__getGameFile("building_view_buildings/city_hall_150x150.png"))
+__buildingViewLumberMill = pygame.image.load(__getGameFile("building_view_buildings/lumber_mill_150x150.png"))
+__buildingViewMine = pygame.image.load(__getGameFile("building_view_buildings/mine_150x150.png"))
+__buildingViewQuarry = pygame.image.load(__getGameFile("building_view_buildings/quarry_150x150.png"))
+__buildingViewWarehouse = pygame.image.load(__getGameFile("building_view_buildings/warehouse_150x150.png"))
+
+# overview building images
+__overviewBarracks = pygame.image.load(__getGameFile("overview_buildings/barracks.png"))
+__overviewCityHall = pygame.image.load(__getGameFile("overview_buildings/city_hall.png"))
+__overviewLumberMill = pygame.image.load(__getGameFile("overview_buildings/lumber_mill.png"))
+__overviewMine = pygame.image.load(__getGameFile("overview_buildings/mine.png"))
+__overviewQuarry = pygame.image.load(__getGameFile("overview_buildings/quarry.png"))
+__overviewWarehouse = pygame.image.load(__getGameFile("overview_buildings/warehouse.png"))
+
+# building icons
+__iconBarracks = pygame.image.load(__getGameFile("building_icons_35px/barracks_35x35.png"))
+__iconCityHall = pygame.image.load(__getGameFile("building_icons_35px/city_hall_35x35.png"))
+__iconLumberMill = pygame.image.load(__getGameFile("building_icons_35px/lumber_mill_35x35.png"))
+__iconMine = pygame.image.load(__getGameFile("building_icons_35px/mine_35x35.png"))
+__iconQuarry = pygame.image.load(__getGameFile("building_icons_35px/quarry_35x35.png"))
+__iconWarehouse = pygame.image.load(__getGameFile("building_icons_35px/warehouse_35x35.png"))
+
+buildingImage150pxDict = {
+    "City Hall": __buildingViewCityHall,
+    "Lumber Mill": __buildingViewLumberMill,
+    "Quarry": __buildingViewQuarry,
+    "Mine": __buildingViewMine,
+    "Barracks": __buildingViewBarracks,
+    "Warehouse": __buildingViewWarehouse
+}
+
+buildingImageOverviewDict = {
+    "City Hall": __overviewCityHall,
+    "Lumber Mill": __overviewLumberMill,
+    "Quarry": __overviewQuarry,
+    "Mine": __overviewMine,
+    "Barracks": __overviewBarracks,
+    "Warehouse": __overviewWarehouse
+}
+
+buildingIcons35pxDict = {
+    "City Hall": __iconCityHall,
+    "Lumber Mill": __iconLumberMill,
+    "Quarry": __iconQuarry,
+    "Mine": __iconMine,
+    "Barracks": __iconBarracks,
+    "Warehouse": __iconWarehouse
+}

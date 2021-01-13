@@ -14,10 +14,12 @@ class AvailableBuildingElement:
     buttonText: str
     buttonFunction = lambda: None
     buildingTimeSeconds: int
+    isUnit: bool = False
 
     def __init__(self, buildingName: str, buildingTitle: str, buildingWoodReq: int, buildingGraniteReq: int,
                  buildingIronReq: int, buildingTime: int, buttonText: str, isUnit: bool = False, buttonFunction=lambda: None):
         self.buildingName = buildingName
+        self.isUnit = isUnit
         if not isUnit:
             self.buildingIconColor = buildingColorDict[buildingName]
         else:
@@ -49,6 +51,9 @@ class CityHallAvailableBuildingsListView(BuildingListView):
     def _drawElementDetails(self, element: AvailableBuildingElement, transform: (int, int, int, int)):
         # building info
         self._drawBuildingInfo(transform, element.buildingTitle, element.buildingIconColor)
+        # draw building icon
+        if not element.isUnit:
+            self._window.blit(buildingIcons35pxDict[element.buildingName], (transform[0] + 5, transform[1] + 5))
         # requirements bg
         border_rect.draw(self._window, grey44, (transform[0] + 248, transform[1], 492, transform[3]))
         reqTransform = (transform[0] + 248, transform[1], 130, transform[3])

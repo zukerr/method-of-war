@@ -16,7 +16,7 @@ class WarehouseView(View):
         # draw bg
         border_rect.draw(self._window, grey44, (0, 57, 997, 663))
         # draw building header view
-        headerView = building_header_view.BuildingHeaderView(self._window, buildingColorDict["Warehouse"],
+        headerView = building_header_view.BuildingHeaderView(self._window, "Warehouse", buildingColorDict["Warehouse"],
                                                              "Warehouse (Level " + str(self.__buildingLevel) + ")",
                                                              "In warehouse you can store resources. "
                                                              "The higher level Warehouse has,"

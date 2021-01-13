@@ -2,24 +2,28 @@ from mini_engine.ui.a_view import *
 from method_of_war.ui.ui_global import *
 from mini_engine.ui.border_rect import *
 from mini_engine.util.extensions import *
+import pygame
 
 
 class BuildingHeaderView(View):
     __buildingIconColor: (int, int, int)
     __buildingTitle: str
     __buildingDesc: str
+    __buildingName: str
 
-    def __init__(self, window, buildingColor: (int, int, int), buildingTitle: str, buildingDesc: str):
+    def __init__(self, window, buildingName: str, buildingColor: (int, int, int), buildingTitle: str, buildingDesc: str):
         super().__init__(window)
         self.__buildingIconColor = buildingColor
         self.__buildingTitle = buildingTitle
         self.__buildingDesc = buildingDesc
+        self.__buildingName = buildingName
 
     def drawView(self):
         # draw header bg
         border_rect.draw(self._window, grey44, (0, 57, 997, 150))
         # draw building icon
-        border_rect.draw(self._window, self.__buildingIconColor, (0, 57, 150, 150))
+        # border_rect.draw(self._window, self.__buildingIconColor, (0, 57, 150, 150))
+        self._window.blit(buildingImage150pxDict[self.__buildingName], (0, 57))
         # draw building title bg
         border_rect.draw(self._window, grey44, (150, 57, 847, 50))
         # draw title

@@ -32,7 +32,7 @@ class ProductionBuildingView(View):
         # draw bg
         border_rect.draw(self._window, grey44, (0, 57, 997, 663))
         # draw building header view
-        headerView = building_header_view.BuildingHeaderView(self._window, buildingColorDict[self.__buildingName],
+        headerView = building_header_view.BuildingHeaderView(self._window, self.__buildingName, buildingColorDict[self.__buildingName],
                                                              self.__buildingName + " (Level " + str(
                                                                  self.__buildingLevel) + ")",
                                                              self.__buildingDescription)
