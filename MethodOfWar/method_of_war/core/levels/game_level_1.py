@@ -1,3 +1,4 @@
+from method_of_war.core.enemy_core.ai.concrete_strategies.hyper_aggro_opener_strategy import HyperAggroOpenerStrategy
 from method_of_war.core.levels.a_game_level import GameLevel
 from method_of_war.core.player_core.player_settlement import PlayerSettlement
 from method_of_war.core.enemy_core.enemy_settlement import *
@@ -26,4 +27,5 @@ class GameLevel1(GameLevel):
         # invoke(enemyAttack1.sendAttack, 10)
 
         aiEnemy0 = BaseAiContext(self._playerSettlement, self._enemySettlements[0],
-                                 EconomyOpenerStrategy(), RogueAggroMidgameStrategy())
+                                 HyperAggroOpenerStrategy(), RogueAggroMidgameStrategy())
+        self._enemyAiList.append(aiEnemy0)

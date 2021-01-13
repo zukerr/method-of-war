@@ -10,3 +10,4 @@ class GameplayViewType(Enum):
     BARRACKS = 5
     SEND_TROOPS = 6
     REPORT_DETAILS = 7
+    ENDING_SCREEN = 8

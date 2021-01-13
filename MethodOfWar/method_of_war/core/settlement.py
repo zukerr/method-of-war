@@ -112,9 +112,9 @@ class Settlement(MonoBehaviour):
         if quantity > self._stationingUnitsDict[unitName]:
             return
         self._stationingUnitsDict[unitName] -= quantity
-        print("stationing units in " + self.__ownerName + ": ")
-        print(self._stationingUnitsDict)
-        print(self.__stationingUnitsList)
+        # print("stationing units in " + self.__ownerName + ": ")
+        # print(self._stationingUnitsDict)
+        # print(self.__stationingUnitsList)
         for i in range(quantity):
             self.__stationingUnitsList.remove(self.findStationingUnitInListByName(unitName))
 

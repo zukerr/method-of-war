@@ -49,14 +49,16 @@ class Battle:
         for i in range(self.__initialRangedExchangeIterations):
             for ranged in rangedAttackers:
                 target: Unit = self.__getRandomListElement(defendingArmyUnitList)
-                ranged.dealDamageToOther(target)
-                if target.getIsDead():
-                    defendingArmyUnitList.remove(target)
+                if target is not None:
+                    ranged.dealDamageToOther(target)
+                    if target.getIsDead():
+                        defendingArmyUnitList.remove(target)
             for ranged in rangedDefenders:
                 target = self.__getRandomListElement(attackingArmyUnitList)
-                ranged.dealDamageToOther(target)
-                if target.getIsDead():
-                    attackingArmyUnitList.remove(target)
+                if target is not None:
+                    ranged.dealDamageToOther(target)
+                    if target.getIsDead():
+                        attackingArmyUnitList.remove(target)
 
         # full blown combat
         while (len(attackingArmyUnitList) > 0) and (len(defendingArmyUnitList) > 0):
@@ -90,15 +92,17 @@ class Battle:
             for ranged in rangedAttackers:
                 if len(defendingArmyUnitList) > 0:
                     target: Unit = self.__getRandomListElement(defendingArmyUnitList)
-                    ranged.dealDamageToOther(target)
-                    if target.getIsDead():
-                        defendingArmyUnitList.remove(target)
+                    if target is not None:
+                        ranged.dealDamageToOther(target)
+                        if target.getIsDead():
+                            defendingArmyUnitList.remove(target)
             for ranged in rangedDefenders:
                 if len(attackingArmyUnitList) > 0:
                     target = self.__getRandomListElement(attackingArmyUnitList)
-                    ranged.dealDamageToOther(target)
-                    if target.getIsDead():
-                        attackingArmyUnitList.remove(target)
+                    if target is not None:
+                        ranged.dealDamageToOther(target)
+                        if target.getIsDead():
+                            attackingArmyUnitList.remove(target)
 
         # cleanup input dictionaries
         keyList = list(attackingArmy.keys())
@@ -197,7 +201,10 @@ class Battle:
         return filteredList
 
     def __getRandomListElement(self, targetList: List):
-        return targetList[random.randrange(len(targetList))]
+        if len(targetList) > 0:
+            return targetList[random.randrange(len(targetList))]
+        else:
+            return None
 
     def attackingArmyWon(self) -> bool:
         keyList = list(self.__troopMovementElement.attackingArmy.keys())
@@ -242,7 +249,7 @@ class Battle:
                 return BattleResult.NEUTRAL
 
     def getBattleResult(self) -> BattleResult:
-        print("getBattleResult: ")
+        # print("getBattleResult: ")
         print(self.__battleResult)
         return self.__battleResult
 

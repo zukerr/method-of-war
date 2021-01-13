@@ -71,6 +71,10 @@ def getVeryBigFont():
     return pygame.font.SysFont('Arial', 32)
 
 
+def getFontSize100():
+    return pygame.font.SysFont('Arial', 100)
+
+
 # setup game files
 __gameFilesPath = Path(__file__).resolve().parent.parent.joinpath("game_files")
 
@@ -112,6 +116,10 @@ __iconReports = pygame.image.load(__getGameFile("top_action_bar_button_icons/rep
 __iconEnemyBanner = pygame.image.load(__getGameFile("map_node_icons/map_node_banner_enemy.png"))
 __iconFriendlyBanner = pygame.image.load(__getGameFile("map_node_icons/map_node_banner_friendly.png"))
 
+# game result screen frames
+__victoryFrame = pygame.image.load(__getGameFile("game_result_frames/victory_bg.png"))
+__defeatFrame = pygame.image.load(__getGameFile("game_result_frames/defeat_bg.png"))
+
 buildingImage150pxDict = {
     "City Hall": __buildingViewCityHall,
     "Lumber Mill": __buildingViewLumberMill,
@@ -148,4 +156,9 @@ topActionBarIconsDict = {
 mapNodeBannersDict = {
     NodeType.FRIENDLY: __iconFriendlyBanner,
     NodeType.ENEMY: __iconEnemyBanner
+}
+
+gameResultFrameDict = {
+    "Victory": __victoryFrame,
+    "Defeat": __defeatFrame
 }

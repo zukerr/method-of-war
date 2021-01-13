@@ -59,7 +59,7 @@ class SendTroops:
         if self.__currentUnitsToBeSentDict[name] > self.__maxUnitsDict[name]:
             self.__currentUnitsToBeSentDict[name] = self.__maxUnitsDict[name]
         self._setupElementList()
-        print(self.__currentUnitsToBeSentDict)
+        # print(self.__currentUnitsToBeSentDict)
 
     def __removeCurrentUnit(self, name: str, quantity: int):
         self.__currentUnitsToBeSentDict[name] -= quantity
@@ -138,4 +138,4 @@ class SendTroops:
             self.__fromSettlement.removeStationingUnit(key, self.__currentUnitsToBeSentDict[key])
         self.__setupCurrentUnits()
         self._setupElementList()
-        print("Just sent an attack.")
+        # print("Just sent an attack.")

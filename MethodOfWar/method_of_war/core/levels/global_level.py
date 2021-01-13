@@ -1,4 +1,8 @@
 globalSettlementsList = []
+levelIsRunning = True
+levelIsActive = True
+__lateFunctionQueuedUp = False
+lateFunction = lambda: None
 
 
 def getSettlementByPosition(position: (int, int)):
@@ -12,3 +16,10 @@ def getSettlementByPosition(position: (int, int)):
         if elem.getLocation() == position:
             return elem
     return None
+
+
+def executeLateFunction():
+    global __lateFunctionQueuedUp
+    if __lateFunctionQueuedUp:
+        lateFunction()
+        __lateFunctionQueuedUp = False

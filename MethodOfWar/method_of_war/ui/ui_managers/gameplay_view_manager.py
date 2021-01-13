@@ -4,6 +4,8 @@ from method_of_war.ui.gameplay_ui.reports.reports_list_view import *
 from method_of_war.enums.gameplay_view_type import *
 from method_of_war.ui.gameplay_ui.map.send_troops_view import *
 from method_of_war.ui.gameplay_ui.reports.report_details_view import *
+from method_of_war.ui.menu_ui.defeat_view import DefeatView
+from method_of_war.ui.menu_ui.victory_view import VictoryView
 
 
 class GameplayViewManager:
@@ -17,6 +19,9 @@ class GameplayViewManager:
     __sendTroopsView: SendTroopsView
     __reportDetailsView: ReportDetailsView
 
+    __victoryView: VictoryView
+    __defeatView: DefeatView
+
     def __init__(self, window):
         self.__mainWindow = window
 
@@ -28,6 +33,8 @@ class GameplayViewManager:
         self.__reportsView = ReportsListView(self.__mainWindow)
         self.__sendTroopsView = SendTroopsView(self.__mainWindow)
         self.__reportDetailsView = ReportDetailsView(self.__mainWindow)
+        self.__victoryView = VictoryView(self.__mainWindow)
+        self.__defeatView = DefeatView(self.__mainWindow)
 
         # draw views
         self.__overviewView.drawView()
@@ -122,3 +129,13 @@ class GameplayViewManager:
 
     def getReportDetailsView(self) -> ReportDetailsView:
         return self.__reportDetailsView
+
+    def setVictoryScreen(self):
+        self.preClickBuildingView()
+        self.__victoryView.drawView()
+        self.postClickBuildingView(self.__victoryView, GameplayViewType.ENDING_SCREEN)
+
+    def setDefeatScreen(self):
+        self.preClickBuildingView()
+        self.__defeatView.drawView()
+        self.postClickBuildingView(self.__defeatView, GameplayViewType.ENDING_SCREEN)

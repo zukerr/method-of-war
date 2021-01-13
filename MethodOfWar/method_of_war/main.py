@@ -6,6 +6,7 @@ from method_of_war.ui import global_persistent_view_manager
 from method_of_war.core.game_timer import GameTimer
 import time
 from method_of_war.core.levels.game_level_1 import *
+from method_of_war.core.levels import global_level
 
 pygame.init()
 
@@ -30,21 +31,25 @@ realTimeStartingSeconds: float = time.time()
 level_1 = GameLevel1()
 level_1.setupGameLevel()
 
-run = True
-while run:
+global_level.levelIsActive = True
+global_level.levelIsRunning = True
+global_level.lateFunctionQueuedUp = False
+while global_level.levelIsRunning:
     pygame.time.delay(tickMs)
-    gameMachine.onTick()
+    if global_level.levelIsActive:
+        gameMachine.onTick()
 
-    # manage real time
-    gameMachine.onRealTime(gameRealTime)
-    gameRealTime = (time.time() - realTimeStartingSeconds)
+        # manage real time
+        gameMachine.onRealTime(gameRealTime)
+        gameRealTime = (time.time() - realTimeStartingSeconds)
 
     # manage events
     for event in pygame.event.get():
         gameMachine.onEvent(event)
         if event.type == pygame.QUIT:
-            run = False
+            global_level.levelIsRunning = False
 
+    global_level.executeLateFunction()
     # pygame.draw.rect(mainWindow, (255, 0, 0), (x, y, width, height))
     pygame.display.update()
 

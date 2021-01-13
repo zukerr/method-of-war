@@ -34,6 +34,9 @@ class SettlementDestruction:
     def getCurrentHealth(self) -> int:
         return self.__currentHealth
 
+    def getIsDestroyed(self) -> bool:
+        return self.__isDestroyed
+
     def updateMapUi(self):
         healthPercentage: float = float(self.__currentHealth) / float(self.__maxHealth)
         healthText = str(self.__currentHealth) + "/" + str(self.__maxHealth)
