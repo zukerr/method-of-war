@@ -60,7 +60,8 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                     defendingArmyLossesDict=battle.getDefendingLosses(),
                     buttonListener=self.reportButtonListener,
                     isFailedAttack=battle.playerAttackedAndLost(),
-                    attackingArmyWon=battle.attackingArmyWon()
+                    attackingArmyWon=battle.attackingArmyWon(),
+                    damageDealt=battle.getDamageDealt()
                 ))
                 # army comes back home - add retreating element
                 if battle.attackingArmyWon():

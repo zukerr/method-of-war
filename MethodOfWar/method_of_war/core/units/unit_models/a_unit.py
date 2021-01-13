@@ -52,3 +52,6 @@ class Unit(ABC):
 
     def getIsDead(self) -> bool:
         return self.__isDead
+
+    def getAttackDamageValue(self) -> float:
+        return self.__attackDamage

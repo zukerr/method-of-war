@@ -3,6 +3,7 @@ from method_of_war.enums.attack_size import *
 from method_of_war.enums.battle_result import *
 from pathlib import *
 import os
+from method_of_war.enums.map_node_type import *
 
 # default elements
 borderDefaultColor = (112, 112, 112)
@@ -102,6 +103,15 @@ __iconMine = pygame.image.load(__getGameFile("building_icons_35px/mine_35x35.png
 __iconQuarry = pygame.image.load(__getGameFile("building_icons_35px/quarry_35x35.png"))
 __iconWarehouse = pygame.image.load(__getGameFile("building_icons_35px/warehouse_35x35.png"))
 
+# top action bar buttons icons
+__iconOverview = pygame.image.load(__getGameFile("top_action_bar_button_icons/overview_icon.png"))
+__iconMap = pygame.image.load(__getGameFile("top_action_bar_button_icons/map_icon.png"))
+__iconReports = pygame.image.load(__getGameFile("top_action_bar_button_icons/reports_icon.png"))
+
+# map node icons
+__iconEnemyBanner = pygame.image.load(__getGameFile("map_node_icons/map_node_banner_enemy.png"))
+__iconFriendlyBanner = pygame.image.load(__getGameFile("map_node_icons/map_node_banner_friendly.png"))
+
 buildingImage150pxDict = {
     "City Hall": __buildingViewCityHall,
     "Lumber Mill": __buildingViewLumberMill,
@@ -127,4 +137,15 @@ buildingIcons35pxDict = {
     "Mine": __iconMine,
     "Barracks": __iconBarracks,
     "Warehouse": __iconWarehouse
+}
+
+topActionBarIconsDict = {
+    "Overview": __iconOverview,
+    "Map": __iconMap,
+    "Reports": __iconReports
+}
+
+mapNodeBannersDict = {
+    NodeType.FRIENDLY: __iconFriendlyBanner,
+    NodeType.ENEMY: __iconEnemyBanner
 }

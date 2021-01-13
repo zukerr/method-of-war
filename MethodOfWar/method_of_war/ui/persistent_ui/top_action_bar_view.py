@@ -40,6 +40,8 @@ class TopActionBarView(View):
             border_rect.draw(self._window, iconColor, iconTransform, 1, borderColor)
             textSurface = font.render(textValue, True, (255, 255, 255))
             self._window.blit(textSurface, textPosition)
+            # draw icon
+            self._window.blit(topActionBarIconsDict[textValue], (iconTransform[0], iconTransform[1]))
 
         def onClick():
             print("just clicked " + textValue)

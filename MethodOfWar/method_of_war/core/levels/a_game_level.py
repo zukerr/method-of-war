@@ -31,6 +31,7 @@ class GameLevel(ABC):
                      nodeButtonListener=lambda: global_gameplay_view_manager
                      .globalGameplayViewManager
                      .switchGameplayView(GameplayViewType.OVERVIEW))
+        self._playerSettlement.getSettlementDestruction().updateMapUi()
 
         # setup enemy settlement nodes based on enemy settlement objects
         for elem in self._enemySettlements:
@@ -42,6 +43,7 @@ class GameLevel(ABC):
                          NodeType.ENEMY,
                          False,
                          nodeButtonListener=lambda: PlayerSendTroops(self._playerSettlement, elem))
+            elem.getSettlementDestruction().updateMapUi()
 
     @abstractmethod
     def _setupSettlements(self):

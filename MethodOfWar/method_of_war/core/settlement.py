@@ -10,6 +10,7 @@ from method_of_war.core.buildings.city_hall import *
 from method_of_war.core.buildings.a_building import Building
 from method_of_war.ui import global_persistent_view_manager
 from method_of_war.core.units.unit_models.unit_factory import MakeUnit
+from method_of_war.core.settlement_destruction import SettlementDestruction
 
 
 class Settlement(MonoBehaviour):
@@ -42,6 +43,8 @@ class Settlement(MonoBehaviour):
     __ownerName: str = ""
     __location: (int, int) = (-1, -1)
 
+    __settlementDestruction: SettlementDestruction
+
     def __init__(self, ownerName: str, location: (int, int)):
         super().__init__()
         self.__ownerName = ownerName
@@ -61,6 +64,7 @@ class Settlement(MonoBehaviour):
             "Druid": 0,
             "Monk": 0
         }
+        self.__settlementDestruction = SettlementDestruction(self.__location)
 
     def start(self):
         pass
@@ -134,3 +138,6 @@ class Settlement(MonoBehaviour):
 
     def getReports(self) -> Reports:
         return self._reports
+
+    def getSettlementDestruction(self) -> SettlementDestruction:
+        return self.__settlementDestruction

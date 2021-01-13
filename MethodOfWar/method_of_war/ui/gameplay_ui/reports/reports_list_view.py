@@ -36,6 +36,7 @@ class ReportElement:
     lootingCapacity: int
     isFailedAttack: bool
     attackingArmyWon: bool
+    damageDealt: int
 
     def __init__(self,
                  battleResult: BattleResult,
@@ -57,7 +58,8 @@ class ReportElement:
                  lootSummary: int = 0,
                  lootingCapacity: int = 0,
                  isFailedAttack: bool = False,
-                 attackingArmyWon: bool = True):
+                 attackingArmyWon: bool = True,
+                 damageDealt: int = 0):
         self.battleResult = battleResult
         self.attackSize = attackSize
         self.attackingPlayerName = attackingPlayerName
@@ -96,6 +98,7 @@ class ReportElement:
             self.resultString = attackingPlayerName + " won"
         else:
             self.resultString = defendingPlayerName + " won"
+        self.damageDealt = damageDealt
 
 
 class ReportsListView(ListView):

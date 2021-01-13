@@ -5,6 +5,7 @@ from method_of_war.ui.ui_global import *
 from mini_engine.ui import button
 from typing import List
 from method_of_war.enums.map_node_type import *
+from mini_engine.ui import border_progress_bar
 
 
 class MapNode:
@@ -26,6 +27,10 @@ class MapNode:
     __button: button.Button = None
     buttonListener = lambda: None
 
+    usesProgressBar: bool = False
+    progressBarFillAmount: float = 1
+    progressBarText: str = ""
+
     def __init__(self, x: int, y: int, nodeType: NodeType, buttonListener=lambda: None):
         self.__x = x
         self.__y = y
@@ -33,6 +38,10 @@ class MapNode:
         self.__color = self.__colorsDict[self.__nodeType]
         self.__highlightColor = self.__highlightColorsDict[self.__nodeType]
         self.buttonListener = buttonListener
+        if (self.__nodeType == NodeType.ENEMY) or (self.__nodeType == NodeType.FRIENDLY):
+            self.usesProgressBar = True
+            self.progressBarFillAmount = 1
+            self.progressBarText = ""
 
     def getColor(self) -> (int, int, int):
         return self.__color
@@ -84,8 +93,19 @@ class MapView(View):
                          self.__nodeSize[0],
                          self.__nodeSize[1])
 
+        def addedDraw():
+            if mapNode.getNodeType() != NodeType.EMPTY:
+                # draw banner
+                self._window.blit(mapNodeBannersDict[mapNode.getNodeType()], (nodeTransform[0], nodeTransform[1]))
+                # draw settlement hp bar
+                border_progress_bar.draw(self._window,
+                                         (nodeTransform[0], nodeTransform[1] + 130, nodeTransform[2], 20),
+                                         mapNode.progressBarFillAmount,
+                                         mapNode.progressBarText,
+                                         getSmallFont())
+
         nodeButton = button.Button(self._window, mapNode.getColor(), nodeTransform, 1, borderDefaultColor,
-                                   highlightColor=mapNode.getHighlightColor())
+                                   highlightColor=mapNode.getHighlightColor(), addedDraw=addedDraw)
         # nodeButton.addListener(lambda: print("just clicked (" + str(mapNode.getX()) + ", " + str(mapNode.getY()) + ")"))
         nodeButton.addListener(mapNode.buttonListener)
         nodeButton.draw()
@@ -106,6 +126,17 @@ class MapView(View):
         self.__grid[x][y] = MapNode(x, y, nodeType, nodeButtonListener)
         if drawImmediately:
             self.drawView()
+
+    def updateNodeProgressBar(self, x: int, y: int, newFillAmount: float, newText: str):
+        if self.__grid[x][y] is not None:
+            if self.__grid[x][y].usesProgressBar:
+                self.__grid[x][y].progressBarFillAmount = newFillAmount
+                self.__grid[x][y].progressBarText = newText
+                print("progressBarText after update = " + self.__grid[x][y].progressBarText)
+            else:
+                print("Tried to update node that does not use progress bar.")
+        else:
+            print("Tried to update non existing map node.")
 
     def drawView(self):
         print("drawing map view")

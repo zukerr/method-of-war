@@ -18,6 +18,7 @@ class Battle:
     __attackingLosses: dict
     __defendingLosses: dict
     __battleResult: BattleResult
+    __damageDealt: int
 
     def __init__(self, troopMovementElement: TroopMovementElement):
         self.__troopMovementElement = troopMovementElement
@@ -34,6 +35,7 @@ class Battle:
             self.__attackingLosses = correspondingBattle.__attackingLosses
             self.__defendingLosses = correspondingBattle.__defendingLosses
             self.__battleResult = correspondingBattle.__battleResult
+            self.__damageDealt = correspondingBattle.__damageDealt
 
     def __calculateBattle(self, attackingArmy: dict, defendingArmy: dict):
         self.__initialAttackingArmy = dict(attackingArmy)
@@ -111,6 +113,25 @@ class Battle:
         # if the player is the defendant, update his ui
         if self.__troopMovementElement.defendingPlayer == "Player":
             global_level.getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation).updateStationingUnits()
+
+        # update settlement hp on map ui
+        settlementInitialHealth = global_level\
+            .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)\
+            .getSettlementDestruction()\
+            .getCurrentHealth()
+        if self.attackingArmyWon():
+            for unit in attackingArmyUnitList:
+                global_level\
+                    .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)\
+                    .getSettlementDestruction()\
+                    .modifyHealth(int(-unit.getAttackDamageValue()))
+        self.__damageDealt = settlementInitialHealth - global_level\
+            .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)\
+            .getSettlementDestruction()\
+            .getCurrentHealth()
+
+    def getDamageDealt(self) -> int:
+        return self.__damageDealt
 
     def __meleeDamageExchange(self,
                               meleeAttackers: List[Unit],

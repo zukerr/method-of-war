@@ -81,6 +81,14 @@ class ReportDetailsView(View):
                                               (255, 255, 255))
             self._window.blit(textSurface, (169, 507))
 
+        # draw damage done
+        border_rect.draw(self._window, grey44, (450, 147, 546, 45))
+        border_rect.draw(self._window, grey44, (663, 147, 333, 45))
+        textSurface = getBigFont().render("Damage Done", True, (255, 255, 255))
+        self._window.blit(textSurface, (455, 152))
+        textSurface = getBigFont().render(str(self.__rootReportElement.damageDealt), True, (255, 255, 255))
+        self._window.blit(textSurface, (670, 154))
+
     def __drawUnitSegment(self, y: int, initialArmy: dict, armyLosses: dict):
         keyList = list(unitColorDict.keys())
         x = 172
