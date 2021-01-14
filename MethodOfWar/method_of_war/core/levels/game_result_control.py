@@ -29,6 +29,9 @@ class GameResultControl(MonoBehaviour):
         pass
 
     def update(self):
+        pass
+
+    def lateUpdate(self):
         if not self.__playerLost:
             if self.__playerSettlement.getSettlementDestruction().getIsDestroyed():
                 self.__endLevelFunction()

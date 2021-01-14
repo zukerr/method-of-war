@@ -34,6 +34,7 @@ level_1.setupGameLevel()
 global_level.levelIsActive = True
 global_level.levelIsRunning = True
 global_level.lateFunctionQueuedUp = False
+
 while global_level.levelIsRunning:
     pygame.time.delay(tickMs)
     if global_level.levelIsActive:
@@ -48,6 +49,9 @@ while global_level.levelIsRunning:
         gameMachine.onEvent(event)
         if event.type == pygame.QUIT:
             global_level.levelIsRunning = False
+
+    if global_level.levelIsActive:
+        gameMachine.onLateTick()
 
     global_level.executeLateFunction()
     # pygame.draw.rect(mainWindow, (255, 0, 0), (x, y, width, height))

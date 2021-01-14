@@ -28,6 +28,10 @@ class Subject(ABC):
     def notifyOnRealTimePattern(self, realTime: float):
         pass
 
+    @abstractmethod
+    def lateNotifyPattern(self):
+        pass
+
 
 class Observer(ABC):
 
@@ -42,4 +46,8 @@ class Observer(ABC):
 
     @abstractmethod
     def updateOnRealTimePattern(self, realTime: float):
+        pass
+
+    @abstractmethod
+    def lateUpdatePattern(self, subject: Subject):
         pass

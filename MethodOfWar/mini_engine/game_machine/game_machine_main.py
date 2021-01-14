@@ -24,6 +24,10 @@ class GameMachine(Subject):
         for observer in self.__observers:
             observer.updateOnRealTimePattern(realTime)
 
+    def lateNotifyPattern(self):
+        for observer in self.__observers:
+            observer.lateUpdatePattern(self)
+
     def onTick(self):
         self.notifyPattern()
 
@@ -32,3 +36,6 @@ class GameMachine(Subject):
 
     def onRealTime(self, realTime: float):
         self.notifyOnRealTimePattern(realTime)
+
+    def onLateTick(self):
+        self.lateNotifyPattern()

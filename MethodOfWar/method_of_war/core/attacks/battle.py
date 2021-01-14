@@ -129,6 +129,8 @@ class Battle:
                     .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)\
                     .getSettlementDestruction()\
                     .modifyHealth(int(-unit.getAttackDamageValue()))
+                # run looting function
+                # ...
         self.__damageDealt = settlementInitialHealth - global_level\
             .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)\
             .getSettlementDestruction()\
