@@ -25,12 +25,16 @@ class TroopMovementElement:
     attackingSettlementLocation: (int, int)
     defendingSettlementLocation: (int, int)
     elemId: int
+    carriedWood: int
+    carriedGranite: int
+    carriedIron: int
 
     def __init__(self, attackSize: AttackSize, fromEnemy: bool, attackingSettlement: str, defendingSettlement: str,
                  secondsToBattle: int, realTimeToFinish: float = 0, attackingArmy: dict = None,
                  defendingArmy: dict = None, isRetreating: bool = False, attackingPlayer: str = "",
                  defendingPlayer: str = "", attackingSettlementLocation: (int, int) = (-1, -1),
-                 defendingSettlementLocation: (int, int) = (-1, -1), elemId: int = 0):
+                 defendingSettlementLocation: (int, int) = (-1, -1), elemId: int = 0,
+                 carriedWood: int = 0, carriedGranite: int = 0, carriedIron: int = 0):
         if defendingArmy is None:
             defendingArmy = {}
         if attackingArmy is None:
@@ -50,6 +54,9 @@ class TroopMovementElement:
         self.attackingSettlementLocation = attackingSettlementLocation
         self.defendingSettlementLocation = defendingSettlementLocation
         self.elemId = elemId
+        self.carriedWood = carriedWood
+        self.carriedGranite = carriedGranite
+        self.carriedIron = carriedIron
 
     def modifyRealTimeToFinish(self, newValue: float):
         self.realTimeToFinish = newValue

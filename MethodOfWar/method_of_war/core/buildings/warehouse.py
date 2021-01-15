@@ -86,6 +86,9 @@ class Warehouse(Building):
         self.spendGranite(requirement.graniteValue)
         self.spendIron(requirement.ironValue)
 
+    def getCurrentResourceValues(self) -> (int, int, int):
+        return int(self._currentWood), int(self._currentGranite), int(self._currentIron)
+
     def start(self):
         pass
 

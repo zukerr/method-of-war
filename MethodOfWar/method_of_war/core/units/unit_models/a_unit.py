@@ -55,3 +55,6 @@ class Unit(ABC):
 
     def getAttackDamageValue(self) -> float:
         return self.__attackDamage
+
+    def getLootCapacity(self) -> int:
+        return self.__lootCapacity

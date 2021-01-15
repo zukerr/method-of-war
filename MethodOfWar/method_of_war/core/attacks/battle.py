@@ -1,3 +1,4 @@
+from method_of_war.core.attacks.looting import Looting
 from method_of_war.enums.battle_result import BattleResult
 from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementElement
 from method_of_war.core.units.unit_models.unit_factory import MakeUnit
@@ -19,6 +20,7 @@ class Battle:
     __defendingLosses: dict
     __battleResult: BattleResult
     __damageDealt: int
+    __looting: Looting
 
     def __init__(self, troopMovementElement: TroopMovementElement):
         self.__troopMovementElement = troopMovementElement
@@ -36,6 +38,7 @@ class Battle:
             self.__defendingLosses = correspondingBattle.__defendingLosses
             self.__battleResult = correspondingBattle.__battleResult
             self.__damageDealt = correspondingBattle.__damageDealt
+            self.__looting = correspondingBattle.__looting
 
     def __calculateBattle(self, attackingArmy: dict, defendingArmy: dict):
         self.__initialAttackingArmy = dict(attackingArmy)
@@ -118,19 +121,20 @@ class Battle:
         if self.__troopMovementElement.defendingPlayer == "Player":
             global_level.getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation).updateStationingUnits()
 
-        # update settlement hp on map ui
+        # update settlement hp on map ui, execute looting
         settlementInitialHealth = global_level\
             .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)\
             .getSettlementDestruction()\
             .getCurrentHealth()
+        self.__looting = Looting()
         if self.attackingArmyWon():
+            defendingSettlement = global_level\
+                .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)
             for unit in attackingArmyUnitList:
-                global_level\
-                    .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)\
-                    .getSettlementDestruction()\
-                    .modifyHealth(int(-unit.getAttackDamageValue()))
+                defendingSettlement.getSettlementDestruction().modifyHealth(int(-unit.getAttackDamageValue()))
                 # run looting function
-                # ...
+                self.__looting.lootResources(unit, defendingSettlement)
+        self.__looting.sumUpLooting()
         self.__damageDealt = settlementInitialHealth - global_level\
             .getSettlementByPosition(self.__troopMovementElement.defendingSettlementLocation)\
             .getSettlementDestruction()\
@@ -273,3 +277,6 @@ class Battle:
 
     def getDefendingLosses(self) -> dict:
         return self.__defendingLosses
+
+    def getLooting(self) -> Looting:
+        return self.__looting

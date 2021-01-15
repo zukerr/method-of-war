@@ -10,3 +10,6 @@ class ResourcesRequirementModel:
         self.graniteValue = graniteValue
         self.ironValue = ironValue
         self.timeInSeconds = timeInSeconds
+
+    def getResourceSum(self) -> int:
+        return self.woodValue + self.graniteValue + self.ironValue

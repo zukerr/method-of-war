@@ -61,7 +61,12 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                     buttonListener=self.reportButtonListener,
                     isFailedAttack=battle.playerAttackedAndLost(),
                     attackingArmyWon=battle.attackingArmyWon(),
-                    damageDealt=battle.getDamageDealt()
+                    damageDealt=battle.getDamageDealt(),
+                    lootedWood=battle.getLooting().getLootedWood(),
+                    lootedGranite=battle.getLooting().getLootedGranite(),
+                    lootedIron=battle.getLooting().getLootedIron(),
+                    lootSummary=battle.getLooting().getLootedSum(),
+                    lootingCapacity=battle.getLooting().getLootCapacity()
                 ))
                 # army comes back home - add retreating element
                 if battle.attackingArmyWon():
@@ -77,11 +82,17 @@ class TroopMovements(PassingTimeAwareMonoBehaviour):
                         isRetreating=True,
                         attackingSettlementLocation=elem.attackingSettlementLocation,
                         defendingSettlementLocation=elem.defendingSettlementLocation,
-                        elemId=elem.elemId
+                        elemId=elem.elemId,
+                        carriedWood=battle.getLooting().getLootedWood(),
+                        carriedGranite=battle.getLooting().getLootedGranite(),
+                        carriedIron=battle.getLooting().getLootedIron()
                     ))
             else:
                 if global_battles.globalRetreatId != elem.elemId:
                     global_level.getSettlementByPosition(elem.attackingSettlementLocation).addStationingUnitsFromDict(elem.attackingArmy)
+                    global_level.getSettlementByPosition(elem.attackingSettlementLocation).getWarehouse().gainWood(elem.carriedWood)
+                    global_level.getSettlementByPosition(elem.attackingSettlementLocation).getWarehouse().gainGranite(elem.carriedGranite)
+                    global_level.getSettlementByPosition(elem.attackingSettlementLocation).getWarehouse().gainIron(elem.carriedIron)
                     global_battles.globalRetreatId = elem.elemId
 
     # overridden from MonoBehaviour
