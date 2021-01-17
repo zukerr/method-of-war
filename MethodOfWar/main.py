@@ -16,6 +16,7 @@ pygame.font.init()
 mainWindow = pygame.display.set_mode((1280, 720))
 
 pygame.display.set_caption("Method of War")
+pygame.display.set_icon(gameIcon)
 
 # setup ui
 mainWindow.fill((0, 0, 0))

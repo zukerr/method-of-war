@@ -83,6 +83,9 @@ def __getGameFile(pathStr: str):
     return os.path.abspath(__gameFilesPath.joinpath(pathStr))
 
 
+# game icon image
+gameIcon = pygame.image.load(__getGameFile("game_icon/icon_32x32.png"))
+
 # building view images
 __buildingViewBarracks = pygame.image.load(__getGameFile("building_view_buildings/barracks_150x150.png"))
 __buildingViewCityHall = pygame.image.load(__getGameFile("building_view_buildings/city_hall_150x150.png"))
