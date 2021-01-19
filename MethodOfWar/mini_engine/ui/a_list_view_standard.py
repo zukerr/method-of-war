@@ -1,3 +1,4 @@
+from mini_engine.ui import border_rect
 from mini_engine.ui.a_view import *
 from abc import *
 

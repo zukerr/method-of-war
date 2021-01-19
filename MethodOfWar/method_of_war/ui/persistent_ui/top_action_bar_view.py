@@ -1,4 +1,4 @@
-from mini_engine.ui import button
+from mini_engine.ui import button, border_rect
 from mini_engine.ui.a_view import *
 from method_of_war.enums.gameplay_view_type import *
 from method_of_war.ui import global_gameplay_view_manager

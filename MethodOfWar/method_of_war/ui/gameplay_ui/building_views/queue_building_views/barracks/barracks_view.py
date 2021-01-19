@@ -1,8 +1,8 @@
 from method_of_war.ui.gameplay_ui.building_views import building_header_view
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.recruitment_queue_bg_list_view import *
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.recruitment_queue_list_view import *
-from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_available_buildings_list_view import *
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.queue_building_view import *
+from mini_engine.ui import border_rect
 
 
 class BarracksView(QueueBuildingView):

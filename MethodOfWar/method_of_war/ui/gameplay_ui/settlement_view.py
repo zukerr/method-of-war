@@ -1,9 +1,8 @@
-from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_view import *
+from method_of_war.enums.gameplay_view_type import GameplayViewType
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.production_building_view import *
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.warehouse_view import *
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.barracks_view import *
-from method_of_war.enums.gameplay_view_type import GameplayViewType
-import pygame
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_view import *
 
 
 class SettlementView(View):
@@ -88,7 +87,6 @@ class SettlementView(View):
 
     def disableView(self):
         print("disabling settlement view")
-        # border_rect.draw(self._window, (44, 44, 44), (0, 57, 997, 663), 1, borderDefaultColor)
         for btn in self.__buttonList:
             btn.setInteractive(False)
             btn.setReadyForDelete()

@@ -1,11 +1,10 @@
-from method_of_war.core.enemy_core.enemy_settlement import EnemySettlement
-from method_of_war.core.player_core.player_settlement import PlayerSettlement
 from typing import List
-from mini_engine.game_machine.a_mono_behaviour import MonoBehaviour
-from method_of_war.ui import global_gameplay_view_manager
+
+from method_of_war.core.enemy_core.enemy_settlement import EnemySettlement
 from method_of_war.core.levels import global_level
-import pygame
-import time
+from method_of_war.core.player_core.player_settlement import PlayerSettlement
+from method_of_war.ui import global_gameplay_view_manager
+from mini_engine.game_machine.a_mono_behaviour import MonoBehaviour
 
 
 class GameResultControl(MonoBehaviour):
@@ -37,10 +36,6 @@ class GameResultControl(MonoBehaviour):
                 self.__endLevelFunction()
                 # display player lost screen
                 global_level.levelIsActive = False
-                # pygame.time.delay(200)
-                # global_level.lateFunctionQueuedUp = True
-                # global_level.lateFunction = global_gameplay_view_manager.globalGameplayViewManager.setDefeatScreen
-                # time.sleep(0.1)
                 global_gameplay_view_manager.globalGameplayViewManager.setDefeatScreen()
                 self.__playerLost = True
         if not self.__playerWon:
@@ -52,9 +47,5 @@ class GameResultControl(MonoBehaviour):
                 self.__endLevelFunction()
                 # display player won screen
                 global_level.levelIsActive = False
-                # pygame.time.delay(200)
-                # global_level.lateFunctionQueuedUp = True
-                # global_level.lateFunction = global_gameplay_view_manager.globalGameplayViewManager.setVictoryScreen
-                # time.sleep(0.1)
                 global_gameplay_view_manager.globalGameplayViewManager.setVictoryScreen()
                 self.__playerWon = True

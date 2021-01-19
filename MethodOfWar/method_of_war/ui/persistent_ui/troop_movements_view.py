@@ -1,12 +1,8 @@
-import pygame
-from mini_engine.ui import border_rect
-from method_of_war.ui.ui_global import *
-from mini_engine.ui.a_view import *
-from mini_engine.ui.a_list_view import *
 from typing import List
-from method_of_war.enums.attack_size import *
+
+from mini_engine.ui import border_rect
+from mini_engine.ui.a_list_view import *
 from mini_engine.util.extensions import *
-from method_of_war.ui import ui_global
 
 
 class TroopMovementElement:

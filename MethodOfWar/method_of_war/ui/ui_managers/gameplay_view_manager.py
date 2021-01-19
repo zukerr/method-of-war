@@ -41,21 +41,6 @@ class GameplayViewManager:
         self.__activeView = self.__overviewView
         self.__activeViewType = GameplayViewType.OVERVIEW
 
-        # mapView.setNode(1, 2, NodeType.FRIENDLY)
-        # mapView.setNode(3, 1, NodeType.ENEMY)
-        # self.__reportsView.addElement(ReportElement(BattleResult.POSITIVE, AttackSize.MIDSIZED,
-        #                                     "Player", "Stormwind", "Orgrimmar", (1, 2), (3, 1), 412))
-        # self.__reportsView.addElement(ReportElement(BattleResult.NEUTRAL, AttackSize.SMALL,
-        #                                     "Player", "Stormwind", "Orgrimmar", (1, 2), (3, 1), 351))
-        # self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
-        #                                     "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 289))
-        # self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
-        #                                     "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 272))
-        # TEST SECTION END
-        # self.__setupMapView()
-        # self.__setupReportsView()
-        # self.__setupOverviewView()
-
     def switchGameplayView(self, viewType: GameplayViewType):
         if self.__activeViewType == viewType:
             return
@@ -70,34 +55,6 @@ class GameplayViewManager:
             self.__activeView = self.__reportsView
             self.__activeViewType = GameplayViewType.REPORTS
         self.__activeView.drawView()
-        # self.__setupView()
-
-    def __setupView(self):
-        if self.__activeViewType == GameplayViewType.MAP:
-            self.__setupMapView()
-        elif self.__activeViewType == GameplayViewType.OVERVIEW:
-            self.__setupOverviewView()
-        else:
-            self.__setupReportsView()
-
-    def __setupMapView(self):
-        self.__mapView.setNode(1, 2, NodeType.FRIENDLY, False)
-        self.__mapView.setNode(3, 1, NodeType.ENEMY, False)
-
-    def __setupReportsView(self):
-        # test values
-        # self.__reportsView.addElement(ReportElement(BattleResult.POSITIVE, AttackSize.MIDSIZED,
-        #                                             "Player", "Stormwind", "Orgrimmar", (1, 2), (3, 1), 412), False)
-        # self.__reportsView.addElement(ReportElement(BattleResult.NEUTRAL, AttackSize.SMALL,
-        #                                             "Player", "Stormwind", "Orgrimmar", (1, 2), (3, 1), 351), False)
-        # self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
-        #                                             "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 289), False)
-        # self.__reportsView.addElement(ReportElement(BattleResult.NEGATIVE, AttackSize.BIG,
-        #                                             "Thrall", "Orgrimmar", "Stormwind", (3, 1), (1, 2), 272), False)
-        pass
-
-    def __setupOverviewView(self):
-        pass
 
     def preClickBuildingView(self):
         self.__activeView.disableView()

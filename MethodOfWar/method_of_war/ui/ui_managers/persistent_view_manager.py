@@ -1,5 +1,3 @@
-import pygame
-
 from method_of_war.ui.persistent_ui.production_view import ProductionView
 from method_of_war.ui.persistent_ui.top_action_bar_view import TopActionBarView
 from method_of_war.ui.persistent_ui.troop_movements_view import *

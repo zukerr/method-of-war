@@ -14,7 +14,6 @@ class SettlementDestruction:
         self.__armor = armor
         self.__location = location
         self.__isDestroyed = False
-        # self.updateMapUi()
 
     def modifyHealth(self, value: int):
         if value < 0:

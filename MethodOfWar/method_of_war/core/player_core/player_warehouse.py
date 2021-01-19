@@ -1,4 +1,5 @@
 from method_of_war.core.buildings.warehouse import *
+from method_of_war.ui import global_persistent_view_manager, global_gameplay_view_manager
 
 
 class PlayerWarehouse(Warehouse):

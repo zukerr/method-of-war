@@ -1,6 +1,6 @@
-from mini_engine.ui.a_view import *
 from method_of_war.ui.gameplay_ui.building_views import building_header_view
 from method_of_war.ui.gameplay_ui.building_views.production_buildings.production_building_list_view import *
+from mini_engine.ui import border_rect
 
 
 class WarehouseView(View):

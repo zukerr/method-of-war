@@ -1,8 +1,6 @@
 from method_of_war.core.buildings.a_building import *
-from method_of_war.ui import global_persistent_view_manager
-from method_of_war.ui import global_gameplay_view_manager
-from method_of_war.enums.resource_type import ResourceType
 from method_of_war.core.buildings.warehouse import Warehouse
+from method_of_war.enums.resource_type import ResourceType
 
 
 class ProductionBuilding(Building):

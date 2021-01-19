@@ -1,6 +1,5 @@
-from mini_engine.ui.button import Button
-import pygame
 from method_of_war.ui.ui_global import *
+from mini_engine.ui.button import Button
 
 
 class GreenButton(Button):

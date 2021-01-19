@@ -1,9 +1,7 @@
-from method_of_war.core.units.unit_models.a_unit import *
+from method_of_war.core.units.hunter import Hunter
 from method_of_war.core.units.paladin import *
-from method_of_war.core.units.warrior import *
 from method_of_war.core.units.rogue import *
-from method_of_war.core.units.hunter import *
-
+from method_of_war.core.units.warrior import *
 
 __unitList = [
     Warrior(),

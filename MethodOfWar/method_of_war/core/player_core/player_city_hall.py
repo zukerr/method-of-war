@@ -1,4 +1,5 @@
 from method_of_war.core.buildings.city_hall import *
+from method_of_war.ui import global_gameplay_view_manager
 
 
 class PlayerCityHall(CityHall):

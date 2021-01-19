@@ -65,10 +65,6 @@ class Battle:
 
         # full blown combat
         while (len(attackingArmyUnitList) > 0) and (len(defendingArmyUnitList) > 0):
-            # print("Attacking units:")
-            # print(len(attackingArmyUnitList))
-            # print("Defending units:")
-            # print(len(defendingArmyUnitList))
 
             rangedAttackers = self.__getAllRangedFromUnitList(attackingArmyUnitList)
             rangedDefenders = self.__getAllRangedFromUnitList(defendingArmyUnitList)
@@ -255,7 +251,6 @@ class Battle:
                 return BattleResult.NEUTRAL
 
     def getBattleResult(self) -> BattleResult:
-        # print("getBattleResult: ")
         print(self.__battleResult)
         return self.__battleResult
 

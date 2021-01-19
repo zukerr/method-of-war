@@ -1,11 +1,8 @@
-import pygame
-from mini_engine.ui import border_rect
-from mini_engine.ui.a_view import *
-from method_of_war.ui.ui_global import *
-from mini_engine.ui import button
 from typing import List
-from method_of_war.enums.map_node_type import *
-from mini_engine.ui import border_progress_bar
+
+from mini_engine.ui import border_progress_bar, border_rect
+from mini_engine.ui import button
+from mini_engine.ui.a_view import *
 
 
 class MapNode:
@@ -106,7 +103,6 @@ class MapView(View):
 
         nodeButton = button.Button(self._window, mapNode.getColor(), nodeTransform, 1, borderDefaultColor,
                                    highlightColor=mapNode.getHighlightColor(), addedDraw=addedDraw)
-        # nodeButton.addListener(lambda: print("just clicked (" + str(mapNode.getX()) + ", " + str(mapNode.getY()) + ")"))
         nodeButton.addListener(mapNode.buttonListener)
         nodeButton.draw()
         mapNode.setButton(nodeButton)
@@ -150,7 +146,6 @@ class MapView(View):
 
     def disableView(self):
         print("disabling map view")
-        # border_rect.draw(self._window, (23, 23, 23), (0, 57, 997, 663), 1, borderDefaultColor)
         for i in range(5):
             for j in range(4):
                 buttonToDelete = self.__grid[i][j].getButton()

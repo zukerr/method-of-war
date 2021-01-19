@@ -1,15 +1,11 @@
 from method_of_war.core.buildings.a_building import *
-from typing import List
-from method_of_war.core.units.unit_models.unit_recruitment_model import UnitRecruitmentModel
-from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_available_buildings_list_view import AvailableBuildingElement
-from method_of_war.core.units.rogue import *
-from method_of_war.ui import global_gameplay_view_manager
-from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.recruitment_queue_list_view import RecruitmentQueueElement
-from mini_engine.util.extensions import *
 from method_of_war.core.units.hunter import *
-from method_of_war.core.units.rogue import *
-from method_of_war.core.units.warrior import *
 from method_of_war.core.units.paladin import *
+from method_of_war.core.units.rogue import *
+from method_of_war.core.units.unit_models.unit_recruitment_model import UnitRecruitmentModel
+from method_of_war.core.units.warrior import *
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.barracks.recruitment_queue_list_view import RecruitmentQueueElement
+from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_available_buildings_list_view import AvailableBuildingElement
 from mini_engine.game_machine.a_passing_time_aware_mono_behaviour import PassingTimeAwareMonoBehaviour
 
 
@@ -94,7 +90,6 @@ class Barracks(Building, PassingTimeAwareMonoBehaviour):
         if len(self.__recruitmentQueue) > 0:
             elem = self.__recruitmentQueue[0]
             elem.getRecruitmentQueueElement().realTimeToFinish -= timePassed
-            # elem.getRecruitmentQueueElement().timeToFinish = getMinutesSecondsFromSeconds(int(elem.getRecruitmentQueueElement().realTimeToFinish))
             elem.getRecruitmentQueueElement().updateTimeToFinish()
             if elem.getRecruitmentQueueElement().realTimeToFinish <= 0:
                 elemsToRemove.append(elem)

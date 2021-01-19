@@ -2,7 +2,6 @@ from method_of_war.core.buildings.a_building import *
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_queue_list_view import BuildingQueueElement
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_available_buildings_list_view import AvailableBuildingElement
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.city_hall_not_available_buildings_list_view import NotAvailableBuildingElement
-from method_of_war.ui import global_gameplay_view_manager
 from mini_engine.util.extensions import *
 from mini_engine.game_machine.invoke import invoke
 from mini_engine.game_machine.a_passing_time_aware_mono_behaviour import PassingTimeAwareMonoBehaviour
@@ -113,7 +112,6 @@ class CityHall(Building, PassingTimeAwareMonoBehaviour):
 
     # available buildings
     def setupAvailableBuildings(self):
-        # print("CITY_HALL: state of available buildings: ")
         buildingsList = self.__settlement.getBuildingsList()
         self._availableBuildingsList.clear()
         for building in buildingsList:
@@ -158,7 +156,6 @@ class CityHall(Building, PassingTimeAwareMonoBehaviour):
                                                                      int(float(upgradeReq.timeInSeconds) * self.__currentBuildTimeReduction),
                                                                      btnText,
                                                                      buttonFunction=onClick))
-        # print("CITY_HALL: added new building for: " + self.__settlement.getOwnerName())
 
     def __onClickUpgradeBuilding(self, building: Building, upgradeReq: ResourcesRequirementModel):
         if len(self._buildingQueue) >= self.__maxQueueSize:

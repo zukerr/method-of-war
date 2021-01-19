@@ -1,3 +1,5 @@
+from typing import List
+
 from mini_engine.ui import button
 from mini_engine.util.extensions import *
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.a_building_list_view import *
@@ -87,10 +89,6 @@ class CityHallAvailableBuildingsListView(BuildingListView):
         def onClick():
             print("clicked build button!")
             element.buttonFunction()
-            # update button text
-            # btnWordList = element.buttonText.split()
-            # btnUpgradeLevel = int(btnWordList[len(btnWordList) - 1])
-            # element.buttonText = "--> Level " + str(btnUpgradeLevel + 1)
 
         buildButton.addListener(onClick)
         buildButton.draw()

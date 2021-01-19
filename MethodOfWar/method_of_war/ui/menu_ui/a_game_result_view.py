@@ -1,8 +1,6 @@
-from mini_engine.ui.a_view import *
-from mini_engine.ui import button
-import pygame
-from abc import *
 from method_of_war.core.levels import global_level
+from mini_engine.ui import button, border_rect
+from mini_engine.ui.a_view import *
 
 
 class GameResultView(View, ABC):

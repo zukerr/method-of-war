@@ -1,7 +1,8 @@
-from mini_engine.ui import button
-from mini_engine.util.extensions import *
-from mini_engine.ui.a_list_view import *
+from typing import List
+
 from method_of_war.ui.green_button import GreenButton
+from mini_engine.ui import button, border_rect
+from mini_engine.ui.a_list_view import *
 
 
 class SendTroopsElement:

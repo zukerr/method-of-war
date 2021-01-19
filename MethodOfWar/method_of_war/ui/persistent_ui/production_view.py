@@ -1,6 +1,4 @@
-import pygame
 from mini_engine.ui import border_rect
-from method_of_war.ui.ui_global import *
 from mini_engine.ui.a_view import *
 
 

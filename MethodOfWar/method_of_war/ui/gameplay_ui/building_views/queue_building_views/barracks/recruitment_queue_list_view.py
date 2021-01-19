@@ -1,3 +1,4 @@
+from mini_engine.ui import border_rect
 from mini_engine.ui.a_horizontal_list_view import *
 from method_of_war.ui.ui_global import *
 from mini_engine.util.extensions import *

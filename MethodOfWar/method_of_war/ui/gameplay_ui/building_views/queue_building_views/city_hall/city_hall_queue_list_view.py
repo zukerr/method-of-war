@@ -1,7 +1,5 @@
-from mini_engine.ui.a_view import *
+from mini_engine.ui import border_rect
 from mini_engine.ui.a_list_view import *
-from method_of_war.ui.ui_global import *
-from mini_engine.ui import button
 from mini_engine.util.extensions import *
 
 

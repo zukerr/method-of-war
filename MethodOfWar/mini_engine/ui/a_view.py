@@ -1,7 +1,6 @@
-import pygame
-from mini_engine.ui import border_rect
-from method_of_war.ui.ui_global import *
 from abc import *
+
+from method_of_war.ui.ui_global import *
 
 
 class View(ABC):

@@ -1,15 +1,13 @@
-from abc import *
-
+from method_of_war.core.attacks import global_battles
 from method_of_war.core.enemy_core.ai.base_ai_context import BaseAiContext
+from method_of_war.core.enemy_core.enemy_settlement import EnemySettlement
 from method_of_war.core.levels.game_result_control import GameResultControl
 from method_of_war.core.player_core.player_send_troops import PlayerSendTroops
+from method_of_war.core.player_core.player_settlement import PlayerSettlement
+from method_of_war.core.settlement import *
 from method_of_war.enums.gameplay_view_type import GameplayViewType
 from method_of_war.enums.map_node_type import NodeType
 from method_of_war.ui import global_gameplay_view_manager
-from method_of_war.core.settlement import *
-from method_of_war.core.attacks import global_battles
-from method_of_war.core.player_core.player_settlement import PlayerSettlement
-from method_of_war.core.enemy_core.enemy_settlement import EnemySettlement
 
 
 class GameLevel(ABC):

@@ -1,12 +1,11 @@
-from method_of_war.core.player_core.player_settlement import *
-from method_of_war.ui.ui_managers.gameplay_view_manager import *
-from method_of_war.ui.ui_managers.persistent_view_manager import *
+import time
+
+from method_of_war.core.game_timer import GameTimer
+from method_of_war.core.levels.game_level_1 import *
 from method_of_war.ui import global_gameplay_view_manager
 from method_of_war.ui import global_persistent_view_manager
-from method_of_war.core.game_timer import GameTimer
-import time
-from method_of_war.core.levels.game_level_1 import *
-from method_of_war.core.levels import global_level
+from method_of_war.ui.ui_managers.gameplay_view_manager import *
+from method_of_war.ui.ui_managers.persistent_view_manager import *
 
 pygame.init()
 
@@ -55,7 +54,6 @@ while global_level.levelIsRunning:
         gameMachine.onLateTick()
 
     global_level.executeLateFunction()
-    # pygame.draw.rect(mainWindow, (255, 0, 0), (x, y, width, height))
     pygame.display.update()
 
 pygame.quit()

@@ -1,3 +1,5 @@
+from typing import List
+
 from method_of_war.ui.gameplay_ui.building_views.queue_building_views.city_hall.a_building_list_view import *
 
 

@@ -1,16 +1,11 @@
 from method_of_war.core.attacks.troop_movements import TroopMovements
 from method_of_war.core.buildings.barracks import Barracks
-from method_of_war.core.reports.reports import Reports
-from method_of_war.core.units.unit_models.a_unit import Unit
-from mini_engine.game_machine.a_mono_behaviour import *
-from method_of_war.core.buildings.warehouse import *
-from method_of_war.core.buildings.production_building import *
-from method_of_war.enums.resource_type import ResourceType
 from method_of_war.core.buildings.city_hall import *
-from method_of_war.core.buildings.a_building import Building
-from method_of_war.ui import global_persistent_view_manager
-from method_of_war.core.units.unit_models.unit_factory import MakeUnit
+from method_of_war.core.buildings.production_building import *
+from method_of_war.core.reports.reports import Reports
 from method_of_war.core.settlement_destruction import SettlementDestruction
+from method_of_war.core.units.unit_models.a_unit import Unit
+from method_of_war.core.units.unit_models.unit_factory import MakeUnit
 
 
 class Settlement(MonoBehaviour):
@@ -112,9 +107,6 @@ class Settlement(MonoBehaviour):
         if quantity > self._stationingUnitsDict[unitName]:
             return
         self._stationingUnitsDict[unitName] -= quantity
-        # print("stationing units in " + self.__ownerName + ": ")
-        # print(self._stationingUnitsDict)
-        # print(self.__stationingUnitsList)
         for i in range(quantity):
             self.__stationingUnitsList.remove(self.findStationingUnitInListByName(unitName))
 

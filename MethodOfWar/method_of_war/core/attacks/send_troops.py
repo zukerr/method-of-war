@@ -1,13 +1,11 @@
 from typing import List
 
+from method_of_war.core.attacks import global_battles
 from method_of_war.core.units.unit_models.a_unit import Unit
 from method_of_war.ui.gameplay_ui.map.send_troops_table_list_view import SendTroopsElement
 from method_of_war.ui.persistent_ui.troop_movements_view import TroopMovementElement
 from method_of_war.ui.ui_global import *
-from method_of_war.enums.attack_size import AttackSize
 from mini_engine.util.vector2 import Vector2
-from method_of_war.ui import ui_global
-from method_of_war.core.attacks import global_battles
 
 
 class SendTroops:
@@ -59,7 +57,6 @@ class SendTroops:
         if self.__currentUnitsToBeSentDict[name] > self.__maxUnitsDict[name]:
             self.__currentUnitsToBeSentDict[name] = self.__maxUnitsDict[name]
         self._setupElementList()
-        # print(self.__currentUnitsToBeSentDict)
 
     def __removeCurrentUnit(self, name: str, quantity: int):
         self.__currentUnitsToBeSentDict[name] -= quantity
@@ -138,4 +135,3 @@ class SendTroops:
             self.__fromSettlement.removeStationingUnit(key, self.__currentUnitsToBeSentDict[key])
         self.__setupCurrentUnits()
         self._setupElementList()
-        # print("Just sent an attack.")

@@ -1,8 +1,6 @@
+from mini_engine.ui import border_rect
 from mini_engine.ui.a_view import *
-from method_of_war.ui.ui_global import *
-from mini_engine.ui.border_rect import *
 from mini_engine.util.extensions import *
-import pygame
 
 
 class BuildingHeaderView(View):
@@ -22,7 +20,6 @@ class BuildingHeaderView(View):
         # draw header bg
         border_rect.draw(self._window, grey44, (0, 57, 997, 150))
         # draw building icon
-        # border_rect.draw(self._window, self.__buildingIconColor, (0, 57, 150, 150))
         self._window.blit(buildingImage150pxDict[self.__buildingName], (0, 57))
         # draw building title bg
         border_rect.draw(self._window, grey44, (150, 57, 847, 50))
@@ -30,6 +27,4 @@ class BuildingHeaderView(View):
         textSurface = getVeryBigFont().render(self.__buildingTitle, True, (255, 255, 255))
         self._window.blit(textSurface, (160, 57))
         # draw details
-        # textSurface = getDefaultFont().render(self.__buildingDesc, True, (255, 255, 255))
-        # self._window.blit(textSurface, (160, 107))
         blit_text(self._window, (867, 100), self.__buildingDesc, (160, 107), getDefaultFont(), (255, 255, 255))

@@ -1,4 +1,5 @@
 from method_of_war.ui.gameplay_ui.map.send_troops_table_list_view import *
+from mini_engine.util.extensions import blit_text
 
 
 class SendTroopsView(View):

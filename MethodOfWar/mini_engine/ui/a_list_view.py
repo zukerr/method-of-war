@@ -1,11 +1,4 @@
-import pygame
-from mini_engine.ui import border_rect
-from method_of_war.ui.ui_global import *
-from mini_engine.ui.a_view import *
 from mini_engine.ui.a_list_view_standard import *
-from enum import Enum
-from typing import List
-from abc import *
 
 
 class ListView(ListViewStandard, ABC):

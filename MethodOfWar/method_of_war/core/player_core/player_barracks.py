@@ -1,11 +1,11 @@
 from method_of_war.core.buildings.barracks import *
+from method_of_war.ui import global_gameplay_view_manager
 
 
 class PlayerBarracks(Barracks):
 
     def levelUp(self):
         super().levelUp()
-        # global_gameplay_view_manager.globalGameplayViewManager.getOverview().getBarracks().updateLevel(self._level)
         self.__syncView()
 
     # queue

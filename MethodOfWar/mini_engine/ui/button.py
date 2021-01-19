@@ -1,8 +1,6 @@
-import pygame
-from mini_engine.game_machine.a_mono_behaviour import MonoBehaviour
+from mini_engine.game_machine.invoke import *
 from mini_engine.ui import border_rect
 from mini_engine.ui import ui_lock
-from mini_engine.game_machine.invoke import *
 
 
 class Button(MonoBehaviour):
